@@ -121,10 +121,13 @@ def plot_infection(G):
     node_text = []
 
     for node in G.nodes():
-        if G.nodes[node]['infected']:
+        if G.nodes[node]['status'] == 'infected':
             node_infection.append('red')
-        else: node_infection.append('blue')
-        node_text.append('Infected: ' + str(bool(G.nodes[node]['infected'])))
+        elif G.nodes[node]['status'] == 'susceptible': 
+            node_infection.append('blue')
+        else:
+            node_infection.append('gray')
+        node_text.append('Infected: ' + str(bool(G.nodes[node]['status'])))
 
     node_trace.marker.color = node_infection
     node_trace.text = node_text
