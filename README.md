@@ -1,7 +1,7 @@
 CovidMDP
 ==============================
 
-he goal of this work is to use Markov Decision Processes (MDPs) to analyze planning policies for epidemic control of SARS-CoV-2 or similar diseases.
+The goal of this work is to use Markov Decision Processes (MDPs) to analyze planning policies for epidemic control of SARS-CoV-2 or similar diseases.
 
 Project Organization
 ------------
