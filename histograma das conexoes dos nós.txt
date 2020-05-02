@@ -1,0 +1,1 @@
+histograma das conexoes dos nós

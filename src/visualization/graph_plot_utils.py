@@ -3,7 +3,8 @@ import plotly.graph_objects as go
 
 def plot_graph(G):
 
-    pos = nx.spectral_layout(G)
+    #pos = nx.spectral_layout(G)
+    pos = nx.spring_layout(G)
 
     edge_x = []
     edge_y = []
@@ -63,26 +64,18 @@ def plot_graph(G):
 
     fig = go.Figure(data=[edge_trace, node_trace],
              layout=go.Layout(
-                title='<br>Network graph made with Python',
-                titlefont_size=16,
                 showlegend=False,
                 hovermode='closest',
-                margin=dict(b=20,l=5,r=5,t=40),
-                annotations=[ dict(
-                    text="Python code: <a href='https://plotly.com/ipython-notebooks/network-graphs/'> https://plotly.com/ipython-notebooks/network-graphs/</a>",
-                    showarrow=False,
-                    xref="paper", yref="paper",
-                    x=0.005, y=-0.002 ) ],
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                )
+                margin=dict(b=20,l=5,r=5,t=40),))
     fig.show()
 
 
 
 def plot_infection(G):
 
-    pos = nx.spectral_layout(G)
+#   pos = nx.spectral_layout(G)
+    pos = nx.spring_layout(G)
+
 
     edge_x = []
     edge_y = []
@@ -134,17 +127,7 @@ def plot_infection(G):
 
     fig = go.Figure(data=[edge_trace, node_trace],
              layout=go.Layout(
-                title='<br>Network graph made with Python',
-                titlefont_size=16,
                 showlegend=False,
                 hovermode='closest',
-                margin=dict(b=20,l=5,r=5,t=40),
-                annotations=[ dict(
-                    text="Python code: <a href='https://plotly.com/ipython-notebooks/network-graphs/'> https://plotly.com/ipython-notebooks/network-graphs/</a>",
-                    showarrow=False,
-                    xref="paper", yref="paper",
-                    x=0.005, y=-0.002 ) ],
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                )
+                margin=dict(b=20,l=5,r=5,t=40),))
     fig.show()
