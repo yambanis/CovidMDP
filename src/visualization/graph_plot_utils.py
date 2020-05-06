@@ -55,9 +55,9 @@ def plot_graph(G):
 
     node_adjacencies = []
     node_text = []
-    for node, adjacencies in enumerate(G.adjacency()):
-        node_adjacencies.append(len(adjacencies[1]))
-        node_text.append('# of connections: '+str(len(adjacencies[1])))
+    for n, deg in G.degree():
+        node_adjacencies.append(deg)
+        node_text.append('# of connections: '+str(len(deg)))
 
     node_trace.marker.color = node_adjacencies
     node_trace.text = node_text
