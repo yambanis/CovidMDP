@@ -6,7 +6,7 @@ import collections
 # Start with pct% of population infected
 def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman', pop_size = 1000):
     if graph_model == 'relaxed_caveman':
-        G = nx.relaxed_caveman_graph(int(pop_size/4), 4, 0.25, seed=42)
+        G = nx.relaxed_caveman_graph(int(pop_size/4), 4, 0.25)
     elif graph_model == 'scale_free':
         G = nx.scale_free_graph(pop_size)
     else:
@@ -16,8 +16,8 @@ def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman', pop_siz
 
     return G
 
-def init_parameters(initial_infection, graph_model):
-    G = init_graph(initial_infection, graph_model)
+def init_parameters(initial_infection, graph_model, pop_size = 1000):
+    G = init_graph(initial_infection, graph_model, pop_size)
     
     status = current_status(G)
     
@@ -58,8 +58,10 @@ def recover_one_step(G, day, recover_time = 12):
 
     for node, adjacencies in enumerate(G.adjacency()):
         if G.nodes[node]['status'] == 'infected':
-            if day - G.nodes[node]['infection_day'] >= recover_time: 
+            if np.random.random() < 1/15:
                 G.nodes[node]['status'] = 'recovered'
+            #if day - G.nodes[node]['infection_day'] >= recover_time: 
+            #    G.nodes[node]['status'] = 'recovered'
 
 def spread_one_step(G, day, p_r = 0.5, lambda_leak = 0.05):
     """
@@ -103,16 +105,18 @@ def current_status(G):
     
     
 def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, 
-                          lambda_leak=.05, graph_model = 'relaxed_caveman'):
+                          lambda_leak=.05, graph_model = 'relaxed_caveman', pop_size = 1000):
     """
     Runs the course of the pandemic from the start until
     less than 1% of the population is simultaneously infected or no one is infected
     """
     
-    G, data, status, pop = init_parameters(initial_infection, graph_model)
+    G, data, status, pop = init_parameters(initial_infection, graph_model, pop_size)
 
     day = 0
-    while status['infected']>(.01*pop) and  (status['recovered']+status['susceptible'])<pop:
+    #while status['infected']>(.00001*pop) and  (status['recovered']+status['susceptible'])<pop:
+    while (status['recovered']+status['susceptible'])<pop:
+    
         day +=1
         
         recover_one_step(G, day, recover_time)
