@@ -4,11 +4,12 @@ import pandas as pd
 import collections
 
 # Start with pct% of population infected
-def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman', pop_size = 1000):
+def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman',
+               pop_size = 1000, seed = None):
     if graph_model == 'relaxed_caveman':
-        G = nx.relaxed_caveman_graph(int(pop_size/4), 4, 0.25)
+        G = nx.relaxed_caveman_graph(int(pop_size/4), 4, 0.25, seed)
     elif graph_model == 'scale_free':
-        G = nx.scale_free_graph(pop_size)
+        G = nx.scale_free_graph(pop_size, seed=seed)
     else:
         raise ValueError("Unknown graph type")
         
@@ -16,8 +17,8 @@ def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman', pop_siz
 
     return G
 
-def init_parameters(initial_infection, graph_model, pop_size = 1000):
-    G = init_graph(initial_infection, graph_model, pop_size)
+def init_parameters(initial_infection, graph_model, pop_size = 1000, seed=None):
+    G = init_graph(initial_infection, graph_model, pop_size, seed)
     
     status = current_status(G)
     
@@ -104,14 +105,17 @@ def current_status(G):
     return result
     
     
-def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, 
-                          lambda_leak=.05, graph_model = 'relaxed_caveman', pop_size = 1000):
+def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_leak=.05,
+                      graph_model = 'relaxed_caveman', pop_size = 1000,
+                      seed = None):
     """
     Runs the course of the pandemic from the start until
     less than 1% of the population is simultaneously infected or no one is infected
     """
     
-    G, data, status, pop = init_parameters(initial_infection, graph_model, pop_size)
+    np.random.seed(seed)
+    
+    G, data, status, pop = init_parameters(initial_infection, graph_model, pop_size, seed)
 
     day = 0
     #while status['infected']>(.00001*pop) and  (status['recovered']+status['susceptible'])<pop:
