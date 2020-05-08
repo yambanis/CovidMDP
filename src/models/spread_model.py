@@ -103,7 +103,26 @@ def current_status(G):
     nodes = np.array(G.nodes(data=True))[:,1]
     result = collections.Counter(node['status'] for node in nodes)
     return result
+
+def get_mean_contacts_infected(G):
+        contacts_infected = [node['contacts_infected'] for i, node in G.nodes(data=True)\
+                                                             if node['status'] == 'recovered']
+        if len(contacts_infected) > 0: 
+            contacts_infected = np.mean(contacts_infected)
+        else:
+            contacts_infected = np.nan
+            
+        return contacts_infected
     
+def get_time_series_row(G, pop):
+    status = current_status(G)
+    s = status['susceptible'] / pop
+    i = status['infected'] / pop
+    r = status['recovered'] / pop
+
+    contacts_infected = get_mean_contacts_infected(G)
+    
+    return s, i, r, contacts_infected, status
     
 def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_leak=.05,
                       graph_model = 'relaxed_caveman', pop_size = 1000,
@@ -117,27 +136,19 @@ def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_lea
     
     G, data, status, pop = init_parameters(initial_infection, graph_model, pop_size, seed)
 
-    day = 0
-    #while status['infected']>(.00001*pop) and  (status['recovered']+status['susceptible'])<pop:
-    while (status['recovered']+status['susceptible'])<pop:
-    
-        day +=1
+    for day in range(150):
         
+        if (status['recovered']+status['susceptible'])>=pop:
+            break
+    
         recover_one_step(G, day, recover_time)
         
         newly_infected = spread_one_step(G, day, p_r, lambda_leak)
        
-        status = current_status(G)
-        i = status['infected'] / pop
-        s = status['susceptible'] / pop
-        r = status['recovered'] / pop
-        
-        contacts_infected = [node['contacts_infected'] for i, node in G.nodes(data=True) if node['status'] == 'recovered']
-        if len(contacts_infected) > 0: 
-            contacts_infected = np.mean(contacts_infected)
-        else:
-            contacts_infected = np.nan
+        s, i, r, contacts_infected, status = get_time_series_row(G, pop)
+
         data.append([s, i, r, newly_infected, contacts_infected])
+        
     columns = ['susceptible', 'infected', 'recovered', 'newly_infected', 'contacts_infected_mean']
 
     time_series = pd.DataFrame(data, columns=columns)
