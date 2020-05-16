@@ -49,7 +49,6 @@ def init_infection(G, pct):
         })
 
     size = int(len(G.nodes) * pct) 
-    print(size)
     infected = np.random.choice(G.nodes, size = size, replace = False)
     
     for i in infected:
@@ -69,7 +68,6 @@ def spread_one_step(G, day, infected_ratio, p_r = 0.5, lambda_leak_max = 0.05):
     for node, adjacencies in G.adjacency():
         if G.nodes[node]['status'] == 'susceptible':
             if np.random.random() < lambda_leak:
-                print('leaked_MOFO')
                 newly_infected.append(node)    
             else:
                 for contact in adjacencies.keys():
@@ -128,12 +126,11 @@ def get_time_series_row(G, pop):
     
 def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_leak=.05,
                       graph_model = 'relaxed_caveman', pop_size = 1000,
-                      seed = None):
+                      seed = None, i=None):
     """
     Runs the course of the pandemic from the start until
     less than 1% of the population is simultaneously infected or no one is infected
     """
-    
     np.random.seed(seed)
     
     G, data, status, pop = init_parameters(initial_infection, graph_model, pop_size, seed)
@@ -162,4 +159,6 @@ def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_lea
 
     time_series = pd.DataFrame(data, columns=columns)
     
+    print(i)
+
     return time_series, G, data_per_region
