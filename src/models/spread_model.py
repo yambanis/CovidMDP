@@ -1,15 +1,19 @@
-import networkx as nx
 import numpy as np
+import networkx as nx
 import pandas as pd
 import collections
+from tqdm import tqdm
+import patient_evolution
 
 # Start with pct% of population infected
 def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman',
                pop_size = 1000, seed = None):
     if graph_model == 'relaxed_caveman':
-        G = nx.relaxed_caveman_graph(int(pop_size/4), 4, 0.25, seed)
+        G = nx.relaxed_caveman_graph(int(pop_size/4), 5, 0.4, seed)
     elif graph_model == 'scale_free':
         G = nx.scale_free_graph(pop_size, seed=seed)
+    elif graph_model == 'SP':
+        G = nx.read_gpickle('Grafo_Zonas_SP.gpickle')
     else:
         raise ValueError("Unknown graph type")
         
@@ -36,33 +40,21 @@ def init_infection(G, pct):
     """
     Given a Graph G, infects pct% of population and set the remainder as susceptible.
     This is considered day 0.
-    """
-    size = int(len(G.nodes) * pct) 
-    infected = np.random.choice(G.nodes, size = size)
-    
+    """   
     for node in G.nodes():
-        if node in infected: 
-            G.nodes[node].update({'status' : 'infected',
-                                  'infection_day': 0, 
-                                  'contacts_infected': 0})
-        else:
-            G.nodes[node].update({'status': 'susceptible', 
-                                  'infection_day' : -1, 
-                                  'contacts_infected': 0})
+        G.nodes[node].update({
+                      'status': 'susceptible', 
+                      'infection_day' : -1, 
+                      'contacts_infected' : 0
+        })
 
+    size = int(len(G.nodes) * pct) 
+    print(size)
+    infected = np.random.choice(G.nodes, size = size, replace = False)
+    
+    for i in infected:
+        patient_evolution.susceptible_to_exposed(G.nodes[i], 0)
 
-
-def recover_one_step(G, day, recover_time = 12):
-    """
-    Recover everyone that has been infected recover_time days or more
-    """
-
-    for node, adjacencies in enumerate(G.adjacency()):
-        if G.nodes[node]['status'] == 'infected':
-            if np.random.random() < 1/15:
-                G.nodes[node]['status'] = 'recovered'
-            #if day - G.nodes[node]['infection_day'] >= recover_time: 
-            #    G.nodes[node]['status'] = 'recovered'
 
 def spread_one_step(G, day, p_r = 0.5, lambda_leak = 0.05):
     """
@@ -71,42 +63,46 @@ def spread_one_step(G, day, p_r = 0.5, lambda_leak = 0.05):
     """
     newly_infected = []
        
-    for node, adjacencies in enumerate(G.adjacency()):
+    for node, adjacencies in G.adjacency():
         if G.nodes[node]['status'] == 'susceptible':
             if np.random.random() < lambda_leak:
                 newly_infected.append(node)    
             else:
-                for contact in adjacencies[1].keys():
+                for contact in adjacencies.keys():
                     if G.nodes[contact]['status'] == 'infected' and np.random.random() < p_r:
                             newly_infected.append(node)
                             G.nodes[contact]['contacts_infected'] += 1
                             break  
         
-    for node in np.unique(newly_infected):
-        G.nodes[node].update({'status' : 'infected', 'infection_day': day})
-        
-    return len(newly_infected)
-
-
-def simulate_one_step(G, day, recover_time=12, p_r=0.5, infectious_window=[4,6]):
-    """
-    Recover and Spread one step
-    """
-    recover_one_step(G, day, recover_time)
-    newly_infected =  spread_one_step(G, day, p_r, infectious_window)
-    return newly_infected
+    newly_infected = np.unique(newly_infected)
+    
+    patient_evolution.infect_graph(G, newly_infected, day)
+    
+    return newly_infected.size
 
 def current_status(G):
     """
-    Returns a dict containing the current status of susceptible, infected and recovered
+    Returns a dict containing the current status of susceptible, infected and removed
     """
     nodes = np.array(G.nodes(data=True))[:,1]
     result = collections.Counter(node['status'] for node in nodes)
     return result
 
+def current_status_by_zone(G):   
+    result = collections.Counter(node['home'] for i,node in G.nodes(data=True) \
+                                            if node['status']=='infected')
+
+    people_per_zone = dict(collections.Counter(node['home'] for i,node in G.nodes(data=True)))
+    
+    for k,v in result.items():
+        result[k] = v/people_per_zone[k]
+        
+    return dict(result)
+
+
 def get_mean_contacts_infected(G):
         contacts_infected = [node['contacts_infected'] for i, node in G.nodes(data=True)\
-                                                             if node['status'] == 'recovered']
+                                                             if node['status'] == 'removed']
         if len(contacts_infected) > 0: 
             contacts_infected = np.mean(contacts_infected)
         else:
@@ -118,11 +114,13 @@ def get_time_series_row(G, pop):
     status = current_status(G)
     s = status['susceptible'] / pop
     i = status['infected'] / pop
-    r = status['recovered'] / pop
+    r = status['removed'] / pop
+    h = status['hospitalized'] / pop
+    e = status['exposed'] / pop
 
     contacts_infected = get_mean_contacts_infected(G)
     
-    return s, i, r, contacts_infected, status
+    return s, e, i, r, h, contacts_infected, status
     
 def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_leak=.05,
                       graph_model = 'relaxed_caveman', pop_size = 1000,
@@ -135,22 +133,29 @@ def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_lea
     np.random.seed(seed)
     
     G, data, status, pop = init_parameters(initial_infection, graph_model, pop_size, seed)
+    
+    data_per_region = []
 
-    for day in range(150):
+    for day in tqdm(range(250)):
         
-        if (status['recovered']+status['susceptible'])>=pop:
+        if (status['removed']+status['susceptible'])>=pop:
             break
     
-        recover_one_step(G, day, recover_time)
+        patient_evolution.update_graph(G)
         
-        newly_infected = spread_one_step(G, day, p_r, lambda_leak)
+        #This was not being used, was this expected?
+        #newly_infected = spread_one_step(G, day, p_r, lambda_leak)
        
-        s, i, r, contacts_infected, status = get_time_series_row(G, pop)
+        _ = spread_one_step(G, day, p_r, lambda_leak)
 
-        data.append([s, i, r, newly_infected, contacts_infected])
+        s, e, i, r, h, contacts_infected, status = get_time_series_row(G, pop)
+
+        data.append([s, e, i, r, h, contacts_infected, status])
         
-    columns = ['susceptible', 'infected', 'recovered', 'newly_infected', 'contacts_infected_mean']
+        data_per_region.append(current_status_by_zone(G))
+        
+    columns = ['susceptible', 'exposed', 'infected', 'removed', 'hospitalized', 'newly_infected', 'contacts_infected_mean']
 
     time_series = pd.DataFrame(data, columns=columns)
     
-    return time_series
+    return time_series, G, data_per_region
