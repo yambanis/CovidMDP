@@ -55,17 +55,21 @@ def init_infection(G, pct):
     for i in infected:
         patient_evolution.susceptible_to_exposed(G.nodes[i], 0)
 
+def lambda_leak_value(infected_ratio, max_value=0.05, exp=3): 
+    return (infected_ratio**exp)*max_value
 
-def spread_one_step(G, day, p_r = 0.5, lambda_leak = 0.05):
+def spread_one_step(G, day, infected_ratio, p_r = 0.5, lambda_leak_max = 0.05):
     """
     Spreads the infection 1 step, to the susceptible neighbours of infected people
     day is current day
     """
     newly_infected = []
-       
+    
+    lambda_leak = lambda_leak_value(infected_ratio, max_value = lambda_leak_max)
     for node, adjacencies in G.adjacency():
         if G.nodes[node]['status'] == 'susceptible':
             if np.random.random() < lambda_leak:
+                print('leaked_MOFO')
                 newly_infected.append(node)    
             else:
                 for contact in adjacencies.keys():
@@ -146,7 +150,7 @@ def simulate_pandemic(initial_infection=.05, recover_time=12, p_r=.5, lambda_lea
         #This was not being used, was this expected?
         #newly_infected = spread_one_step(G, day, p_r, lambda_leak)
        
-        _ = spread_one_step(G, day, p_r, lambda_leak)
+        _ = spread_one_step(G, day, status['infected'] / pop, p_r, lambda_leak)
 
         s, e, i, r, h, contacts_infected, status = get_time_series_row(G, pop)
 
