@@ -1,7 +1,7 @@
 import networkx as nx
 import pandas as pd
 import numpy as np
-import tqdm
+from tqdm import tqdm
 import itertools
 
 def add_person_to_graph(G, person):
