@@ -9,13 +9,13 @@ from patient_evolution import susceptible_to_exposed, infect_node, update_graph
 
 # Start with pct% of population infected
 def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman',
-               pop_size = 1000, seed = None):
+               file_path = None, pop_size = 1000, seed = None):
     if graph_model == 'relaxed_caveman':
         G = nx.relaxed_caveman_graph(int(pop_size/4), 5, 0.4, seed)
     elif graph_model == 'scale_free':
         G = nx.scale_free_graph(pop_size, seed=seed)
     elif graph_model == 'SP':
-        G = nx.read_gpickle('graph_SP_05_20.gpickle')
+        G = nx.read_gpickle(file_path)
     else:
         raise ValueError("Unknown graph type")
     
@@ -23,8 +23,10 @@ def init_graph(initial_infection = .05, graph_model = 'relaxed_caveman',
 
     return G
 
-def init_parameters(initial_infection, graph_model, pop_size = 1000, seed=None):
-    G = init_graph(initial_infection, graph_model, pop_size, seed)
+def init_parameters(initial_infection, graph_model, file_path = None, 
+                                                pop_size = 1000, seed=None):
+
+    G = init_graph(initial_infection, graph_model, file_path, pop_size, seed)
     
     status = current_status(G)
     
@@ -101,7 +103,7 @@ def get_time_series_row(G, pop):
     
     return s, e, i, r, h, contacts_infected, status
 
-def node_contacts(G, node, p_r, restrictions, lambda_leak):
+def node_contacts(G, node, p_r, restrictions, infected_per_relation, lambda_leak):
     if G.nodes[node]['status'] == 'susceptible':
         if np.random.random() < lambda_leak:
             return node, np.nan
@@ -109,11 +111,13 @@ def node_contacts(G, node, p_r, restrictions, lambda_leak):
             if G.nodes[contact]['status'] == 'infected': 
                 relation = data['edge_type']
                 if np.random.random() < p_r[relation] * (1 - restrictions[relation]):
+                    infected_per_relation[relation] += 1
                     return node, contact
     return None, None
     
-def spread_through_contacts(G, p_r, restrictions, lambda_leak):
-    results = [node_contacts(G, node, p_r, restrictions, lambda_leak) for node in G.nodes()]
+def spread_through_contacts(G, p_r, restrictions, infected_per_relation, lambda_leak):
+    results = [node_contacts(G, node, p_r, restrictions, 
+                                infected_per_relation,lambda_leak) for node in G.nodes()]
     results = np.array(results)
     results =  results[results[:,0] != np.array(None)]
     exposed, contacts_responsible = results[:,0], results[:,1]
@@ -130,8 +134,9 @@ def increment_contacts_infected(G, contacts_responsible):
         G.nodes[index]['contacts_infected'] += value
         
         
-def spread_one_step(G, p_r, restrictions, lambda_leak, day):
-    exposed, contacts_responsible = spread_through_contacts(G, p_r, restrictions, lambda_leak)
+def spread_one_step(G, p_r, restrictions, infected_per_relation, lambda_leak, day):
+    exposed, contacts_responsible = spread_through_contacts(G, p_r, restrictions, 
+                                                     infected_per_relation, lambda_leak)
     
     if len(exposed) > 0: 
         expose_contacts(G, exposed, day)
@@ -140,11 +145,11 @@ def spread_one_step(G, p_r, restrictions, lambda_leak, day):
     
     return len(exposed)
 
-def simulate_pandemic(restrictions={'work':0, 'school': 0, 'home':0},
+def simulate_pandemic(restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0},
                                   initial_infection=.05, 
-                                  p_r={'work':.3, 'school':.5, 'home':.7},
-                                  lambda_leak=0,
-                                  graph_model = 'SP', pop_size = None,
+                                  p_r={'neighbor':.1, 'work':.3, 'school':.5, 'home':.7},
+                                  lambda_leak=0, pop_size = None,
+                                  graph_model = 'SP', file_path = None, 
                                   seed = None, it=None, policy=False):
     """
     Runs the course of the pandemic from the start until
@@ -152,7 +157,8 @@ def simulate_pandemic(restrictions={'work':0, 'school': 0, 'home':0},
     """
     np.random.seed(seed)
     
-    G, data, status, pop = init_parameters(initial_infection, graph_model, pop_size, seed)
+    G, data, status, pop = init_parameters(initial_infection, graph_model, file_path, 
+                                                                    pop_size, seed)
     
     data_per_region = []
        
@@ -163,10 +169,11 @@ def simulate_pandemic(restrictions={'work':0, 'school': 0, 'home':0},
     infected_per_relation = {
         'home': 0,
         'work' : 0,
-        'school': 0
+        'school': 0,
+        'neighbor': 0
     }
     
-    for day in tqdm(range(500)):
+    for day in range(500):
         
         if (status['removed']+status['susceptible'])>=pop:
             break
@@ -184,12 +191,19 @@ def simulate_pandemic(restrictions={'work':0, 'school': 0, 'home':0},
             
             #Lockdown
             if policy:
-                if h > 0.00125: restrictions['work'], restrictions['school'] = 1, 1
-                else: restrictions['work'], restrictions['school'] = 0, 0
+                if h > 0.00125: 
+                    restrictions['work'] = 1
+                    restrictions['school'] = 1
+                    restrictions['neighbor'] = 1
+                else: 
+                    restrictions['work'] = 0
+                    restrictions['school'] = 0
+                    restrictions['neighbor'] = 0
             
             policy_chosen.append(list(restrictions.values()))
             
-            newly_infected = spread_one_step(G, p_r, restrictions, lambda_leak, day)
+            newly_infected = spread_one_step(G, p_r, restrictions, infected_per_relation, 
+                                                lambda_leak, day)
         
             data[-1].append(newly_infected)
         

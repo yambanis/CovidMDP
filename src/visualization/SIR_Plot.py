@@ -21,7 +21,7 @@ def plot_capacity(time_series, name=None, save=True):
     plt.show()
 
 
-def plot_average_infection_curve(sims):
+def plot_average_infection_curve(sims, title):
     fig = go.Figure()
     
     sims = np.array(sims)[:,0]
@@ -71,6 +71,6 @@ def plot_average_infection_curve(sims):
         mode='lines', line_color='indigo',     showlegend=False
     ))
 
-    fig.update_layout(title = 'Average infection Curve - Relaxed Caveman')
+    fig.update_layout(title = title)
 
     fig.show()
