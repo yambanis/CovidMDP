@@ -1,0 +1,6 @@
+Outro coisa que eu comecei a trabalhar ontem foi tentar setar melhor os p_r. To sentindo que a epidemia ta meio "rapida" demais.
+Olhando o report 21 do imperial college, eles estimam o Attack Rate de São Paulo. Estimam que entre 3.3% (95%CI: 2.8%-3.7%) em São Paulo.https://www.imperial.ac.uk/media/imperial-college/medicine/mrc-gida/2020-05-08-COVID19-Report-21.pdf
+
+A simulação deles, até onde consegui entender, levou em conta mais ou menos esses valores aqui:Start Day: Feb 24th End Day: May 4thTotal Time: 70 daysEstimated attack rate: 3.5%Start of intervention:March 23th (day 28)
+Então pensei em rodar a minha simulação por 70 dias, começar sem nenhuma medida e adotar fechamento das escolas e 50% dos trabalhos por volta do dia 28.E testar diferentes valores para p_r de modo que no final dos 70 dias tenhamos por volta de 3.5% de attack rate(ou 96.5% se sucetíveis).Aí tenho duas dúvidas:Estou usando o seguinte dicionário de p_r:p_r = {    'home':pr_home,    'work':pr_home/3,     'school':(2*pr_home)/3,       'neighbor':pr_home/7 }
+Dessa forma, o que eu estou tentando "otimizar" pra chegar no fim do periodo com attack rate = 3.5% é o pr_home.Acho que estou com dificuldade em conciliar o significado do pr, tanto com o grafo, como com o valor dele em si hahahaha
