@@ -147,10 +147,11 @@ def spread_one_step(G, p_r, restrictions, infected_per_relation, lambda_leak, da
 
 def simulate_pandemic(restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0},
                                   initial_infection=.05, 
-                                  p_r={'neighbor':.1, 'work':.3, 'school':.5, 'home':.7},
+                                  p_r={'neighbor':.1, 'work':.1, 'school':.5, 'home':.9},
                                   lambda_leak=0, pop_size = None,
                                   graph_model = 'SP', file_path = None, 
                                   seed = None, it=None, policy=False):
+    
     """
     Runs the course of the pandemic from the start until
     less than 1% of the population is simultaneously infected or no one is infected
@@ -173,7 +174,7 @@ def simulate_pandemic(restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':
         'neighbor': 0
     }
     
-    for day in range(500):
+    for day in tqdm(range(500)):
         
         if (status['removed']+status['susceptible'])>=pop:
             break
