@@ -5,7 +5,7 @@ from disease_states import states_dict
 from patient_evolution import susceptible_to_exposed, change_state
 from functools import partial
 
-G = nx.read_gpickle('SP_multiGraph_intID.gpickle')  
+G = nx.read_gpickle('..\\..\\data\\processed\\SP_multiGraph_intID.gpickle')  
 p_r = {'neighbor':.3/80, 'work':.3/40, 'school':.6/40, 'home':.3}
 
 def init_infection(pct = .0001):
