@@ -5,8 +5,11 @@ from disease_states import states_dict
 from patient_evolution import susceptible_to_exposed, change_state
 from functools import partial
 
+print('Loading Graph... ',  end='')
 G = nx.read_gpickle('..\\..\\data\\processed\\SP_multiGraph_intID.gpickle')  
-p_r = {'neighbor':.3/80, 'work':.3/40, 'school':.6/40, 'home':.3}
+print('Done!')
+#p_r = {'neighbor':.3/80, 'work':.3/40, 'school':.6/40, 'home':.3}
+p_r = {'neighbor':.3, 'work':.5, 'school':.7, 'home':.9}
 
 def init_infection(pct = .0001):
     """
@@ -206,8 +209,10 @@ def main():
 
     restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
 
-    for day in tqdm(range(1, 70)):
-
+    for day in tqdm(range(1, 500)):
+        
+        #if less than 20% still susceptible, break simulation
+        if pop_matrix[np.where(pop_matrix[:,1] == -1)].shape[0] > pop_matrix.shape[0]*.8: break
         # POLICY
         if day >= 28:
 
@@ -216,7 +221,7 @@ def main():
         pop_matrix = spread_infection(pop_matrix, restrictions, day)
         lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
-        data.append(pop_matrix[:,1]) 
+        data.append(np.array(sorted(pop_matrix,key=lambda x: x[0]))[:,1]) 
     
     return data
 
