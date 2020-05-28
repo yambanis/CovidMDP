@@ -1,120 +1,128 @@
-import numpy as np
-from scipy.stats import truncnorm
+from disease_evolution import incubation, hospitalization_to_removed
+from disease_evolution import onset_to_hosp_or_asymp, needs_hospitalization
+from disease_states import states_dict
 
-def sample_truncated_norm(clip_low, clip_high, mean, std):
-    a, b = (clip_low - mean) / std, (clip_high - mean) / std
-    return int(truncnorm.rvs(a, b, mean, std))
+def change_state(person):
+    """
+    Receives an array representing a person, calls the appropriate function dependending on it's current 
+    state and return the person array in the next disease state
 
-def sample_incubation(clip_low = 2, clip_high = 15, mean = 6, std = 3):
-    return sample_truncated_norm(clip_low, clip_high, mean, std)
+    Args:
+        person (np.array): Array containing id, state, day of infection and current state duration of a person.
 
-def sample_onset_to_hosp_or_asymp(clip_low = 2, clip_high = 21, mean = 6.2, std = 4.3):
-    return sample_truncated_norm(clip_low, clip_high, mean, std)
+    Returns:
+        person (np.array): The same person in the next state of the disease.
+    Raises:
+        ValueError: If persons time in state (person[3]) is different from zero
 
-def sample_hospitalization_to_removed(clip_low = 2, clip_high = 32, mean = 8.6, std = 6.7):
-    return sample_truncated_norm(clip_low, clip_high, mean, std)
+    """
+    if person[3] != 0:
+        raise ValueError("Person's time in state was not zero but was passed to change_state")
+    if person[1] == states_dict['exposed']:
+        person = exposed_to_infected(person)
+        return person
+    if person[1] == states_dict['infected']:
+        person = infected_to_new_state(person)
+        return person
+    if person[1] == states_dict['hospitalized']:
+        hospitalized_to_removed(person)
+        return person
 
+def susceptible_to_exposed(person, day):
+    """
+    Receives an array representing a person and the current day of simulation and change it's state from
+    susceptible to exposed. The new period duration is sampled from incubation().
 
-def needs_hospitalization(age):
-    #https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
-    if age <= 9:  return np.random.random() <= 0.001 
-    if age <= 19: return np.random.random() <= 0.003
-    if age <= 29: return np.random.random() <= 0.012
-    if age <= 39: return np.random.random() <= 0.032
-    if age <= 49: return np.random.random() <= 0.049
-    if age <= 59: return np.random.random() <= 0.102
-    if age <= 69: return np.random.random() <= 0.166
-    if age <= 79: return np.random.random() <= 0.243
-    return np.random.random() <= 0.273
+    Args:
+        person (np.array): Array containing id, state, day of infection and current state duration of a person.
 
-def hospitalized_needs_ICU(age):
-    #https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
-    if age <= 9:  return np.random.random() <= 0.05 
-    if age <= 19: return np.random.random() <= 0.05
-    if age <= 29: return np.random.random() <= 0.05
-    if age <= 39: return np.random.random() <= 0.05
-    if age <= 49: return np.random.random() <= 0.063
-    if age <= 59: return np.random.random() <= 0.122
-    if age <= 69: return np.random.random() <= 0.274
-    if age <= 79: return np.random.random() <= 0.432
-    return np.random.random() <= 0.709
+    Returns:
+        person (np.array): The same person, exposed at the current day
+    Raises:
+        ValueError: If person's state (person[1]) is different from susceptible
 
-def susceptible_to_exposed(node, day):
-    if node['status'] != 'susceptible':
-        print(node)
+    """
+    
+    if person[1] != states_dict['susceptible']:
         raise ValueError("Node status different from susceptible")
-    
-    node['status'] = 'exposed'
-    node['period_duration'] = sample_incubation()
-    node['infection_day'] = day
-    
-    return
+        
+    person[1] = states_dict['exposed']
+    person[2] = day
+    person[3] = incubation()
 
-def exposed_to_infected(node):
-    if node['status'] != 'exposed':
-        raise ValueError("Node status different from exposed")
-    if node['period_duration'] > 0:
+    return person
+
+def exposed_to_infected(person):
+    """
+    Receives an array representing a person and change it's state from exposed to infected.
+    The new period duration is sampled from onset_to_hosp_or_asymp().
+
+    Args:
+        person (np.array): Array containing id, state, day of infection and current state duration of a person.
+
+    Returns:
+        person (np.array): The same person, infected
+    Raises:
+        ValueError: If person's state (person[1]) is different from exposed or if the state duration has not yet
+            reached zero
+    """
+    if person[1] != states_dict['exposed']:
+        raise ValueError("person status different from exposed")
+    if person[3] > 0:
         raise ValueError("Not yet time to change")
     
-    node['status'] = 'infected'
-    node['period_duration'] = sample_onset_to_hosp_or_asymp()
+    person[1] = states_dict['infected']
+    person[3] = onset_to_hosp_or_asymp()
     
-    return
-    
-def infected_to_new_state(node):
-    if node['status'] != 'infected':
-        raise ValueError("Node status different from infected")
-    if node['period_duration'] > 0:
+    return person
+
+def infected_to_new_state(person):
+    """
+    Receives an array representing a person and change it's state from infected to either hospitalized or removed.
+    needs_hospitalization(person[4]) determines if the person will need hospitalization based on the person's age
+    (person[4] is the person's age in years) and, if the person is going to be hospitalized, the period of stay
+    at the hospital is sampled from hospitalization_to_removed().
+
+    Args:
+        person (np.array): Array containing id, state, day of infection and current state duration of a person.
+
+    Returns:
+        person (np.array): The same person, hospitalized, with hospitalization time, or removed
+    Raises:
+        ValueError: If person's state (person[1]) is different from infected or if the state duration has not yet
+            reached zero
+    """
+    if person[1] != states_dict['infected']:
+        raise ValueError("person status different from infected")
+    if person[3] > 0:
         raise ValueError("Not yet time to change")
     
-    if needs_hospitalization(node['age']):
-        node['status'] = 'hospitalized'
-        node['period_duration'] = sample_hospitalization_to_removed()
+    if needs_hospitalization(person[4]):
+        person[1] = states_dict['hospitalized']
+        person[3] = hospitalization_to_removed()
     else:
-        node['status'] = 'removed'
+        person[1] = states_dict['removed']
         
-    return
-        
-def hospitalized_to_removed(node):
-    if node['status'] != 'hospitalized':
-        raise ValueError("Node status different from hospitalized")
-    if node['period_duration'] > 0:
+    return person
+
+def hospitalized_to_removed(person):
+    """
+    Receives an array representing a person and change it's state from hospitalized to removed.
+    
+    Args:
+        person (np.array): Array containing id, state, day of infection and current state duration of a person.
+
+    Returns:
+        person (np.array): The same person, removed
+    Raises:
+        ValueError: If person's state (person[1]) is different from hospitalized or if the state duration 
+        has not yet reached zero
+    """
+    if person[1] != states_dict['hospitalized']:
+        raise ValueError("person status different from hospitalized")
+    if person[3] > 0:
         raise ValueError("Not yet time to change")
         
-    node['status'] = 'removed'
+    person[1] = states_dict['removed']
     
-    return
-
-def change_state(node):
-    if node['status'] == 'exposed':
-        exposed_to_infected(node)
-        return
-    if node['status'] == 'infected':
-        infected_to_new_state(node)
-        return 
-    if node['status'] == 'hospitalized':
-        hospitalized_to_removed(node)
-        return 
-
-def update_node(node):
-    if node['status'] == 'susceptible' or node['status'] == 'removed':
-        return
-    if node['period_duration'] == 0: 
-        change_state(node)
-        return 
-    
-    node['period_duration'] = node['period_duration'] - 1
-    return
-
-def infect_node(node, day):
-    susceptible_to_exposed(node, day)
-    return
-
-def infect_graph(Graph, node_list, day):
-    for n in node_list:
-        infect_node(Graph.nodes[n], day)
-
-def update_graph(Graph):
-    for i, node in Graph.nodes(data=True):
-        update_node(node)
-        
+    return person
