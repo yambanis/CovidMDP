@@ -8,8 +8,8 @@ from functools import partial
 print('Loading Graph... ',  end='')
 G = nx.read_gpickle('..\\..\\data\\processed\\SP_multiGraph_intID.gpickle')  
 print('Done!')
-#p_r = {'neighbor':.3/80, 'work':.3/40, 'school':.6/40, 'home':.3}
-p_r = {'neighbor':.3, 'work':.5, 'school':.7, 'home':.9}
+p_r = {'neighbor':.3/80, 'work':.3/40, 'school':.6/40, 'home':.3}
+#p_r = {'neighbor':.3, 'work':.5, 'school':.7, 'home':.9}
 
 def init_infection(pct = .0001):
     """
