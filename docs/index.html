@@ -1,14 +1,16 @@
 <!DOCTYPE html>
+<html lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.">
-        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="description" content="Compare Covid Spread in SP">
+        <meta name="author" content="Guilherme Yambanis Thomaz">
 
         <title>Comparative Virus Spread</title>
 
-        <!-- Bootstrap core CSS -->
-        <style class="anchorjs"></style><link href="/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- Custom styles for this template-->
+        <link href="css/style.min.css" rel="stylesheet">
 
         <script>
             function iframeChange() {
@@ -21,14 +23,13 @@
                     iframe.height = e.target.dataset.height;
                 });
             }
-            window.onload = iframeChange;
+        /*--window.onload = iframeChange; --> */   
         </script>
     </head>
     <body>
-        <div class="loadiframe">
-            <button id="b1" data-src="fast_graph.html" data-width="800" data-height="800" >High P_R</button>
-            <button id="b2" data-src="low_pr_1k.html" data-width="800" data-height="800">Low P_R</button>
+        <div class="container-fluid">
+            <div class="label"><iframe id='frame1' src="html_plots\\Medium Quarantine.html" frameborder="0" scrolling="no" height="512" width="50%" align="left"></iframe></div>
+            <div class="label"><iframe id='frame2' src="html_plots\\unrestricted.html" frameborder="0" scrolling="no" height="512" width="50%" align="left"></iframe></div>
         </div>
-        <iframe id='frame' frameborder="0" scrolling="no" width="800" height="800">
     </body>
 </html>

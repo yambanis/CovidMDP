@@ -4,6 +4,7 @@ from tqdm import tqdm
 from disease_states import states_dict 
 from patient_evolution import susceptible_to_exposed, change_state
 from functools import partial
+from policies import policies_restrictions
 
 print('Loading Graph... ',  end='')
 G = nx.read_gpickle('..\\..\\data\\processed\\SP_multiGraph_intID.gpickle')  
@@ -201,23 +202,21 @@ def spread_infection(pop_matrix, restrictions, day):
     
     return new_matrix
 
-def main():  
+def main(policy='no_policy'):  
     pop_matrix = init_infection(.0001)
     pop_matrix = update_population(pop_matrix)
 
     data = []
 
-    restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
+    #restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
+    restrictions = policies_restrictions[policy]
+    print(restrictions)
 
     for day in tqdm(range(1, 500)):
         
         #if less than 20% still susceptible, break simulation
-        if pop_matrix[np.where(pop_matrix[:,1] == -1)].shape[0] > pop_matrix.shape[0]*.8: break
-        # POLICY
-        if day >= 28:
-
-            restrictions={'work':0.6, 'school': 1, 'home':0, 'neighbor':0.4}
-
+        if pop_matrix[np.where(pop_matrix[:,1] == -1)].shape[0] > pop_matrix.shape[0]*.9: break
+        
         pop_matrix = spread_infection(pop_matrix, restrictions, day)
         lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
@@ -225,5 +224,12 @@ def main():
     
     return data
 
+
+import argparse
 if __name__ == '__main__':
-    main()
+
+    parser = argparse.ArgumentParser(description='Run pandemic simulation for a given policy')
+    parser.add_argument('policy', metavar='P', type=str, help='the policy to be used')
+
+    args = parser.parse_args()
+    main(args.policy)
