@@ -7,13 +7,13 @@ from tqdm import tqdm
 from joblib import Parallel, delayed
 import numpy as np
 
-def randomPolicy(state, horizon=60):
+def randomPolicy(state, horizon, step_size):
     for i in range(horizon):
         try:
             action = random.choice(state.getPossibleRandomActions())
         except IndexError:
             raise Exception("Non-terminal state has no possible actions: " + str(state))
-        state = state.takeAction(action)
+        state = state.takeAction(action, step_size)
     return state.getReward()
 
 
@@ -29,7 +29,7 @@ class treeNode():
 
 
 class mcts():
-    def __init__(self, timeLimit=None, iterationLimit=None, horizon=60,
+    def __init__(self,  horizon, step_size, timeLimit=None, iterationLimit=None,
                 explorationConstant=1 / math.sqrt(2), rolloutPolicy=randomPolicy):
         if timeLimit != None:
             if iterationLimit != None:
@@ -48,9 +48,10 @@ class mcts():
         self.explorationConstant = explorationConstant
         self.rollout = rolloutPolicy
         self.horizon = horizon
+        self.step_size = step_size
 
-    def search(self, initialState):
-        self.root = treeNode(initialState, None)
+    def search(self, current_state, previous_state):
+        self.root = treeNode(current_state, previous_state)
 
         if self.limitType == 'time':
             timeLimit = time.time() + self.timeLimit / 1000
@@ -65,7 +66,9 @@ class mcts():
 
     def executeRound(self):
         node = self.selectNode(self.root)
-        rewards = Parallel(n_jobs=6)(delayed(self.rollout)(node.state, self.horizon) for i in range(6))
+        horizon = self.horizon
+        rewards = Parallel(n_jobs=6)(delayed(self.rollout)(node.state, self.horizon, self.step_size)\
+                                     for i in range(6))
         reward = np.mean(rewards)
         self.backpropogate(node, reward)
 
@@ -81,7 +84,7 @@ class mcts():
         actions = node.state.getPossibleActions()
         for action in actions:
             if action not in node.children:
-                newNode = treeNode(node.state.takeAction(action), node)
+                newNode = treeNode(node.state.takeAction(action, self.step_size), node)
                 node.children[action] = newNode
                 if len(actions) == len(node.children):
                     node.isFullyExpanded = True

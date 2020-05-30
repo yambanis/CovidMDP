@@ -5,6 +5,7 @@ from copy import deepcopy
 from policies import policies_restrictions_by_value as possible_policies
 import simulate_pandemic as simp
 import numpy as np
+import pandas as pd
 
 class CovidState():
     def __init__(self, pop_matrix, day, step_size):
@@ -15,6 +16,8 @@ class CovidState():
         self.cost_of_policies = 0
         self.current_policy = 0
         self.step_size = step_size
+        self.rsieh = tuple(pd.Series(self.pop_matrix[:,1]).value_counts().sort_index())
+
 
     def getPossibleActions(self):
         possible_actions = [k for k in possible_policies.keys()]
@@ -25,7 +28,7 @@ class CovidState():
         #                        if k >= self.current_policy]
         return self.getPossibleActions()  
 
-    def takeAction(self, action):
+    def takeAction(self, action, step_size):
         new_state = deepcopy(self)
         new_state.cost_of_policies += action
         new_state.policy = possible_policies[action]
@@ -54,8 +57,12 @@ class CovidState():
         return -self.cost_of_policies - 10e6 * self.days_over_capacity
 
     def __eq__(self, other):
-        raise NotImplementedError()
         # Dois estados sao iguais se as proporcoes sao iguais no agregado da pop toda
+        return self.rsieh == other.rsieh
+    def __hash__(self):
+        #hash da tupla representado os counts de estados na população
+        return hash(self.rsieh)
+
 
 
 
