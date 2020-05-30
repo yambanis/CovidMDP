@@ -7,24 +7,23 @@ import simulate_pandemic as simp
 import numpy as np
 
 class CovidState():
-    def __init__(self, pop_matrix, day):
+    def __init__(self, pop_matrix, day, step_size):
         self.pop_matrix = deepcopy(pop_matrix)
         self.day = day
-
-        #Should always start as false?
         self.days_over_capacity = 0
         self.policy = possible_policies[0]
         self.cost_of_policies = 0
         self.current_policy = 0
+        self.step_size = step_size
 
     def getPossibleActions(self):
         possible_actions = [k for k in possible_policies.keys()]
         return possible_actions
 
     def getPossibleRandomActions(self):
-        possible_actions = [k for k in possible_policies.keys() 
-                                if k >= self.current_policy]
-        return possible_actions  
+        #possible_actions = [k for k in possible_policies.keys() 
+        #                        if k >= self.current_policy]
+        return self.getPossibleActions()  
 
     def takeAction(self, action):
         new_state = deepcopy(self)
@@ -33,7 +32,7 @@ class CovidState():
         new_state.current_policy = action
 
         #spread disease for 7 days with policy
-        for i in range(7):
+        for i in range(step_size):
             new_state.day += 1
             new_state.pop_matrix = simp.update_population(self.pop_matrix)     
 

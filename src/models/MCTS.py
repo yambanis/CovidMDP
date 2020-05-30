@@ -4,6 +4,8 @@ import time
 import math
 import random
 from tqdm import tqdm
+from joblib import Parallel, delayed
+import numpy as np
 
 def randomPolicy(state, horizon=60):
     for i in range(horizon):
@@ -63,7 +65,8 @@ class mcts():
 
     def executeRound(self):
         node = self.selectNode(self.root)
-        reward = self.rollout(node.state, self.horizon)
+        rewards = Parallel(n_jobs=6)(delayed(self.rollout)(node.state, self.horizon) for i in range(6))
+        reward = np.mean(rewards)
         self.backpropogate(node, reward)
 
     def selectNode(self, node):
