@@ -1,7 +1,6 @@
 from __future__ import division
 
 import time
-import math
 import random
 from tqdm import tqdm
 from joblib import Parallel, delayed
@@ -29,8 +28,8 @@ class treeNode():
 
 
 class mcts():
-    def __init__(self,  horizon, step_size, timeLimit=None, iterationLimit=None,
-                explorationConstant=1 / math.sqrt(2), rolloutPolicy=randomPolicy):
+    def __init__(self,  horizon, step_size, n_jobs=6, timeLimit=None, iterationLimit=None,
+                explorationConstant= 2, rolloutPolicy=randomPolicy):
         if timeLimit != None:
             if iterationLimit != None:
                 raise ValueError("Cannot have both a time limit and an iteration limit")
@@ -49,9 +48,10 @@ class mcts():
         self.rollout = rolloutPolicy
         self.horizon = horizon
         self.step_size = step_size
+        self.n_jobs = n_jobs
 
-    def search(self, current_state, previous_state):
-        self.root = treeNode(current_state, previous_state)
+    def search(self, current_state):
+        self.root = current_state
 
         if self.limitType == 'time':
             timeLimit = time.time() + self.timeLimit / 1000
@@ -61,14 +61,13 @@ class mcts():
             for i in range(self.searchLimit):
                 self.executeRound()
 
-        bestChild = self.getBestChild(self.root, 0)
-        return self.getAction(self.root, bestChild)
+        return self.getAction(self.root)
 
     def executeRound(self):
         node = self.selectNode(self.root)
         horizon = self.horizon
-        rewards = Parallel(n_jobs=6)(delayed(self.rollout)(node.state, self.horizon, self.step_size)\
-                                     for i in range(6))
+        rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)(node.state, self.horizon, self.step_size)\
+                                     for i in range(self.n_jobs))
         reward = np.mean(rewards)
         self.backpropogate(node, reward)
 
@@ -102,8 +101,8 @@ class mcts():
         bestValue = float("-inf")
         bestNodes = []
         for child in node.children.values():
-            nodeValue =  child.totalReward / child.numVisits + explorationValue * math.sqrt(
-                2 * math.log(node.numVisits) / child.numVisits)
+            nodeValue =  child.totalReward / child.numVisits + (
+                explorationValue * np.sqrt(np.log(node.numVisits) / child.numVisits))
             if nodeValue > bestValue:
                 bestValue = nodeValue
                 bestNodes = [child]
@@ -111,7 +110,7 @@ class mcts():
                 bestNodes.append(child)
         return random.choice(bestNodes)
 
-    def getAction(self, root, bestChild):
-        for action, node in root.children.items():
-            if node is bestChild:
-                return action
+    def getAction(self, root):
+        best_action = max(root.children, key=lambda key: root.children[key].numVisits)
+        best_node = root.children[best_action]
+        return best_action, best_node

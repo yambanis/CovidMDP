@@ -7,7 +7,7 @@ from functools import partial
 from policies import policies_restrictions_by_name as policies_restrictions
 
 print('Loading Graph... ',  end='')
-G = nx.read_gpickle('..\\..\\data\\processed\\SP_multiGraph_intID.gpickle')  
+G = nx.read_gpickle('../../data/processed/SP_multiGraph_intID.gpickle')  
 print('Done!')
 p_r = {'neighbor':.3/80, 'work':.3/40, 'school':.6/40, 'home':.3}
 #p_r = {'neighbor':.3, 'work':.5, 'school':.7, 'home':.9}
