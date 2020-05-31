@@ -1,17 +1,16 @@
-from __future__ import division
-
 import time
 import random
-from tqdm import tqdm
 from joblib import Parallel, delayed
 import numpy as np
+
 
 def randomPolicy(state, horizon, step_size):
     for i in range(horizon):
         try:
             action = random.choice(state.getPossibleRandomActions())
         except IndexError:
-            raise Exception("Non-terminal state has no possible actions: " + str(state))
+            raise Exception("Non-terminal state has no possible actions: "
+                            + str(state))
         state = state.takeAction(action, step_size)
     return state.getReward()
 
@@ -28,17 +27,18 @@ class treeNode():
 
 
 class mcts():
-    def __init__(self,  horizon, step_size, n_jobs=6, timeLimit=None, iterationLimit=None,
-                explorationConstant= 2, rolloutPolicy=randomPolicy):
-        if timeLimit != None:
-            if iterationLimit != None:
-                raise ValueError("Cannot have both a time limit and an iteration limit")
+    def __init__(self,  horizon, step_size, n_jobs=6,
+                 timeLimit=None, iterationLimit=None,
+                 explorationConstant=2, rolloutPolicy=randomPolicy):
+        if timeLimit is not None:
+            if iterationLimit is not None:
+                raise ValueError("Cannot have both time and iteration limit")
             # time taken for each MCTS search in milliseconds
             self.timeLimit = timeLimit
             self.limitType = 'time'
         else:
-            if iterationLimit == None:
-                raise ValueError("Must have either a time limit or an iteration limit")
+            if iterationLimit is None:
+                raise ValueError("Must have either time or iteration limit")
             # number of iterations of the search
             if iterationLimit < 1:
                 raise ValueError("Iteration limit must be greater than one")
@@ -65,9 +65,10 @@ class mcts():
 
     def executeRound(self):
         node = self.selectNode(self.root)
-        horizon = self.horizon
-        rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)(node.state, self.horizon, self.step_size)\
-                                     for i in range(self.n_jobs))
+        rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)
+                                              (node.state, self.horizon,
+                                               self.step_size)
+                                              for i in range(self.n_jobs))
         reward = np.mean(rewards)
         self.backpropogate(node, reward)
 
@@ -83,7 +84,9 @@ class mcts():
         actions = node.state.getPossibleActions()
         for action in actions:
             if action not in node.children:
-                newNode = treeNode(node.state.takeAction(action, self.step_size), node)
+                newNode = treeNode(node.state.takeAction(action,
+                                                         self.step_size),
+                                   node)
                 node.children[action] = newNode
                 if len(actions) == len(node.children):
                     node.isFullyExpanded = True
@@ -101,8 +104,9 @@ class mcts():
         bestValue = float("-inf")
         bestNodes = []
         for child in node.children.values():
-            nodeValue =  child.totalReward / child.numVisits + (
-                explorationValue * np.sqrt(np.log(node.numVisits) / child.numVisits))
+            nodeValue = child.totalReward / child.numVisits + (
+                explorationValue * np.sqrt(np.log(node.numVisits)
+                                           / child.numVisits))
             if nodeValue > bestValue:
                 bestValue = nodeValue
                 bestNodes = [child]
@@ -111,6 +115,7 @@ class mcts():
         return random.choice(bestNodes)
 
     def getAction(self, root):
-        best_action = max(root.children, key=lambda key: root.children[key].numVisits)
+        best_action = max(root.children,
+                          key=lambda key: root.children[key].numVisits)
         best_node = root.children[best_action]
         return best_action, best_node

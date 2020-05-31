@@ -7,17 +7,17 @@ states_dict = {
 }
 
 reverse_states = {
-    0  :'susceptible',
-    1  : 'exposed',
-    2  : 'infected',
-    3  : 'hospitalized',
-    -1 :'removed'
+    0: 'susceptible',
+    1: 'exposed',
+    2: 'infected',
+    3: 'hospitalized',
+    -1: 'removed'
 }
 
 state_to_color = {
-    0  :'blue',
-    1  : 'orange',
-    2  : 'red',
-    3  : 'purple',
-    -1 :'gray'
+    0: 'blue',
+    1: 'orange',
+    2: 'red',
+    3: 'purple',
+    -1: 'gray'
 }
