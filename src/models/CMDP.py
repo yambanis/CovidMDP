@@ -30,7 +30,7 @@ class CovidState():
     def takeAction(self, action, step_size):
         # new_state = deepcopy(self)
         new_state = CovidState(self.pop_matrix, self.day, self.step_size)
-        new_state.cost_of_policies += action
+        new_state.cost_of_policies = self.cost_of_policies + action
         new_state.current_policy = action
 
         # spread disease for 7 days with policy
@@ -60,7 +60,7 @@ class CovidState():
                 > self.pop_matrix.shape[0]*.9)
 
     def getReward(self):
-        return (-np.sum(np.exp(self.cost_of_policies))
+        return (-np.sum(self.cost_of_policies)
                 - 10e6 * self.days_over_capacity)
 
     def __eq__(self, other):
