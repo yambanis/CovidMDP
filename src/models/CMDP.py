@@ -11,7 +11,7 @@ class CovidState():
         self.day = day
         self.days_over_capacity = 0
         self.cost_of_policies = 0
-        self.current_policy = 0
+        self.policy = 0
         self.step_size = step_size
         # Recovered, Susceptible, Infected, Exposed, Hospitalized Tuple
         status = pd.Series(self.pop_matrix[:, 1])
@@ -21,17 +21,17 @@ class CovidState():
         possible_actions = [k for k in possible_policies.keys()]
         return possible_actions
 
-    def getPossibleRandomActions(self):
+    def getPossibleRangeActions(self):
         possible_actions = [k for k in possible_policies.keys()
-                            if self.current_policy - 2 <= k
-                            and k <= self.current_policy + 2]
+                            if self.policy - 2 <= k
+                            and k <= self.policy + 2]
         return possible_actions
 
     def takeAction(self, action, step_size):
         # new_state = deepcopy(self)
         new_state = CovidState(self.pop_matrix, self.day, self.step_size)
-        new_state.cost_of_policies = self.cost_of_policies + action
-        new_state.current_policy = action
+        new_state.cost_of_policies = action
+        new_state.policy = action
 
         # spread disease for 7 days with policy
         for i in range(step_size):
@@ -60,7 +60,7 @@ class CovidState():
                 > self.pop_matrix.shape[0]*.9)
 
     def getReward(self):
-        return (-np.sum(self.cost_of_policies)
+        return (-np.sum(np.exp(self.cost_of_policies))
                 - 10e6 * self.days_over_capacity)
 
     def __eq__(self, other):

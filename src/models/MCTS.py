@@ -4,15 +4,29 @@ from joblib import Parallel, delayed
 import numpy as np
 
 
-def randomPolicy(state, horizon, step_size):
+def rangePolicy(state, horizon, step_size):
+    reward = 0
     for i in range(horizon):
         try:
-            action = random.choice(state.getPossibleRandomActions())
+            action = random.choice(state.getPossibleRangeActions())
         except IndexError:
             raise Exception("Non-terminal state has no possible actions: "
                             + str(state))
         state = state.takeAction(action, step_size)
     return state.getReward()
+
+
+def cumulativePolicy(state, horizon, step_size):
+    reward = 0
+    for i in range(horizon):
+        try:
+            action = random.choice(state.getPossibleRangeActions())
+        except IndexError:
+            raise Exception("Non-terminal state has no possible actions: "
+                            + str(state))
+        state = state.takeAction(action, step_size)
+        reward += state.getReward()
+    return reward
 
 
 class treeNode():
@@ -29,7 +43,7 @@ class treeNode():
 class mcts():
     def __init__(self,  horizon, step_size, n_jobs=6,
                  timeLimit=None, iterationLimit=None,
-                 explorationConstant=2, rolloutPolicy=randomPolicy):
+                 explorationConstant=2, rolloutPolicy=cumulativePolicy):
         if timeLimit is not None:
             if iterationLimit is not None:
                 raise ValueError("Cannot have both time and iteration limit")
@@ -95,7 +109,7 @@ class mcts():
         raise Exception("Should never reach here")
 
     def backpropogate(self, node, reward):
-        while node is not None:
+        while node != self.root.parent:
             node.numVisits += 1
             node.totalReward += reward
             node = node.parent
@@ -115,7 +129,7 @@ class mcts():
         return random.choice(bestNodes)
 
     def getAction(self, root):
-        best_action = max(root.children,
-                          key=lambda key: root.children[key].numVisits)
+        c = root.children
+        best_action = max(c, key=lambda key: c[key].totalReward/c[key].numVisits)
         best_node = root.children[best_action]
         return best_action, best_node
