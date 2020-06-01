@@ -4,18 +4,6 @@ from joblib import Parallel, delayed
 import numpy as np
 
 
-def rangePolicy(state, horizon, step_size):
-    reward = 0
-    for i in range(horizon):
-        try:
-            action = random.choice(state.getPossibleRangeActions())
-        except IndexError:
-            raise Exception("Non-terminal state has no possible actions: "
-                            + str(state))
-        state = state.takeAction(action, step_size)
-    return state.getReward()
-
-
 def cumulativePolicy(state, horizon, step_size):
     reward = 0
     for i in range(horizon):
@@ -27,6 +15,27 @@ def cumulativePolicy(state, horizon, step_size):
         state = state.takeAction(action, step_size)
         reward += state.getReward()
     return reward
+
+
+def degradingCumulativePolicy(state, horizon, step_size):
+    reward = 0
+    for i in range(horizon):
+        try:
+            action = random.choice(state.getPossibleRangeActions())
+        except IndexError:
+            raise Exception("Non-terminal state has no possible actions: "
+                            + str(state))
+        state = state.takeAction(action, step_size)
+        reward += state.getReward() * (1/np.exp(i))
+    return reward
+
+
+def getRolloutPolicy(policy_name='cumulativePolicy'):
+    if policy_name == 'cumulativePolicy':
+        return cumulativePolicy
+    if policy_name == 'degradingCumulativePolicy':
+        return degradingCumulativePolicy
+    raise ValueError('Unknown Rollout Policy')
 
 
 class treeNode():
@@ -41,9 +50,16 @@ class treeNode():
 
 
 class mcts():
-    def __init__(self,  horizon, step_size, n_jobs=6,
+    def __init__(self, horizon, step_size, n_jobs=6,
                  timeLimit=None, iterationLimit=None,
-                 explorationConstant=2, rolloutPolicy=cumulativePolicy):
+                 explorationConstant=2, 
+                 rolloutPolicy='cumulativePolicy'):
+        self.explorationConstant = explorationConstant
+        self.rollout = getRolloutPolicy(rolloutPolicy)
+        self.horizon = horizon
+        self.step_size = step_size
+        self.n_jobs = n_jobs
+
         if timeLimit is not None:
             if iterationLimit is not None:
                 raise ValueError("Cannot have both time and iteration limit")
@@ -58,11 +74,7 @@ class mcts():
                 raise ValueError("Iteration limit must be greater than one")
             self.searchLimit = iterationLimit
             self.limitType = 'iterations'
-        self.explorationConstant = explorationConstant
-        self.rollout = rolloutPolicy
-        self.horizon = horizon
-        self.step_size = step_size
-        self.n_jobs = n_jobs
+
 
     def search(self, current_state):
         self.root = current_state
@@ -130,6 +142,7 @@ class mcts():
 
     def getAction(self, root):
         c = root.children
-        best_action = max(c, key=lambda key: c[key].totalReward/c[key].numVisits)
+        best_action = max(c,
+                          key=lambda key: c[key].totalReward/c[key].numVisits)
         best_node = root.children[best_action]
         return best_action, best_node
