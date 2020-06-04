@@ -237,7 +237,7 @@ def spread_infection(pop_matrix, restrictions, day):
     return new_matrix
 
 
-def main(policy='no_policy'):
+def main(policy='no_policy', days=500):
     pop_matrix = init_infection(.0001)
 
     data = []
@@ -246,7 +246,7 @@ def main(policy='no_policy'):
     restrictions = policies_restrictions[policy]
     print(restrictions)
 
-    for day in tqdm(range(1, 500)):
+    for day in tqdm(range(1, days)):
         pop_matrix = update_population(pop_matrix)
         # if less than 90% already recovered, break simulation
         if (pop_matrix[np.where(pop_matrix[:, 1] == -1)].shape[0]

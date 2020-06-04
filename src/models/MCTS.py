@@ -26,7 +26,7 @@ def degradingCumulativePolicy(state, horizon, step_size):
             raise Exception("Non-terminal state has no possible actions: "
                             + str(state))
         state = state.takeAction(action, step_size)
-        reward += state.getReward() * (1/np.exp(i))
+        reward += state.getReward() * (0.5**i)
     return reward
 
 
