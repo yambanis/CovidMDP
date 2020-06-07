@@ -4,16 +4,17 @@ from tqdm import tqdm
 from disease_states import states_dict
 from patient_evolution import susceptible_to_exposed, change_state
 from functools import partial
-from policies import policies_restrictions_by_name as policies_restrictions
+from policies import policies
 
 print('Loading Graph... ',  end='')
-G = nx.read_gpickle('../../data/processed/SP_multiGraph_intID.gpickle')
+G = nx.read_gpickle('../../data/processed/SP_job_edu_level.gpickle')
+#G = nx.read_gpickle('../../data/processed/SP_multiGraph_intID.gpickle')
 print('Done!')
 
 p_r = {
-    'neighbor':  .001,
-    'work'    :  .001,
-    'school'  :  .005,
+    'neighbor':  .0004,
+    'work'    :  .004,
+    'school'  :  .008,
     'home'    :  .8
 }
 
@@ -138,13 +139,25 @@ def spread_through_contacts(spreader, restrictions):
         infected (list): List of all the people infected by spreader.
     """
     global G, p_r
-    spreader = spreader
-    contacts = [[y, v['edge_type']] for x, y, v
-                in G.edges(spreader, data=True)]
+   
+    spdr_data = G.nodes(data=True)[spreader]
 
-    infected = [y for r in restrictions.keys() for y, v in contacts
-                if v == r
-                and np.random.random() < p_r[r] * (1 - restrictions[r])]
+    infected = []
+    for c in [[y, v['edge_type']] for x, y, v
+                in G.edges(spreader, data=True)]:
+        relation = c[1]
+        if relation == 'home' or relation == 'neighbor':
+            chance = 1 - restrictions[relation]
+        else:
+            c_data = G.nodes(data=True)[c[0]]
+            if relation == 'work':
+                level_key = 'job_level'
+            else:
+                level_key = 'edu_level' 
+            chance = ((1 - restrictions[relation][spdr_data[level_key]])
+                      * (1 - restrictions[relation][c_data[level_key]]))
+        if np.random.random() < p_r[relation] * chance:
+            infected.append(c[0])
 
     return infected
 
@@ -237,13 +250,13 @@ def spread_infection(pop_matrix, restrictions, day):
     return new_matrix
 
 
-def main(policy='no_policy', days=500):
+def main(policy='no_policy', days=90):
     pop_matrix = init_infection(.0001)
 
     data = []
 
     # restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
-    restrictions = policies_restrictions[policy]
+    restrictions = policies[policy]
     print(restrictions)
 
     for day in tqdm(range(1, days)):
@@ -252,6 +265,12 @@ def main(policy='no_policy', days=500):
         if (pop_matrix[np.where(pop_matrix[:, 1] == -1)].shape[0]
                 > pop_matrix.shape[0]*.9):
             break
+        
+        if day >= 28:
+            restrictions = policies['restrict_jobs_8_and_schools']
+        if day >= 90:
+            restrictions = policies[policy]
+
 
         pop_matrix = spread_infection(pop_matrix, restrictions, day)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
