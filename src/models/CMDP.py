@@ -1,5 +1,5 @@
 from copy import deepcopy
-from policies import policies, get_policy_cost
+from policies import policies_restrictions_by_value as possible_policies
 import simulate_pandemic as simp
 import numpy as np
 import pandas as pd
@@ -18,24 +18,20 @@ class CovidState():
         self.rsieh = tuple(status.value_counts().sort_index())
 
     def getPossibleActions(self):
-        possible_actions = [k for k in policies.keys()]
+        possible_actions = [k for k in possible_policies.keys()]
         return possible_actions
 
     def getPossibleRangeActions(self):
-        possible_actions = [(k, get_policy_cost(k)) for k in policies.keys()]
-        possible_actions = sorted(possible_actions, key = lambda x: x[1])
-        idx = possible_actions.index((self.policy, self.cost_of_policy))
-        idx_floor = idx - 2 if idx >= 2 else 0
-        idx_ceil = idx + 3 if idx <= len(possible_actions) - 3 \
-                           else len(possible_actions)
-
-        return [k for k, v in possible_actions[idx_floor:idx_ceil]] 
+        possible_actions = [k for k in possible_policies.keys()
+                            if self.cost_of_policy - 2 <= k
+                            and k <= self.cost_of_policy + 2]
+        return possible_actions
 
     def takeAction(self, action, step_size):
         # new_state = deepcopy(self)
         new_state = CovidState(self.pop_matrix, self.day, self.step_size)
-        new_state.policy = action
-        new_state.cost_of_policy = get_policy_cost(action)
+        new_state.cost_of_policy = action
+        new_state.policy = possible_policies[action]
 
         # spread disease for 7 days with policy
         for i in range(step_size):
@@ -43,7 +39,7 @@ class CovidState():
             new_state.day += 1
             new_state.pop_matrix = simp.update_population(new_state.pop_matrix)
             new_state.pop_matrix = simp.spread_infection(new_state.pop_matrix,
-                                                         policies[action],
+                                                         possible_policies[action],
                                                          new_state.day)
             new_state.pop_matrix = simp.lambda_leak_expose(new_state.pop_matrix,
                                                            new_state.day)
