@@ -26,7 +26,7 @@ def degradingCumulativePolicy(state, horizon, step_size):
             raise Exception("Non-terminal state has no possible actions: "
                             + str(state))
         state = state.takeAction(action, step_size)
-        reward += state.getReward() * (0.5**i)
+        reward += state.getReward() * (0.8**i)
     return reward
 
 
@@ -95,7 +95,7 @@ class mcts():
                                               (node.state, self.horizon,
                                                self.step_size)
                                               for i in range(self.n_jobs))
-        reward = np.mean(rewards)
+        reward = np.max(rewards)
         self.backpropogate(node, reward)
 
     def selectNode(self, node):
@@ -142,7 +142,7 @@ class mcts():
 
     def getAction(self, root):
         c = root.children
-        best_action = max(c,
-                          key=lambda key: c[key].totalReward/c[key].numVisits)
-        best_node = root.children[best_action]
-        return best_action, best_node
+        best_action = max(c, key=lambda key: c[key].numVisits)
+                          #key=lambda key: c[key].totalReward/c[key].numVisits)
+        #best_node = root.children[best_action]
+        return best_action#, best_node

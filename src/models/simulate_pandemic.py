@@ -4,16 +4,16 @@ from tqdm import tqdm
 from disease_states import states_dict
 from patient_evolution import susceptible_to_exposed, change_state
 from functools import partial
-from policies import policies_restrictions_by_name as policies_restrictions
+from policies import policies
 
 print('Loading Graph... ',  end='')
 G = nx.read_gpickle('../../data/processed/SP_multiGraph_intID.gpickle')
 print('Done!')
 
 p_r = {
-    'neighbor':  .001,
-    'work'    :  .001,
-    'school'  :  .005,
+    'neighbor':  .0025,
+    'work'    :  .005,
+    'school'  :  .01,
     'home'    :  .8
 }
 
@@ -237,13 +237,13 @@ def spread_infection(pop_matrix, restrictions, day):
     return new_matrix
 
 
-def main(policy='no_policy', days=500):
+def main(policy='unrestricted', days=500):
     pop_matrix = init_infection(.0001)
 
     data = []
 
     # restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
-    restrictions = policies_restrictions[policy]
+    restrictions = policies[policy]
     print(restrictions)
 
     for day in tqdm(range(1, days)):
