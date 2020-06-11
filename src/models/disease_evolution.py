@@ -3,24 +3,45 @@ from scipy.stats import truncnorm
 
 
 def sample_truncated_norm(clip_low, clip_high, mean, std):
+    """
+    Given a range (a,b), returns the truncated norm
+    """
     a, b = (clip_low - mean) / std, (clip_high - mean) / std
     return int(truncnorm.rvs(a, b, mean, std))
 
 
 def incubation(clip_low=2, clip_high=15, mean=6, std=3):
+    """
+    Returns the incubation time in days within range(clip_low, clip_high),
+    of a truncated_norm(mean, std).
+    """
     return sample_truncated_norm(clip_low, clip_high, mean, std)
 
 
 def onset_to_hosp_or_asymp(clip_low=2, clip_high=21, mean=6.2, std=4.3):
+    """
+    Returns the time for someone to either get removed or hospitalized 
+    in days within range(clip_low, clip_high),
+    of a truncated_norm(mean, std).
+    """
     return sample_truncated_norm(clip_low, clip_high, mean, std)
 
 
 def hospitalization_to_removed(clip_low=2, clip_high=32, mean=8.6, std=6.7):
+    """
+    Returns the time for someone to either get removed after being
+    hospitalized in days within range(clip_low, clip_high),
+    of a truncated_norm(mean, std).
+    """
     return sample_truncated_norm(clip_low, clip_high, mean, std)
 
 
 def needs_hospitalization(age):
-    # https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
+    """
+    Returns if a person needs hospitalization based on their age and data
+    extracted from 
+    https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
+    """
     if age <= 9:
         return np.random.random() <= 0.001
     if age <= 19:
@@ -41,6 +62,11 @@ def needs_hospitalization(age):
 
 
 def hospitalized_needs_ICU(age):
+    """
+    Returns if a person needs ICU care, given they have been hospitalized,
+    based on their age and data extracted from 
+    https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
+    """
     # https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
     if age <= 9:
         return np.random.random() <= 0.05
