@@ -17,10 +17,8 @@ policies = {
 
 }
 
-costs = {
-    'Unrestricted': 0,
-    'Social Distancing': 0.018,
-    'Light Quarantine': 0.3,
-    'Hard Quarantine': 0.5,
-    'Lockdown': 0.65
-}
+costs = {'Unrestricted': 0,
+ 'Social Distancing': 0.1,
+ 'Light Quarantine': 0.5,
+ 'Hard Quarantine': 0.65,
+ 'Lockdown': 0.75}
