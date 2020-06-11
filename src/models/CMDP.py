@@ -5,15 +5,15 @@ import numpy as np
 import pandas as pd
 from scipy.special import expit
 
-def normallize_to_range(x, x_min = 0.0025, x_max = 0.00275, a=-4, b=4):
+def normallize_to_range(x, x_max, scale=1, x_min=0, a=-4, b=4):
     x = (x - x_min)/(x_max - x_min)
     x = (x*(b-a)) + a
     return x
 
-
-def hospitalized_cost(h, capacity = 0.0025):
-    return expit(normallize_to_range(h, 0, capacity))
-
+def exposed_cost(h, limit = 0.05, scale=1):
+    y = expit(normallize_to_range(h, 0, limit, scale))
+    return y*scale
+ 
 
 class CovidState():
     def __init__(self, pop_matrix, day, step_size):
@@ -21,7 +21,7 @@ class CovidState():
         self.day = day
         self.days_over_capacity = 0
         self.cost_of_policy = 0
-        self.cost_hospitalized = 0
+        self.cost_exposed = 0
         self.policy = None
         self.step_size = step_size
         # Recovered, Susceptible, Infected, Exposed, Hospitalized Tuple
@@ -53,11 +53,11 @@ class CovidState():
             new_state.pop_matrix = simp.lambda_leak_expose(new_state.pop_matrix,
                                                            new_state.day)
 
-            # Check if the beds capacity was exceeded
-            hospitalized = np.where(new_state.pop_matrix[:, 1] == 3)[0].shape[0]
+            
+            exposed = np.where(new_state.pop_matrix[:, 1] == 1)[0].shape[0]
             pop = new_state.pop_matrix.shape[0]
-            h = hospitalized / pop
-            self.cost_hospitalized += hospitalized_cost(h)
+            h = exposed / pop
+            self.cost_exposed += exposed_cost(h)
 
         # Update Recovered, Susceptible, Infected, Exposed, Hospitalized Tuple
         status = pd.Series(self.pop_matrix[:, 1])
@@ -69,7 +69,7 @@ class CovidState():
                 > self.pop_matrix.shape[0]*.9)
 
     def getReward(self):
-        return -self.cost_of_policy - self.cost_hospitalized
+        return -self.cost_of_policy - self.cost_exposed
 
     def __eq__(self, other):
         return self.rsieh == other.rsieh
