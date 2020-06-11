@@ -1,0 +1,413 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CovidMDP’s documentation! &#8212; CovidMDP 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/p_sphinx_theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/local_fonts.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/jquery.cookie.js"></script>
+    <script src="_static/p_sphinx_theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+      <div class="relbar-top">
+            
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+      <li><a href="#">CovidMDP 0.1 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Welcome to CovidMDP’s documentation!</a></li> 
+      </ul>
+    </div>
+      </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-covidmdp-s-documentation">
+<h1>Welcome to CovidMDP’s documentation!<a class="headerlink" href="#welcome-to-covidmdp-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="module-simulate_pandemic">
+<span id="simulate-pandemic"></span><h1>Simulate Pandemic<a class="headerlink" href="#module-simulate_pandemic" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="simulate_pandemic.expose_population">
+<code class="sig-prename descclassname">simulate_pandemic.</code><code class="sig-name descname">expose_population</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pop_matrix</span></em>, <em class="sig-param"><span class="n">exposed</span></em>, <em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulate_pandemic.expose_population" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives the population matrix, an array containing ids of newly
+exposed individuals and the current simulation day</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>pop_matrix (np.array): 2D Array  arrays of id, state, day of infection</dt><dd><p>and current state duration of population.</p>
+</dd>
+</dl>
+<p>exposed (list): list of newly exposed people id
+day (int): current simulation day</p>
+</dd>
+<dt>Returns:</dt><dd><p>new_matrix (np.array): The population matrix with the
+newly exposed people exposed.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If shape of starting matrix is different from final matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulate_pandemic.init_infection">
+<code class="sig-prename descclassname">simulate_pandemic.</code><code class="sig-name descname">init_infection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pct</span><span class="o">=</span><span class="default_value">0.0001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulate_pandemic.init_infection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a Graph G, infects pct% of population and set the
+remainder as susceptible. This is considered day 0.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>pct (float): percentage of people initially infected.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>new_matrix (np.array): 2D Array  arrays of id, state, day of infection</dt><dd><p>and current state duration of population.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulate_pandemic.lambda_leak_expose">
+<code class="sig-prename descclassname">simulate_pandemic.</code><code class="sig-name descname">lambda_leak_expose</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pop_matrix</span></em>, <em class="sig-param"><span class="n">day</span></em>, <em class="sig-param"><span class="n">lambda_leak</span><span class="o">=</span><span class="default_value">0.0001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulate_pandemic.lambda_leak_expose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives the population matrix, the current day and the leak factor.
+Chooses at random a lambda_leak percentage of the population to expose</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>pop_matrix (np.array): 2D Array  arrays of id, state, day of infection</dt><dd><p>and current state duration of population.</p>
+</dd>
+</dl>
+<p>lambda_leak (float): the percentage of the population to expose</p>
+<p>day: the current day of simulation</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>new_matrix (np.array): The population matrix with the</dt><dd><p>newly exposed people.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If shape of starting matrix is different from final matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulate_pandemic.main">
+<code class="sig-prename descclassname">simulate_pandemic.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">policy</span><span class="o">=</span><span class="default_value">'unrestricted'</span></em>, <em class="sig-param"><span class="n">days</span><span class="o">=</span><span class="default_value">500</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulate_pandemic.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives the policy to be used during the simulation and for how many days
+the simulation should run for. The policy should be a Key in the policies
+dict inside policies.py.</p>
+<dl>
+<dt>One full step consists of:</dt><dd><p>Spreading the infection
+Exposing through leakage
+Updating the disease evolution of the population</p>
+</dd>
+<dt>Args:</dt><dd><p>pop_matrix (string): The name of a policy that exists is policies.policies.</p>
+<p>days (int): For how long should the policy run.</p>
+</dd>
+</dl>
+<p>Returns: data (np.array): An array of arrays containing the status of 
+the population at each time step.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulate_pandemic.spread_infection">
+<code class="sig-prename descclassname">simulate_pandemic.</code><code class="sig-name descname">spread_infection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pop_matrix</span></em>, <em class="sig-param"><span class="n">restrictions</span></em>, <em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulate_pandemic.spread_infection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives the population matrix, the restrictions dictionary and the
+current day. The disease spreads throught the relations in the graph:
+each infected person has a chance to infect a susceptible contact with
+it has an edge in the graph, conditioned to the current restrictions,
+the p_r of each relation.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>pop_matrix (np.array): 2D Array  arrays of id, state, day of infection</dt><dd><p>and current state duration of population.</p>
+</dd>
+</dl>
+<p>restrictions (dictionary): a dictionary with a value between
+zero and one for each type of relation</p>
+<p>day: the current day of simulation</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>new_matrix (np.array): The population matrix with the newly</dt><dd><p>exposed people.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If shape of starting matrix is different from final matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulate_pandemic.spread_through_contacts">
+<code class="sig-prename descclassname">simulate_pandemic.</code><code class="sig-name descname">spread_through_contacts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spreader</span></em>, <em class="sig-param"><span class="n">restrictions</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulate_pandemic.spread_through_contacts" title="Permalink to this definition">¶</a></dt>
+<dd><p>An infected person, or a spredear, infects each of
+its contacts with chance equal to
+np.random.random() &lt; p_r[r] * (1 - restrictions[r]).
+Returns an array of all the people successfully infected by the spreader.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>spreader (int): id of the infected person that is</dt><dd><p>spreading the disease.</p>
+</dd>
+<dt>restrictions (dictionary): a dictionary with a value between</dt><dd><p>zero and one for each type of relation</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>infected (list): List of all the people infected by spreader.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="simulate_pandemic.update_population">
+<code class="sig-prename descclassname">simulate_pandemic.</code><code class="sig-name descname">update_population</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pop_matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simulate_pandemic.update_population" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives the population matrix and progress the infections
+for all people. The state duration is decremented
+and for those whom it reaches zero, they transition to the next state</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>pop_matrix (np.array): 2D Array  arrays of id, state, day of infection</dt><dd><p>and current state duration of population.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>new_matrix (np.array): The population matrix with the updated status.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If shape of starting matrix is different from final matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-patient_evolution">
+<span id="patient-evolution"></span><h1>Patient Evolution<a class="headerlink" href="#module-patient_evolution" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="patient_evolution.change_state">
+<code class="sig-prename descclassname">patient_evolution.</code><code class="sig-name descname">change_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">person</span></em><span class="sig-paren">)</span><a class="headerlink" href="#patient_evolution.change_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an array representing a person, calls the appropriate
+function dependending on it’s current
+state and return the person array in the next disease state</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>person (np.array): Array containing id, state, day of infection and</dt><dd><p>current state duration of a person.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>person (np.array): The same person in the next state of the disease.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If persons time in state (person[3]) is different from zero</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="patient_evolution.exposed_to_infected">
+<code class="sig-prename descclassname">patient_evolution.</code><code class="sig-name descname">exposed_to_infected</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">person</span></em><span class="sig-paren">)</span><a class="headerlink" href="#patient_evolution.exposed_to_infected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an array representing a person and change
+it’s state from exposed to infected.
+The new period duration is sampled from onset_to_hosp_or_asymp().</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>person (np.array): Array containing id, state, day of
+infection and current state duration of a person.</p>
+</dd>
+<dt>Returns:</dt><dd><p>person (np.array): The same person, infected</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If person’s state (person[1]) is different
+from exposed or if the state duration has not yet reached zero</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="patient_evolution.hospitalized_to_removed">
+<code class="sig-prename descclassname">patient_evolution.</code><code class="sig-name descname">hospitalized_to_removed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">person</span></em><span class="sig-paren">)</span><a class="headerlink" href="#patient_evolution.hospitalized_to_removed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an array representing a person and change it’s
+state from hospitalized to removed.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>person (np.array): Array containing id, state, day of infection
+and current state duration of a person.</p>
+</dd>
+<dt>Returns:</dt><dd><p>person (np.array): The same person, removed</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If person’s state (person[1]) is different from
+hospitalized or if the state duration has not yet reached zero</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="patient_evolution.infected_to_new_state">
+<code class="sig-prename descclassname">patient_evolution.</code><code class="sig-name descname">infected_to_new_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">person</span></em><span class="sig-paren">)</span><a class="headerlink" href="#patient_evolution.infected_to_new_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an array representing a person and change it’s
+state from infected to either hospitalized or removed.
+needs_hospitalization(person[4]) determines if the person
+will need hospitalization based on the person’s age
+(person[4] is the person’s age in years) and, if the person
+is going to be hospitalized, the period of stay
+at the hospital is sampled from hospitalization_to_removed().</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>person (np.array): Array containing id, state, day of infection
+and current state duration of a person.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>person (np.array): The same person, hospitalized, with hospitalization</dt><dd><p>time, or removed</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If person’s state (person[1]) is different from infected
+or if the state duration has not yet reached zero</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="patient_evolution.susceptible_to_exposed">
+<code class="sig-prename descclassname">patient_evolution.</code><code class="sig-name descname">susceptible_to_exposed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">person</span></em>, <em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#patient_evolution.susceptible_to_exposed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives an array representing a person and the current day
+of simulation and change it’s state from susceptible to exposed.
+The new period duration is sampled from incubation().</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>person (np.array): Array containing id, state, day of
+infection and current state duration of a person.</p>
+</dd>
+<dt>Returns:</dt><dd><p>person (np.array): The same person, exposed at the current day</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If person’s state (person[1]) is different from susceptible</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-disease_evolution">
+<span id="disease-evolution"></span><h1>Disease Evolution<a class="headerlink" href="#module-disease_evolution" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="disease_evolution.hospitalization_to_removed">
+<code class="sig-prename descclassname">disease_evolution.</code><code class="sig-name descname">hospitalization_to_removed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clip_low</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">clip_high</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">8.6</span></em>, <em class="sig-param"><span class="n">std</span><span class="o">=</span><span class="default_value">6.7</span></em><span class="sig-paren">)</span><a class="headerlink" href="#disease_evolution.hospitalization_to_removed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the time for someone to either get removed after being
+hospitalized in days within range(clip_low, clip_high),
+of a truncated_norm(mean, std).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="disease_evolution.hospitalized_needs_ICU">
+<code class="sig-prename descclassname">disease_evolution.</code><code class="sig-name descname">hospitalized_needs_ICU</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">age</span></em><span class="sig-paren">)</span><a class="headerlink" href="#disease_evolution.hospitalized_needs_ICU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if a person needs ICU care, given they have been hospitalized,
+based on their age and data extracted from 
+<a class="reference external" href="https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf">https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="disease_evolution.incubation">
+<code class="sig-prename descclassname">disease_evolution.</code><code class="sig-name descname">incubation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clip_low</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">clip_high</span><span class="o">=</span><span class="default_value">15</span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">6</span></em>, <em class="sig-param"><span class="n">std</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#disease_evolution.incubation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the incubation time in days within range(clip_low, clip_high),
+of a truncated_norm(mean, std).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="disease_evolution.needs_hospitalization">
+<code class="sig-prename descclassname">disease_evolution.</code><code class="sig-name descname">needs_hospitalization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">age</span></em><span class="sig-paren">)</span><a class="headerlink" href="#disease_evolution.needs_hospitalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if a person needs hospitalization based on their age and data
+extracted from 
+<a class="reference external" href="https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf">https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="disease_evolution.onset_to_hosp_or_asymp">
+<code class="sig-prename descclassname">disease_evolution.</code><code class="sig-name descname">onset_to_hosp_or_asymp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clip_low</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">clip_high</span><span class="o">=</span><span class="default_value">21</span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">6.2</span></em>, <em class="sig-param"><span class="n">std</span><span class="o">=</span><span class="default_value">4.3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#disease_evolution.onset_to_hosp_or_asymp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the time for someone to either get removed or hospitalized 
+in days within range(clip_low, clip_high),
+of a truncated_norm(mean, std).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="disease_evolution.sample_truncated_norm">
+<code class="sig-prename descclassname">disease_evolution.</code><code class="sig-name descname">sample_truncated_norm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clip_low</span></em>, <em class="sig-param"><span class="n">clip_high</span></em>, <em class="sig-param"><span class="n">mean</span></em>, <em class="sig-param"><span class="n">std</span></em><span class="sig-paren">)</span><a class="headerlink" href="#disease_evolution.sample_truncated_norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a range (a,b), returns the truncated norm</p>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinxlocaltoc">
+    <h3><a href="#">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Welcome to CovidMDP’s documentation!</a></li>
+<li><a class="reference internal" href="#module-simulate_pandemic">Simulate Pandemic</a></li>
+<li><a class="reference internal" href="#module-patient_evolution">Patient Evolution</a></li>
+<li><a class="reference internal" href="#module-disease_evolution">Disease Evolution</a></li>
+</ul>
+
+  </div>
+
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+      <div class="relbar-bottom">
+            
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+      <li><a href="#">CovidMDP 0.1 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Welcome to CovidMDP’s documentation!</a></li> 
+      </ul>
+    </div>
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Guilherme Yambanis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.0.
+    </div>
+      <!-- PSphinxTheme -->
+  </body>
+</html>

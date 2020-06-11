@@ -1,0 +1,1203 @@
+---------------------------------- page 1 ----------------------------------
+#### DownExpandingContainer('title')
+  StaticGroupedFlowables()
+    Paragraph('CovidMDP Documentation', style='title page title')
+         > (0,0,1,0,2) title page title
+           (0,0,0,0,2) body
+      SingleStyledText('CovidMDP Documentation')
+    Paragraph('Release 0.1', style='title page subtitle')
+         > (0,0,1,0,2) title page subtitle
+           (0,0,0,0,2) body
+      SingleStyledText('Release 0.1')
+    Paragraph('Guilherme, Denis, Leliane', style='title page author')
+         > (0,0,1,0,2) title page author
+           (0,0,0,0,2) body
+      SingleStyledText('Guilherme, Denis, Leliane')
+    Paragraph('junho 11, 2020', style='title page date')
+         > (0,0,1,0,2) title page date
+           (0,0,0,0,2) body
+      SingleStyledText('junho 11, 2020')
+---------------------------------- page i ----------------------------------
+#### FootnoteContainer('footnotes')
+  StaticGroupedFlowables()
+#### DownExpandingContainer('floats')
+  StaticGroupedFlowables()
+#### FlowablesContainer('chapter title')
+  Paragraph('Table of Contents', style='front matter section title')
+       > (0,0,1,0,2) front matter section title
+         (0,0,0,0,2) body
+    Field('Table of Contents')
+      SingleStyledText('Table of Contents')
+#### ChainedContainer('column1')
+  StaticGroupedFlowables()
+    TableOfContentsSection(style='table of contents')
+         > (0,0,1,0,1) table of contents section
+           (0,0,0,1,1) chapter
+      TableOfContents()   table of contents
+           > (0,0,0,0,2) table of contents
+        TableOfContentsEntry('	Python Module Index	3')
+             > (0,0,0,1,2) toc level 1
+            MixedStyledText('	Python Module Index	3')
+              ReferenceField('')
+                   x (0,0,0,1,3) toc linked reference
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('')
+              Tab('	')
+              ReferenceField('Python Module Index')
+                   x (0,0,0,1,3) toc linked reference
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('Python Module Index')
+              Tab('	')
+              ReferenceField('3')
+                   x (0,0,0,1,3) toc linked reference
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('3')
+        TableOfContentsEntry('	Index	5')
+             > (0,0,0,1,2) toc level 1
+            MixedStyledText('	Index	5')
+              ReferenceField('')
+                   x (0,0,0,1,3) toc linked reference
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('')
+              Tab('	')
+              ReferenceField('Index')
+                   x (0,0,0,1,3) toc linked reference
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('Index')
+              Tab('	')
+              ReferenceField('5')
+                   x (0,0,0,1,3) toc linked reference
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('5')
+#### DownExpandingContainer('footer')
+  StaticGroupedFlowables()
+    Footer('		i')
+         > (0,0,0,0,2) footer
+           (0,0,0,0,1) body
+      MixedStyledText('		i')
+        Tab('	')
+        Tab('	')
+        Field('i')
+          SingleStyledText('i')
+---------------------------------- page 1 ----------------------------------
+#### FootnoteContainer('footnotes')
+  StaticGroupedFlowables()
+#### DownExpandingContainer('floats')
+  StaticGroupedFlowables()
+#### ChainedContainer('column1')
+  StaticGroupedFlowables()
+    DocumentTree()
+      StaticGroupedFlowables()   /home/yamba/Desktop/CovidMDP/docs/source/index.rst:0 <compound>
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/docs/source/index.rst:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('patient_evolution.change_state (...', id='patient_evolution.change_state')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('patient_evolution.change_state (...')
+              MixedStyledText('patient_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('patient_evolution.')
+              MixedStyledText('change_state', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('change_state')
+              MixedStyledText(' ( person ) ')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:None <desc_parameterlist>
+                MixedStyledText(' ( person')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('person', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('person', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('person')   None:None <inline>
+                        SingleStyledText('person')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Receives an array representing a...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Receives an array representing a...')
+              SingleStyledText('Receives an array representing a...')
+          DefinitionList()   None:None <definition_list>
+               > (0,0,0,0,2) definition list
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:7 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Args:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Args:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:7 <term>
+                    SingleStyledText('Args:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                DefinitionList()   None:None <definition_list>
+                     > (0,0,0,0,2) definition list
+                  LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:7 <definition_list_item>
+                       > (0,0,0,0,4) definition list item
+                    StaticGroupedFlowables(style='definition term')
+                         > (0,0,1,0,5) definition term
+                      Paragraph('person (np.array): Array contain...')
+                           > (0,0,1,0,7) definition term paragraph
+                             (0,0,0,0,2) body
+                        MixedStyledText('person (np.array): Array contain...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:7 <term>
+                          SingleStyledText('person (np.array): Array contain...')
+                    StaticGroupedFlowables(style='definition')   None:None <definition>
+                         > (0,0,1,0,5) definition
+                      Paragraph('current state duration of a pers...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:7 <paragraph>
+                           > (0,0,1,0,7) definition paragraph
+                             (0,0,0,0,2) body
+                        MixedStyledText('current state duration of a pers...')
+                          SingleStyledText('current state duration of a pers...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:9 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Returns:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Returns:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:9 <term>
+                    SingleStyledText('Returns:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): The same pers...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:10 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): The same pers...')
+                    SingleStyledText('person (np.array): The same pers...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:11 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Raises:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Raises:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:11 <term>
+                    SingleStyledText('Raises:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('ValueError: If persons time in s...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.change_state:12 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('ValueError: If persons time in s...')
+                    SingleStyledText('ValueError: If persons time in s...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/docs/source/index.rst:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('patient_evolution.exposed_to_inf...', id='patient_evolution.exposed_to_infected')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('patient_evolution.exposed_to_inf...')
+              MixedStyledText('patient_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('patient_evolution.')
+              MixedStyledText('exposed_to_infected', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('exposed_to_infected')
+              MixedStyledText(' ( person ) ')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:None <desc_parameterlist>
+                MixedStyledText(' ( person')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('person', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('person', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('person')   None:None <inline>
+                        SingleStyledText('person')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Receives an array representing a...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Receives an array representing a...')
+              SingleStyledText('Receives an array representing a...')
+          DefinitionList()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:None <definition_list>
+               > (0,0,0,0,2) definition list
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:7 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Args:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Args:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:7 <term>
+                    SingleStyledText('Args:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): Array contain...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:6 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): Array contain...')
+                    SingleStyledText('person (np.array): Array contain...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:9 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Returns:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Returns:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:9 <term>
+                    SingleStyledText('Returns:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): The same pers...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:10 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): The same pers...')
+                    SingleStyledText('person (np.array): The same pers...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:12 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Raises:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Raises:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:12 <term>
+                    SingleStyledText('Raises:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('ValueError: If person’s state (p...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.exposed_to_infected:12 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('ValueError: If person’s state (p...')
+                    SingleStyledText('ValueError: If person’s state (p...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/docs/source/index.rst:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('patient_evolution.hospitalized_t...', id='patient_evolution.hospitalized_to_removed')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('patient_evolution.hospitalized_t...')
+              MixedStyledText('patient_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('patient_evolution.')
+              MixedStyledText('hospitalized_to_removed', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('hospitalized_to_removed')
+              MixedStyledText(' ( person ) ')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:None <desc_parameterlist>
+                MixedStyledText(' ( person')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('person', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('person', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('person')   None:None <inline>
+                        SingleStyledText('person')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Receives an array representing a...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Receives an array representing a...')
+              SingleStyledText('Receives an array representing a...')
+          DefinitionList()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:None <definition_list>
+               > (0,0,0,0,2) definition list
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:6 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Args:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Args:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:6 <term>
+                    SingleStyledText('Args:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): Array contain...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:5 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): Array contain...')
+                    SingleStyledText('person (np.array): Array contain...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:8 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Returns:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Returns:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:8 <term>
+                    SingleStyledText('Returns:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): The same pers...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:9 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): The same pers...')
+                    SingleStyledText('person (np.array): The same pers...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:11 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Raises:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Raises:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:11 <term>
+                    SingleStyledText('Raises:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('ValueError: If person’s state (p...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.hospitalized_to_removed:11 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('ValueError: If person’s state (p...')
+                    SingleStyledText('ValueError: If person’s state (p...')
+#### DownExpandingContainer('footer')
+  StaticGroupedFlowables()
+    Footer('		1')
+         > (0,0,0,0,2) footer
+           (0,0,0,0,1) body
+      MixedStyledText('		1')
+        Tab('	')
+        Tab('	')
+        Field('1')
+          SingleStyledText('1')
+---------------------------------- page 2 ----------------------------------
+#### FootnoteContainer('footnotes')
+  StaticGroupedFlowables()
+#### DownExpandingContainer('floats')
+  StaticGroupedFlowables()
+#### ChainedContainer('column1')
+  (continued) StaticGroupedFlowables()
+    (continued) DocumentTree()
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/docs/source/index.rst:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('patient_evolution.infected_to_ne...', id='patient_evolution.infected_to_new_state')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('patient_evolution.infected_to_ne...')
+              MixedStyledText('patient_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('patient_evolution.')
+              MixedStyledText('infected_to_new_state', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('infected_to_new_state')
+              MixedStyledText(' ( person ) ')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:None <desc_parameterlist>
+                MixedStyledText(' ( person')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('person', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('person', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('person')   None:None <inline>
+                        SingleStyledText('person')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Receives an array representing a...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Receives an array representing a...')
+              SingleStyledText('Receives an array representing a...')
+          DefinitionList()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:None <definition_list>
+               > (0,0,0,0,2) definition list
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:11 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Args:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Args:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:11 <term>
+                    SingleStyledText('Args:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): Array contain...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:10 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): Array contain...')
+                    SingleStyledText('person (np.array): Array contain...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:14 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Returns:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Returns:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:14 <term>
+                    SingleStyledText('Returns:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                DefinitionList()   None:None <definition_list>
+                     > (0,0,0,0,2) definition list
+                  LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:14 <definition_list_item>
+                       > (0,0,0,0,4) definition list item
+                    StaticGroupedFlowables(style='definition term')
+                         > (0,0,1,0,5) definition term
+                      Paragraph('person (np.array): The same pers...')
+                           > (0,0,1,0,7) definition term paragraph
+                             (0,0,0,0,2) body
+                        MixedStyledText('person (np.array): The same pers...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:14 <term>
+                          SingleStyledText('person (np.array): The same pers...')
+                    StaticGroupedFlowables(style='definition')   None:None <definition>
+                         > (0,0,1,0,5) definition
+                      Paragraph('time, or removed')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:15 <paragraph>
+                           > (0,0,1,0,7) definition paragraph
+                             (0,0,0,0,2) body
+                        MixedStyledText('time, or removed')
+                          SingleStyledText('time, or removed')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:17 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Raises:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Raises:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:17 <term>
+                    SingleStyledText('Raises:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('ValueError: If person’s state (p...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.infected_to_new_state:17 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('ValueError: If person’s state (p...')
+                    SingleStyledText('ValueError: If person’s state (p...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/docs/source/index.rst:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('patient_evolution.susceptible_to...', id='patient_evolution.susceptible_to_exposed')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('patient_evolution.susceptible_to...')
+              MixedStyledText('patient_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('patient_evolution.')
+              MixedStyledText('susceptible_to_exposed', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('susceptible_to_exposed')
+              MixedStyledText(' ( person, day ) ')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:None <desc_parameterlist>
+                MixedStyledText(' ( person, day')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('person, day', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('person', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('person')   None:None <inline>
+                        SingleStyledText('person')
+                    SingleStyledText(', ')
+                    MixedStyledText('day', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('day')   None:None <inline>
+                        SingleStyledText('day')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Receives an array representing a...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Receives an array representing a...')
+              SingleStyledText('Receives an array representing a...')
+          DefinitionList()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:None <definition_list>
+               > (0,0,0,0,2) definition list
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:7 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Args:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Args:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:7 <term>
+                    SingleStyledText('Args:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): Array contain...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:6 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): Array contain...')
+                    SingleStyledText('person (np.array): Array contain...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:9 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Returns:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Returns:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:9 <term>
+                    SingleStyledText('Returns:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('person (np.array): The same pers...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:10 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('person (np.array): The same pers...')
+                    SingleStyledText('person (np.array): The same pers...')
+            LabeledFlowable()   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:11 <definition_list_item>
+                 > (0,0,0,0,4) definition list item
+              StaticGroupedFlowables(style='definition term')
+                   > (0,0,1,0,5) definition term
+                Paragraph('Raises:')
+                     > (0,0,1,0,7) definition term paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('Raises:')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:11 <term>
+                    SingleStyledText('Raises:')
+              StaticGroupedFlowables(style='definition')   None:None <definition>
+                   > (0,0,1,0,5) definition
+                Paragraph('ValueError: If person’s state (p...')   /home/yamba/Desktop/CovidMDP/src/models/patient_evolution.py:docstring of patient_evolution.susceptible_to_exposed:12 <paragraph>
+                     > (0,0,1,0,7) definition paragraph
+                       (0,0,0,0,2) body
+                  MixedStyledText('ValueError: If person’s state (p...')
+                    SingleStyledText('ValueError: If person’s state (p...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalization_to_removed:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('disease_evolution.hospitalizatio...', id='disease_evolution.hospitalization_to_removed')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalization_to_removed:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('disease_evolution.hospitalizatio...')
+              MixedStyledText('disease_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalization_to_removed:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('disease_evolution.')
+              MixedStyledText('hospitalization_to_removed', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalization_to_removed:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('hospitalization_to_removed')
+              MixedStyledText(' ( clip_low=2, clip_high=32, mea...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalization_to_removed:None <desc_parameterlist>
+                MixedStyledText(' ( clip_low=2, clip_high=32, mea...')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('clip_low=2, clip_high=32, mean=8...', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('clip_low=2', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_low')   None:None <inline>
+                        SingleStyledText('clip_low')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('2')   None:None <inline>
+                        SingleStyledText('2')
+                    SingleStyledText(', ')
+                    MixedStyledText('clip_high=32', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_high')   None:None <inline>
+                        SingleStyledText('clip_high')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('32')   None:None <inline>
+                        SingleStyledText('32')
+                    SingleStyledText(', ')
+                    MixedStyledText('mean=8.6', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('mean')   None:None <inline>
+                        SingleStyledText('mean')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('8.6')   None:None <inline>
+                        SingleStyledText('8.6')
+                    SingleStyledText(', ')
+                    MixedStyledText('std=6.7', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('std')   None:None <inline>
+                        SingleStyledText('std')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('6.7')   None:None <inline>
+                        SingleStyledText('6.7')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalization_to_removed:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Returns the time for someone to ...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalization_to_removed:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Returns the time for someone to ...')
+              SingleStyledText('Returns the time for someone to ...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalized_needs_ICU:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('disease_evolution.hospitalized_n...', id='disease_evolution.hospitalized_needs_ICU')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalized_needs_ICU:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('disease_evolution.hospitalized_n...')
+              MixedStyledText('disease_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalized_needs_ICU:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('disease_evolution.')
+              MixedStyledText('hospitalized_needs_ICU', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalized_needs_ICU:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('hospitalized_needs_ICU')
+              MixedStyledText(' ( age ) ')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalized_needs_ICU:None <desc_parameterlist>
+                MixedStyledText(' ( age')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('age', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('age', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('age')   None:None <inline>
+                        SingleStyledText('age')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalized_needs_ICU:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Returns if a person needs ICU ca...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.hospitalized_needs_ICU:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Returns if a person needs ICU ca...')
+              SingleStyledText('Returns if a person needs ICU ca...')
+              AnnotatedText('https://www.imperial.ac.uk/media...', style='external link')   None:None <reference>
+                   > (0,0,1,0,1) external hyperlink
+                MixedStyledText('https://www.imperial.ac.uk/media...')
+                  SingleStyledText('https://www.imperial.ac.uk/media...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.incubation:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('disease_evolution.incubation ( c...', id='disease_evolution.incubation')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.incubation:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('disease_evolution.incubation ( c...')
+              MixedStyledText('disease_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.incubation:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('disease_evolution.')
+              MixedStyledText('incubation', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.incubation:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('incubation')
+              MixedStyledText(' ( clip_low=2, clip_high=15, mea...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.incubation:None <desc_parameterlist>
+                MixedStyledText(' ( clip_low=2, clip_high=15, mea...')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('clip_low=2, clip_high=15, mean=6...', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('clip_low=2', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_low')   None:None <inline>
+                        SingleStyledText('clip_low')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('2')   None:None <inline>
+                        SingleStyledText('2')
+                    SingleStyledText(', ')
+                    MixedStyledText('clip_high=15', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_high')   None:None <inline>
+                        SingleStyledText('clip_high')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('15')   None:None <inline>
+                        SingleStyledText('15')
+                    SingleStyledText(', ')
+                    MixedStyledText('mean=6', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('mean')   None:None <inline>
+                        SingleStyledText('mean')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('6')   None:None <inline>
+                        SingleStyledText('6')
+                    SingleStyledText(', ')
+                    MixedStyledText('std=3', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('std')   None:None <inline>
+                        SingleStyledText('std')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('3')   None:None <inline>
+                        SingleStyledText('3')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.incubation:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Returns the incubation time in d...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.incubation:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Returns the incubation time in d...')
+              SingleStyledText('Returns the incubation time in d...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.needs_hospitalization:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('disease_evolution.needs_hospital...', id='disease_evolution.needs_hospitalization')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.needs_hospitalization:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('disease_evolution.needs_hospital...')
+              MixedStyledText('disease_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.needs_hospitalization:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('disease_evolution.')
+              MixedStyledText('needs_hospitalization', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.needs_hospitalization:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('needs_hospitalization')
+              MixedStyledText(' ( age ) ')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.needs_hospitalization:None <desc_parameterlist>
+                MixedStyledText(' ( age')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('age', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('age', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('age')   None:None <inline>
+                        SingleStyledText('age')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.needs_hospitalization:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Returns if a person needs hospit...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.needs_hospitalization:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Returns if a person needs hospit...')
+              SingleStyledText('Returns if a person needs hospit...')
+              AnnotatedText('https://www.imperial.ac.uk/media...', style='external link')   None:None <reference>
+                   > (0,0,1,0,1) external hyperlink
+                MixedStyledText('https://www.imperial.ac.uk/media...')
+                  SingleStyledText('https://www.imperial.ac.uk/media...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.onset_to_hosp_or_asymp:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('disease_evolution.onset_to_hosp_...', id='disease_evolution.onset_to_hosp_or_asymp')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.onset_to_hosp_or_asymp:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('disease_evolution.onset_to_hosp_...')
+              MixedStyledText('disease_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.onset_to_hosp_or_asymp:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('disease_evolution.')
+              MixedStyledText('onset_to_hosp_or_asymp', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.onset_to_hosp_or_asymp:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('onset_to_hosp_or_asymp')
+              MixedStyledText(' ( clip_low=2, clip_high=21, mea...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.onset_to_hosp_or_asymp:None <desc_parameterlist>
+                MixedStyledText(' ( clip_low=2, clip_high=21, mea...')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('clip_low=2, clip_high=21, mean=6...', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('clip_low=2', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_low')   None:None <inline>
+                        SingleStyledText('clip_low')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('2')   None:None <inline>
+                        SingleStyledText('2')
+                    SingleStyledText(', ')
+                    MixedStyledText('clip_high=21', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_high')   None:None <inline>
+                        SingleStyledText('clip_high')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('21')   None:None <inline>
+                        SingleStyledText('21')
+                    SingleStyledText(', ')
+                    MixedStyledText('mean=6.2', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('mean')   None:None <inline>
+                        SingleStyledText('mean')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('6.2')   None:None <inline>
+                        SingleStyledText('6.2')
+                    SingleStyledText(', ')
+                    MixedStyledText('std=4.3', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('std')   None:None <inline>
+                        SingleStyledText('std')
+                      MixedStyledText('=')   None:None <inline>
+                        SingleStyledText('=')
+                      MixedStyledText('4.3')   None:None <inline>
+                        SingleStyledText('4.3')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.onset_to_hosp_or_asymp:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Returns the time for someone to ...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.onset_to_hosp_or_asymp:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Returns the time for someone to ...')
+              SingleStyledText('Returns the time for someone to ...')
+      LabeledFlowable(style='object description')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.sample_truncated_norm:0 <desc>
+           > (0,0,1,0,2) object description
+        StaticGroupedFlowables(style='signatures')
+             > (0,0,2,0,3) object signatures
+          Paragraph('disease_evolution.sample_truncat...', id='disease_evolution.sample_truncated_norm')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.sample_truncated_norm:1 <desc_signature>
+               > (0,0,2,0,5) object signature
+                 (0,0,0,0,2) body
+            MixedStyledText('disease_evolution.sample_truncat...')
+              MixedStyledText('disease_evolution.', style='additional name part')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.sample_truncated_norm:None <desc_addname>
+                   > (0,0,3,0,6) additional name part
+                SingleStyledText('disease_evolution.')
+              MixedStyledText('sample_truncated_norm', style='main object name')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.sample_truncated_norm:None <desc_name>
+                   > (0,0,3,0,6) object name
+                SingleStyledText('sample_truncated_norm')
+              MixedStyledText(' ( clip_low, clip_high, mean, st...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.sample_truncated_norm:None <desc_parameterlist>
+                MixedStyledText(' ( clip_low, clip_high, mean, st...')
+                  SingleStyledText(' ( ', style='parentheses')
+                       > (0,0,3,0,6) object parentheses
+                  MixedStyledText('clip_low, clip_high, mean, std', style='parameter list')
+                       > (0,0,3,0,6) object parameter list
+                    MixedStyledText('clip_low', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_low')   None:None <inline>
+                        SingleStyledText('clip_low')
+                    SingleStyledText(', ')
+                    MixedStyledText('clip_high', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('clip_high')   None:None <inline>
+                        SingleStyledText('clip_high')
+                    SingleStyledText(', ')
+                    MixedStyledText('mean', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('mean')   None:None <inline>
+                        SingleStyledText('mean')
+                    SingleStyledText(', ')
+                    MixedStyledText('std', style='parameter')   None:None <desc_parameter>
+                         > (0,0,3,0,6) object parameter
+                      MixedStyledText('std')   None:None <inline>
+                        SingleStyledText('std')
+                SingleStyledText(' ) ', style='parentheses')
+                     > (0,0,3,0,6) object parentheses
+        StaticGroupedFlowables(style='content')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.sample_truncated_norm:None <desc_content>
+             > (0,0,2,0,3) object description content
+          Paragraph('Given a range (a,b), returns the...')   /home/yamba/Desktop/CovidMDP/src/models/disease_evolution.py:docstring of disease_evolution.sample_truncated_norm:1 <paragraph>
+               > (0,0,2,0,5) object description content paragraph
+                 (0,0,0,0,2) body
+            MixedStyledText('Given a range (a,b), returns the...')
+              SingleStyledText('Given a range (a,b), returns the...')
+#### UpExpandingContainer('header')
+  StaticGroupedFlowables()
+    Header('CovidMDP Documentation, Release ...')
+         > (0,0,0,0,2) header
+           (0,0,0,0,1) body
+      MixedStyledText('CovidMDP Documentation, Release ...')
+        Field('CovidMDP Documentation')
+          SingleStyledText('CovidMDP Documentation')
+        SingleStyledText(', ')
+        Field('Release 0.1')
+          SingleStyledText('Release 0.1')
+#### DownExpandingContainer('footer')
+  StaticGroupedFlowables()
+    Footer('2		Chapter ​.  ​')
+         > (0,0,0,0,2) footer
+           (0,0,0,0,1) body
+      MixedStyledText('2		Chapter ​.  ​')
+        Field('2')
+          SingleStyledText('2')
+        Tab('	')
+        Tab('	')
+        StringField('Chapter')
+        SingleStyledText(' ')
+        Field('​')
+          SingleStyledText('​')
+        SingleStyledText('.  ')
+        Field('​')
+          SingleStyledText('​')
+---------------------------------- page 3 ----------------------------------
+#### FootnoteContainer('footnotes')
+  StaticGroupedFlowables()
+#### DownExpandingContainer('floats')
+  StaticGroupedFlowables()
+#### FlowablesContainer('chapter title')
+  Paragraph('Python Module Index', style='front matter section title')
+       > (0,0,1,0,2) front matter section title
+         (0,0,0,0,2) body
+    Field('Python Module Index')
+      SingleStyledText('Python Module Index')
+#### ChainedContainer('column1')
+  StaticGroupedFlowables()
+    StaticGroupedFlowables()
+      IndexSection()
+           > (0,0,0,1,1) chapter
+        IndexLabel('d')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('d')
+        IndexEntry('disease_evolution, ??')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('disease_evolution, ??')
+            SingleStyledText('disease_evolution', style='domain')
+                 > (0,0,1,0,3) domain index entry name
+            SingleStyledText(', ')
+            Reference('??')
+                 > (0,0,0,1,1) linked reference
+              SingleStyledText('??')
+        IndexLabel('p')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('p')
+        IndexEntry('patient_evolution, ??')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('patient_evolution, ??')
+            SingleStyledText('patient_evolution', style='domain')
+                 > (0,0,1,0,3) domain index entry name
+            SingleStyledText(', ')
+            Reference('??')
+                 > (0,0,0,1,1) linked reference
+              SingleStyledText('??')
+#### DownExpandingContainer('footer')
+  StaticGroupedFlowables()
+    Footer('		3')
+         > (0,0,0,0,2) footer
+           (0,0,0,0,1) body
+      MixedStyledText('		3')
+        Tab('	')
+        Tab('	')
+        Field('3')
+          SingleStyledText('3')
+---------------------------------- page 4 ----------------------------------
+#### FootnoteContainer('footnotes')
+  StaticGroupedFlowables()
+#### DownExpandingContainer('floats')
+  StaticGroupedFlowables()
+#### ChainedContainer('column1')
+  (continued) StaticGroupedFlowables()
+#### UpExpandingContainer('header')
+  StaticGroupedFlowables()
+    Header('CovidMDP Documentation, Release ...')
+         > (0,0,0,0,2) header
+           (0,0,0,0,1) body
+      MixedStyledText('CovidMDP Documentation, Release ...')
+        Field('CovidMDP Documentation')
+          SingleStyledText('CovidMDP Documentation')
+        SingleStyledText(', ')
+        Field('Release 0.1')
+          SingleStyledText('Release 0.1')
+#### DownExpandingContainer('footer')
+  StaticGroupedFlowables()
+    Footer('4		Python Module Index')
+         > (0,0,0,0,2) footer
+           (0,0,0,0,1) body
+      MixedStyledText('4		Python Module Index')
+        Field('4')
+          SingleStyledText('4')
+        Tab('	')
+        Tab('	')
+        Field('Python Module Index')
+          SingleStyledText('Python Module Index')
+---------------------------------- page 5 ----------------------------------
+#### FootnoteContainer('footnotes')
+  StaticGroupedFlowables()
+#### DownExpandingContainer('floats')
+  StaticGroupedFlowables()
+#### FlowablesContainer('chapter title')
+  Paragraph('Index', style='front matter section title')
+       > (0,0,1,0,2) front matter section title
+         (0,0,0,0,2) body
+    Field('Index')
+      SingleStyledText('Index')
+#### ChainedContainer('column1')
+  (continued) StaticGroupedFlowables()
+    IndexSection()
+         > (0,0,0,1,1) chapter
+      Index()   index
+           > (0,0,0,0,2) index
+        IndexLabel('C')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('C')
+        IndexEntry('change_state() (in module patien...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('change_state() (in module patien...')
+            SingleStyledText('change_state() (in module patien...')
+            MixedStyledText('1')
+              Reference('1')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('1')
+        IndexLabel('D')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('D')
+        IndexEntry('disease_evolution')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          SingleStyledText('disease_evolution')
+        IndexEntry('module, 2')
+             > (0,0,0,1,2) level 2 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('module, 2')
+            SingleStyledText('module, ')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexLabel('E')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('E')
+        IndexEntry('exposed_to_infected() (in module...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('exposed_to_infected() (in module...')
+            SingleStyledText('exposed_to_infected() (in module...')
+            MixedStyledText('1')
+              Reference('1')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('1')
+        IndexLabel('H')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('H')
+        IndexEntry('hospitalization_to_removed() (in...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('hospitalization_to_removed() (in...')
+            SingleStyledText('hospitalization_to_removed() (in...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexEntry('hospitalized_needs_ICU() (in mod...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('hospitalized_needs_ICU() (in mod...')
+            SingleStyledText('hospitalized_needs_ICU() (in mod...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexEntry('hospitalized_to_removed() (in mo...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('hospitalized_to_removed() (in mo...')
+            SingleStyledText('hospitalized_to_removed() (in mo...')
+            MixedStyledText('1')
+              Reference('1')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('1')
+        IndexLabel('I')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('I')
+        IndexEntry('incubation() (in module disease_...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('incubation() (in module disease_...')
+            SingleStyledText('incubation() (in module disease_...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexEntry('infected_to_new_state() (in modu...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('infected_to_new_state() (in modu...')
+            SingleStyledText('infected_to_new_state() (in modu...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexLabel('M')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('M')
+        IndexEntry('module')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          SingleStyledText('module')
+        IndexEntry('disease_evolution, 2')
+             > (0,0,0,1,2) level 2 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('disease_evolution, 2')
+            SingleStyledText('disease_evolution, ')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexEntry('patient_evolution, 1')
+             > (0,0,0,1,2) level 2 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('patient_evolution, 1')
+            SingleStyledText('patient_evolution, ')
+            MixedStyledText('1')
+              Reference('1')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('1')
+        IndexLabel('N')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('N')
+        IndexEntry('needs_hospitalization() (in modu...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('needs_hospitalization() (in modu...')
+            SingleStyledText('needs_hospitalization() (in modu...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexLabel('O')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('O')
+        IndexEntry('onset_to_hosp_or_asymp() (in mod...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('onset_to_hosp_or_asymp() (in mod...')
+            SingleStyledText('onset_to_hosp_or_asymp() (in mod...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+#### ChainedContainer('column2')
+  (continued) StaticGroupedFlowables()
+    (continued) IndexSection()
+         > (0,0,0,1,1) chapter
+      (continued) Index()   index
+           > (0,0,0,0,2) index
+        (continued) IndexEntry('onset_to_hosp_or_asymp() (in mod...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+        IndexLabel('P')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('P')
+        IndexEntry('patient_evolution')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          SingleStyledText('patient_evolution')
+        IndexEntry('module, 1')
+             > (0,0,0,1,2) level 2 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('module, 1')
+            SingleStyledText('module, ')
+            MixedStyledText('1')
+              Reference('1')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('1')
+        IndexLabel('S')
+             > (0,0,0,0,2) index section label
+               (0,0,0,0,1) body
+          SingleStyledText('S')
+        IndexEntry('sample_truncated_norm() (in modu...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('sample_truncated_norm() (in modu...')
+            SingleStyledText('sample_truncated_norm() (in modu...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+        IndexEntry('susceptible_to_exposed() (in mod...')
+             > (0,0,0,1,2) level 1 index entry
+               (0,0,0,0,1) body
+          MixedStyledText('susceptible_to_exposed() (in mod...')
+            SingleStyledText('susceptible_to_exposed() (in mod...')
+            MixedStyledText('2')
+              Reference('2')
+                   > (0,0,0,1,1) linked reference
+                SingleStyledText('2')
+#### DownExpandingContainer('footer')
+  StaticGroupedFlowables()
+    Footer('		5')
+         > (0,0,0,0,2) footer
+           (0,0,0,0,1) body
+      MixedStyledText('		5')
+        Tab('	')
+        Tab('	')
+        Field('5')
+          SingleStyledText('5')
