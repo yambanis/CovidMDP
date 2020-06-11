@@ -17,6 +17,7 @@ p_r = {
     'home'    :  .8
 }
 
+
 def init_infection(pct=.0001):
     """
     Given a Graph G, infects pct% of population and set the
@@ -237,7 +238,29 @@ def spread_infection(pop_matrix, restrictions, day):
     return new_matrix
 
 
+
 def main(policy='unrestricted', days=500):
+    """
+    Receives the policy to be used during the simulation and for how many days
+    the simulation should run for. The policy should be a Key in the policies
+    dict inside policies.py.
+
+    One full step consists of:
+        Spreading the infection
+        Exposing through leakage
+        Updating the disease evolution of the population
+
+    Args:
+        pop_matrix (string): The name of a policy that exists is policies.policies.
+
+        days (int): For how long should the policy run.
+
+
+    Returns: data (np.array): An array of arrays containing the status of 
+    the population at each time step.
+    
+    """
+
     pop_matrix = init_infection(.0001)
 
     data = []
@@ -247,7 +270,6 @@ def main(policy='unrestricted', days=500):
     print(restrictions)
 
     for day in tqdm(range(1, days)):
-        pop_matrix = update_population(pop_matrix)
         # if less than 90% already recovered, break simulation
         if (pop_matrix[np.where(pop_matrix[:, 1] == -1)].shape[0]
                 > pop_matrix.shape[0]*.9):
@@ -255,6 +277,8 @@ def main(policy='unrestricted', days=500):
 
         pop_matrix = spread_infection(pop_matrix, restrictions, day)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
+        pop_matrix = update_population(pop_matrix)
+
         data.append(np.array(sorted(pop_matrix, key=lambda x: x[0]))[:, 1])
 
     return data
