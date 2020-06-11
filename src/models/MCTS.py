@@ -95,7 +95,7 @@ class mcts():
                                               (node.state, self.horizon,
                                                self.step_size)
                                               for i in range(self.n_jobs))
-        reward = np.max(rewards)
+        reward = np.sum(rewards)
         self.backpropogate(node, reward)
 
     def selectNode(self, node):
@@ -122,7 +122,7 @@ class mcts():
 
     def backpropogate(self, node, reward):
         while node != self.root.parent:
-            node.numVisits += 1
+            node.numVisits += self.n_jobs
             node.totalReward += reward
             node = node.parent
 
