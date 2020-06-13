@@ -69,7 +69,7 @@ class CovidState():
                 > self.pop_matrix.shape[0]*.9)
 
     def getReward(self):
-        return min(-self.cost_of_policy, self.cost_exposed)
+        return min(-self.cost_of_policy, -self.cost_exposed)
 
     def __eq__(self, other):
         return self.rsieh == other.rsieh
