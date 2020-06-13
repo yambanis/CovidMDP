@@ -14,11 +14,12 @@ policies = {
     'Unrestricted': {
         'work': 0,  'school': 0,   'home': 0, 'neighbor': 0
     }
-
 }
 
-costs = {'Unrestricted': 0,
- 'Social Distancing': 0.1,
- 'Light Quarantine': 0.5,
- 'Hard Quarantine': 0.65,
- 'Lockdown': 0.75}
+costs = {
+    'Unrestricted': 0.01799,
+    'Social Distancing': 0.02188,
+    'Light Quarantine': 0.04743,
+    'Hard Quarantine': 0.05732,
+    'Lockdown': 0.06914
+}

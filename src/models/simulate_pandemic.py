@@ -11,9 +11,9 @@ G = nx.read_gpickle('../../data/processed/SP_multiGraph_intID.gpickle')
 print('Done!')
 
 p_r = {
-    'neighbor':  .0025,
-    'work'    :  .005,
-    'school'  :  .01,
+    'neighbor':  .00125,
+    'work'    :  .0025,
+    'school'  :  .005,
     'home'    :  .8
 }
 
