@@ -239,7 +239,7 @@ def spread_infection(pop_matrix, restrictions, day):
 
 
 
-def main(policy='unrestricted', days=500):
+def main(policy='Unrestricted', days=500):
     """
     Receives the policy to be used during the simulation and for how many days
     the simulation should run for. The policy should be a Key in the policies
