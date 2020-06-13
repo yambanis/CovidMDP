@@ -5,12 +5,12 @@ import numpy as np
 import pandas as pd
 from scipy.special import expit
 
-def normallize_to_range(x, x_max, scale=1, x_min=0, a=-4, b=4):
+def normallize_to_range(x,  x_min, x_max, scale=1,a=-4, b=4):
     x = (x - x_min)/(x_max - x_min)
     x = (x*(b-a)) + a
     return x
 
-def exposed_cost(h, limit = 0.05, scale=1):
+def exposed_cost(h, limit = 0.1, scale=1):
     y = expit(normallize_to_range(h, 0, limit, scale))
     return y*scale
  
@@ -39,26 +39,26 @@ class CovidState():
 
     def takeAction(self, action, step_size):
         new_state = CovidState(self.pop_matrix, self.day, self.step_size)
-        new_state.cost_of_policy = costs[action]
+        new_state.cost_of_policy = costs[action]*step_size
         new_state.policy = action
 
+        exposed = 0
+        pop = new_state.pop_matrix.shape[0]
+            
         # spread disease for 7 days with policy
         for i in range(step_size):
             # Simulate one day
             new_state.day += 1
-            new_state.pop_matrix = simp.update_population(new_state.pop_matrix)
             new_state.pop_matrix = simp.spread_infection(new_state.pop_matrix,
                                                          policies[action],
                                                          new_state.day)
             new_state.pop_matrix = simp.lambda_leak_expose(new_state.pop_matrix,
                                                            new_state.day)
-
-            
-            exposed = np.where(new_state.pop_matrix[:, 1] == 1)[0].shape[0]
-            pop = new_state.pop_matrix.shape[0]
-            h = exposed / pop
-            self.cost_exposed += exposed_cost(h)
-
+            new_state.pop_matrix = simp.update_population(new_state.pop_matrix)
+                    
+            e = np.where(new_state.pop_matrix[:, 1] == 1)[0].shape[0] / pop
+            self.cost_exposed += exposed_cost(e)
+        
         # Update Recovered, Susceptible, Infected, Exposed, Hospitalized Tuple
         status = pd.Series(self.pop_matrix[:, 1])
         new_state.rsieh = tuple(status.value_counts().sort_index())
@@ -69,7 +69,7 @@ class CovidState():
                 > self.pop_matrix.shape[0]*.9)
 
     def getReward(self):
-        return -self.cost_of_policy - self.cost_exposed
+        return min(-self.cost_of_policy, self.cost_exposed)
 
     def __eq__(self, other):
         return self.rsieh == other.rsieh
