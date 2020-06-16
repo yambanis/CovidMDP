@@ -10,7 +10,7 @@ def sample_truncated_norm(clip_low, clip_high, mean, std):
     return int(truncnorm.rvs(a, b, mean, std))
 
 
-def incubation(clip_low=2, clip_high=15, mean=6, std=3):
+def incubation(clip_low=2, clip_high=14.9, mean=5.6, std=2.8):
     """
     Returns the incubation time in days within range(clip_low, clip_high),
     of a truncated_norm(mean, std).
@@ -18,7 +18,7 @@ def incubation(clip_low=2, clip_high=15, mean=6, std=3):
     return sample_truncated_norm(clip_low, clip_high, mean, std)
 
 
-def onset_to_hosp_or_asymp(clip_low=2, clip_high=21, mean=6.2, std=4.3):
+def onset_to_hosp_or_asymp(clip_low=2, clip_high=21.1, mean=6.2, std=4.3):
     """
     Returns the time for someone to either get removed or hospitalized 
     in days within range(clip_low, clip_high),
@@ -27,7 +27,7 @@ def onset_to_hosp_or_asymp(clip_low=2, clip_high=21, mean=6.2, std=4.3):
     return sample_truncated_norm(clip_low, clip_high, mean, std)
 
 
-def hospitalization_to_removed(clip_low=2, clip_high=32, mean=8.6, std=6.7):
+def hospitalization_to_removed(clip_low=2, clip_high=32.6, mean=8.6, std=6.7):
     """
     Returns the time for someone to either get removed after being
     hospitalized in days within range(clip_low, clip_high),
