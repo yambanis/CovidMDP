@@ -7,16 +7,16 @@ from functools import partial
 from policies import policies
 
 print('Loading Graph... ',  end='')
-G = nx.read_gpickle('../../data/processed/SP_multiGraph_intID.gpickle')
+G = nx.read_gpickle('../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle')
 print('Done!')
 
+prhome = 0.06
 p_r = {
-    'neighbor':  .00125,
-    'work'    :  .0025,
-    'school'  :  .005,
-    'home'    :  .8
+    'home'    :  prhome,
+    'neighbor':  prhome/18,
+    'work'    :  prhome/9,
+    'school'  :  prhome/6,
 }
-
 
 def init_infection(pct=.0001):
     """
