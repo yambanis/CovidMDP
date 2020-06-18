@@ -17,9 +17,9 @@ policies = {
 }
 
 costs = {
-    'Unrestricted': 0.01799,
+    'Lockdown': 0.09975,
+    'Hard Quarantine': 0.06297,
+    'Light Quarantine': 0.03917,
     'Social Distancing': 0.02188,
-    'Light Quarantine': 0.04743,
-    'Hard Quarantine': 0.05732,
-    'Lockdown': 0.06914
+    'Unrestricted': 0.0
 }
