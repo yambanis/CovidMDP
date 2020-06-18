@@ -11,11 +11,13 @@ G = nx.read_gpickle('../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle')
 print('Done!')
 
 prhome = 0.06
+alfa = .2
+
 p_r = {
     'home'    :  prhome,
-    'neighbor':  prhome/18,
-    'work'    :  prhome/9,
-    'school'  :  prhome/6,
+    'neighbor':  alfa*prhome/2,
+    'work'    :  alfa*prhome/2,
+    'school'  :  alfa*prhome/2,
 }
 
 def init_infection(pct=.0001):
@@ -188,6 +190,7 @@ def update_population(pop_matrix):
     return new_matrix
 
 
+
 def spread_infection(pop_matrix, restrictions, day):
     """
     Receives the population matrix, the restrictions dictionary and the
@@ -216,10 +219,14 @@ def spread_infection(pop_matrix, restrictions, day):
     currently_infected = pop_matrix[mask][:, 0]
 
     if currently_infected.shape[0] == 0:
-        return pop_matrix
+        return pop_matrix, 0
+        
     exposed = list(map(partial(spread_through_contacts,
                                restrictions=restrictions),
                        currently_infected))
+
+    rt = 6*len([x for l in exposed for x in l])/len(currently_infected)
+
     exposed = np.unique(np.array([x for l in exposed for x in l]))
 
     mask = np.isin(pop_matrix[:, 0], exposed)
@@ -228,15 +235,15 @@ def spread_infection(pop_matrix, restrictions, day):
     exposed = pop_matrix[np.array(mask)][:, 0][susceptible]
 
     if len(exposed) == 0:
-        return pop_matrix
+        return pop_matrix, rt
 
     new_matrix = expose_population(pop_matrix, exposed, day)
 
     if new_matrix.shape != pop_matrix.shape:
         raise ValueError("Input and output matrix shapes are different")
 
-    return new_matrix
 
+    return new_matrix, rt
 
 
 def main(policy='Unrestricted', days=500):
@@ -264,6 +271,7 @@ def main(policy='Unrestricted', days=500):
     pop_matrix = init_infection(.0001)
 
     data = []
+    rts = []
 
     # restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
     restrictions = policies[policy]
@@ -275,14 +283,14 @@ def main(policy='Unrestricted', days=500):
                 > pop_matrix.shape[0]*.9):
             break
 
-        pop_matrix = spread_infection(pop_matrix, restrictions, day)
+        pop_matrix, rt = spread_infection(pop_matrix, restrictions, day)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
 
+        rts.append(rt)
         data.append(np.array(sorted(pop_matrix, key=lambda x: x[0]))[:, 1])
 
     return data
-
 
 if __name__ == '__main__':
     import argparse
