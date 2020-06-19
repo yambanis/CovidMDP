@@ -38,10 +38,10 @@ class CovidState():
 
     def takeAction(self, action, step_size):
         new_state = CovidState(self.pop_matrix, self.day, self.step_size)
-        new_state.cost_of_policy = costs[action]*step_size
+        new_state.cost_of_policy = costs[action]
         new_state.policy = action
 
-        exposed = 0
+        exposed = []
         pop = new_state.pop_matrix.shape[0]
             
         # spread disease for 7 days with policy
@@ -56,7 +56,9 @@ class CovidState():
             new_state.pop_matrix = simp.update_population(new_state.pop_matrix)
                     
             e = np.where(new_state.pop_matrix[:, 1] == 1)[0].shape[0] / pop
-            self.cost_exposed += exposed_cost(e)
+            exposed.append(exposed_cost(e))
+            
+        self.cost_exposed = np.max(exposed)
         
         # Update Recovered, Susceptible, Infected, Exposed, Hospitalized Tuple
         status = pd.Series(self.pop_matrix[:, 1])

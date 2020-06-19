@@ -17,8 +17,8 @@ policies = {
 }
 
 costs = {
-    'Lockdown': 0.09975,
-    'Hard Quarantine': 0.06297,
+    'Lockdown': 0.08317,
+    'Hard Quarantine': 0.05732,
     'Light Quarantine': 0.03917,
     'Social Distancing': 0.02188,
     'Unrestricted': 0.0
@@ -28,7 +28,7 @@ closest_actions = {
     'Lockdown':  (['Lockdown', 
                   'Hard Quarantine', 'Light Quarantine', 
                   'Social Distancing', 'Unrestricted'],
-                   [.65, .25, .1, .0, .0]),
+                   [.6, .3, .1, .0, .0]),
     'Hard Quarantine':  (['Hard Quarantine', 
                         'Lockdown', 'Light Quarantine', 
                         'Social Distancing', 'Unrestricted'], 
@@ -44,5 +44,5 @@ closest_actions = {
     'Unrestricted': (['Unrestricted', 
                      'Social Distancing', 'Light Quarantine',
                      'Hard Quarantine', 'Lockdown'],
-                      [.65, .25, .1, .0, .0])
+                      [.6, .3, .1, .0, .0])
 }
