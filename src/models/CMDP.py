@@ -1,5 +1,5 @@
 from copy import deepcopy
-from policies import policies, costs
+from policies import policies, costs, closest_actions
 import simulate_pandemic as simp
 import numpy as np
 import pandas as pd
@@ -34,8 +34,7 @@ class CovidState():
 
     def getPossibleRangeActions(self):
         # Not implemented
-        possible_actions = [k for k in policies.keys()]
-        return possible_actions
+        return closest_actions[self.policy]
 
     def takeAction(self, action, step_size):
         new_state = CovidState(self.pop_matrix, self.day, self.step_size)

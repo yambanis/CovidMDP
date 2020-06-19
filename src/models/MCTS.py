@@ -3,12 +3,13 @@ import random
 from joblib import Parallel, delayed
 import numpy as np
 
-
 def cumulativePolicy(state, horizon, step_size):
     reward = 0
     for i in range(horizon):
         try:
-            action = random.choice(state.getPossibleRangeActions())
+            closest_actions, p_chances = state.getPossibleRangeActions()
+            action = np.random.choice(closest_actions, p=p_chances)
+            print(action)
         except IndexError:
             raise Exception("Non-terminal state has no possible actions: "
                             + str(state))
@@ -21,7 +22,9 @@ def degradingCumulativePolicy(state, horizon, step_size):
     reward = 0
     for i in range(horizon):
         try:
-            action = random.choice(state.getPossibleRangeActions())
+            closest_actions, p_chances = state.getPossibleRangeActions()
+            action = np.random.choice(closest_actions, p=p_chances)
+            print(action)
         except IndexError:
             raise Exception("Non-terminal state has no possible actions: "
                             + str(state))
