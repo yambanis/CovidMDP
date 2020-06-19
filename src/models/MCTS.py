@@ -9,7 +9,6 @@ def cumulativePolicy(state, horizon, step_size):
         try:
             closest_actions, p_chances = state.getPossibleRangeActions()
             action = np.random.choice(closest_actions, p=p_chances)
-            print(action)
         except IndexError:
             raise Exception("Non-terminal state has no possible actions: "
                             + str(state))
@@ -24,7 +23,6 @@ def degradingCumulativePolicy(state, horizon, step_size):
         try:
             closest_actions, p_chances = state.getPossibleRangeActions()
             action = np.random.choice(closest_actions, p=p_chances)
-            print(action)
         except IndexError:
             raise Exception("Non-terminal state has no possible actions: "
                             + str(state))
