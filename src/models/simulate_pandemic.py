@@ -5,19 +5,18 @@ from disease_states import states_dict
 from patient_evolution import susceptible_to_exposed, change_state
 from functools import partial
 from policies import policies
+from collections import defaultdict
 
-print('Loading Graph... ',  end='')
+print('Loading Graph...',  end='')
 G = nx.read_gpickle('../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle')
 print('Done!')
 
 prhome = 0.06
-alfa = .2
-
 p_r = {
     'home'    :  prhome,
-    'neighbor':  alfa*prhome/2,
-    'work'    :  alfa*prhome/2,
-    'school'  :  alfa*prhome/2,
+    'neighbor':  .05*prhome,
+    'work'    :  .05*prhome,
+    'school'  :  .2*prhome,
 }
 
 def init_infection(pct=.0001):
@@ -42,6 +41,8 @@ def init_infection(pct=.0001):
     pop_matrix = np.array([[node, states_dict['susceptible'],
                             -1, -1, data['age']]
                           for node, data in G.nodes(data=True)])
+    
+    contacts_infected = defaultdict(int)
 
     matrix_change = pop_matrix[np.isin(pop_matrix[:, 0], infected)]
 
@@ -53,7 +54,7 @@ def init_infection(pct=.0001):
     new_matrix = np.concatenate((matrix_keep, matrix_change))
     assert new_matrix.shape == pop_matrix.shape
 
-    return new_matrix
+    return new_matrix, contacts_infected
 
 
 def expose_population(pop_matrix, exposed, day):
@@ -191,7 +192,7 @@ def update_population(pop_matrix):
 
 
 
-def spread_infection(pop_matrix, restrictions, day):
+def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
     """
     Receives the population matrix, the restrictions dictionary and the
     current day. The disease spreads throught the relations in the graph:
@@ -219,15 +220,17 @@ def spread_infection(pop_matrix, restrictions, day):
     currently_infected = pop_matrix[mask][:, 0]
 
     if currently_infected.shape[0] == 0:
-        return pop_matrix, 0
+        return pop_matrix, contacts_infected
         
-    exposed = list(map(partial(spread_through_contacts,
-                               restrictions=restrictions),
-                       currently_infected))
-
-    rt = 6*len([x for l in exposed for x in l])/len(currently_infected)
-
-    exposed = np.unique(np.array([x for l in exposed for x in l]))
+    exposed = []
+    for spreader in currently_infected:
+        exp = spread_through_contacts(spreader, restrictions)
+        exp = [e for e in exp if e not in exposed]
+        if contacts_infected is not None:
+            contacts_infected[spreader] += len(exp)
+        exposed.extend(exp)
+        
+    exposed = np.unique(exposed)
 
     mask = np.isin(pop_matrix[:, 0], exposed)
     susceptible = np.isin(pop_matrix[np.array(mask)][:, 1],
@@ -235,7 +238,7 @@ def spread_infection(pop_matrix, restrictions, day):
     exposed = pop_matrix[np.array(mask)][:, 0][susceptible]
 
     if len(exposed) == 0:
-        return pop_matrix, rt
+        return pop_matrix, contacts_infected
 
     new_matrix = expose_population(pop_matrix, exposed, day)
 
@@ -243,7 +246,7 @@ def spread_infection(pop_matrix, restrictions, day):
         raise ValueError("Input and output matrix shapes are different")
 
 
-    return new_matrix, rt
+    return new_matrix, contacts_infected
 
 
 def main(policy='Unrestricted', days=500):
@@ -268,10 +271,9 @@ def main(policy='Unrestricted', days=500):
     
     """
 
-    pop_matrix = init_infection(.0001)
+    pop_matrix, contacts_infected = init_infection(.0001)
 
     data = []
-    rts = []
 
     # restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
     restrictions = policies[policy]
@@ -279,18 +281,16 @@ def main(policy='Unrestricted', days=500):
 
     for day in tqdm(range(1, days)):
         # if less than 90% already recovered, break simulation
-        if (pop_matrix[np.where(pop_matrix[:, 1] == -1)].shape[0]
-                > pop_matrix.shape[0]*.9):
+        if (pop_matrix[np.where(pop_matrix[:, 1] == -1)].shape[0] > pop_matrix.shape[0]*.9):
             break
 
-        pop_matrix, rt = spread_infection(pop_matrix, restrictions, day)
+        pop_matrix, contacts_infected = spread_infection(pop_matrix, restrictions, day, contacts_infected)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
 
-        rts.append(rt)
         data.append(np.array(sorted(pop_matrix, key=lambda x: x[0]))[:, 1])
 
-    return data
+    return data, contacts_infected, pop_matrix
 
 if __name__ == '__main__':
     import argparse
