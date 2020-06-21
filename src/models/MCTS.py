@@ -2,40 +2,16 @@ import time
 import random
 from joblib import Parallel, delayed
 import numpy as np
+from CMDP import CovidState
 
-def cumulativePolicy(state, horizon, step_size):
-    reward = 0
-    for i in range(horizon):
-        try:
-            closest_actions, p_chances = state.getPossibleRangeActions()
-            action = np.random.choice(closest_actions, p=p_chances)
-        except IndexError:
-            raise Exception("Non-terminal state has no possible actions: "
-                            + str(state))
-        state = state.takeAction(action, step_size)
-        reward += state.getReward()
+def rolloutPolicy(state, pop_matrix, step_size):
+    reward = state.takeAction(pop_matrix, step_size)
     return reward
 
 
-def degradingCumulativePolicy(state, horizon, step_size):
-    reward = 0
-    for i in range(horizon):
-        try:
-            closest_actions, p_chances = state.getPossibleRangeActions()
-            action = np.random.choice(closest_actions, p=p_chances)
-        except IndexError:
-            raise Exception("Non-terminal state has no possible actions: "
-                            + str(state))
-        state = state.takeAction(action, step_size)
-        reward += state.getReward() * (0.8**i)
-    return reward
-
-
-def getRolloutPolicy(policy_name='cumulativePolicy'):
-    if policy_name == 'cumulativePolicy':
-        return cumulativePolicy
-    if policy_name == 'degradingCumulativePolicy':
-        return degradingCumulativePolicy
+def getRolloutPolicy(policy_name='rolloutPolicy'):
+    if policy_name == 'rolloutPolicy':
+        return rolloutPolicy
     raise ValueError('Unknown Rollout Policy')
 
 
@@ -51,15 +27,17 @@ class treeNode():
 
 
 class mcts():
-    def __init__(self, horizon, step_size, n_jobs=6,
+    def __init__(self, pop_matrix, 
+                 sim_rounds, step_size, n_jobs=6,
                  timeLimit=None, iterationLimit=None,
                  explorationConstant=2, 
-                 rolloutPolicy='cumulativePolicy'):
+                 rolloutPolicy='rolloutPolicy'):
         self.explorationConstant = explorationConstant
         self.rollout = getRolloutPolicy(rolloutPolicy)
-        self.horizon = horizon
+        self.sim_rounds = sim_rounds
         self.step_size = step_size
         self.n_jobs = n_jobs
+        self.pop_matrix = pop_matrix
 
         if timeLimit is not None:
             if iterationLimit is not None:
@@ -93,9 +71,8 @@ class mcts():
     def executeRound(self):
         node = self.selectNode(self.root)
         rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)
-                                              (node.state, self.horizon,
-                                               self.step_size)
-                                              for i in range(self.n_jobs))
+                                              (node.state, self.pop_matrix, self.step_size)
+                                              for i in range(self.sim_rounds))
         reward = np.sum(rewards)
         self.backpropogate(node, reward)
 
@@ -111,9 +88,9 @@ class mcts():
         actions = node.state.getPossibleActions()
         for action in actions:
             if action not in node.children:
-                newNode = treeNode(node.state.takeAction(action,
-                                                         self.step_size),
-                                   node)
+                new_actions = node.state.actions + [action]
+                new_state = CovidState(new_actions, node.state.day)
+                newNode = treeNode(new_state, node)
                 node.children[action] = newNode
                 if len(actions) == len(node.children):
                     node.isFullyExpanded = True
@@ -123,7 +100,7 @@ class mcts():
 
     def backpropogate(self, node, reward):
         while node != self.root.parent:
-            node.numVisits += self.n_jobs
+            node.numVisits += self.sim_rounds
             node.totalReward += reward
             node = node.parent
 
@@ -145,5 +122,5 @@ class mcts():
         c = root.children
         best_action = max(c, key=lambda key: c[key].numVisits)
                           #key=lambda key: c[key].totalReward/c[key].numVisits)
-        #best_node = root.children[best_action]
-        return best_action#, best_node
+        best_node = root.children[best_action]
+        return best_action, best_node

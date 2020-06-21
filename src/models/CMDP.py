@@ -16,64 +16,59 @@ def exposed_cost(h, limit = 0.1, scale=1):
  
 
 class CovidState():
-    def __init__(self, pop_matrix, day, step_size):
-        self.pop_matrix = deepcopy(pop_matrix)
+    def __init__(self, actions, day):
         self.day = day
-        self.days_over_capacity = 0
-        self.cost_of_policy = 0
-        self.cost_exposed = 0
-        self.policy = None
-        self.step_size = step_size
-        # Recovered, Susceptible, Infected, Exposed, Hospitalized Tuple
-        status = pd.Series(self.pop_matrix[:, 1])
-        self.rsieh = tuple(status.value_counts().sort_index())
-
+        self.actions = actions
+        self.cost = None
+        
     def getPossibleActions(self):
         possible_actions = [k for k in policies.keys()]
         return possible_actions
 
     def getPossibleRangeActions(self):
-        # Not implemented
         return closest_actions[self.policy]
 
-    def takeAction(self, action, step_size):
-        new_state = CovidState(self.pop_matrix, self.day, self.step_size)
-        new_state.cost_of_policy = costs[action]
-        new_state.policy = action
+    def takeAction(self, pop_matrix, step_size):
+        local_pop_matrix = deepcopy(pop_matrix)
+        pop = local_pop_matrix.shape[0]
 
-        exposed = []
-        pop = new_state.pop_matrix.shape[0]
+        day = self.day
+        sims_costs = []
+
+        for action in self.actions:
+            cost_action = costs[action]*step_size
+            cost_exposed = 0
             
-        # spread disease for 7 days with policy
-        for i in range(step_size):
-            # Simulate one day
-            new_state.day += 1
-            new_state.pop_matrix, _= simp.spread_infection(new_state.pop_matrix,
-                                                         policies[action],
-                                                         new_state.day)
-            new_state.pop_matrix = simp.lambda_leak_expose(new_state.pop_matrix,
-                                                           new_state.day)
-            new_state.pop_matrix = simp.update_population(new_state.pop_matrix)
-                    
-            e = np.where(new_state.pop_matrix[:, 1] == 1)[0].shape[0] / pop
-            exposed.append(exposed_cost(e))
+            # spread disease for step_size days with policy
+            for i in range(step_size):
+                # Simulate one day
+                day += 1
+                local_pop_matrix, _= simp.spread_infection(local_pop_matrix,
+                                                            policies[action],
+                                                            day)
+                local_pop_matrix = simp.lambda_leak_expose(local_pop_matrix,
+                                                            day)
+                local_pop_matrix = simp.update_population(local_pop_matrix)
+                        
+                e = np.where(local_pop_matrix[:, 1] == 1)[0].shape[0] / pop
+                cost_exposed += exposed_cost(e)        
             
-        self.cost_exposed = np.max(exposed)
+            sims_costs.append(max(cost_action, cost_exposed))
+
+        self.cost = -1*np.sum([c*0.8**i for i,c in enumerate(sims_costs)]) / np.sum([0.8**i for i in range(len(sims_costs))])
         
-        # Update Recovered, Susceptible, Infected, Exposed, Hospitalized Tuple
-        status = pd.Series(self.pop_matrix[:, 1])
-        new_state.rsieh = tuple(status.value_counts().sort_index())
-        return new_state
+        return self.cost
 
     def isTerminal(self):
-        return (np.where(self.pop_matrix[:, 1] == -1)[0].shape[0]
-                > self.pop_matrix.shape[0]*.9)
+        return False
+        #return (np.where(self.pop_matrix[:, 1] == -1)[0].shape[0] > self.pop_matrix.shape[0]*.9)
 
     def getReward(self):
-        return min(-self.cost_of_policy, -self.cost_exposed)
+        return self.cost
+        #return min(-self.cost_of_policy, -self.cost_exposed)
 
     def __eq__(self, other):
-        return self.rsieh == other.rsieh
+        return self.actions == other.actions
 
     def __hash__(self):
         # hash da tupla representado os counts de estados na população
