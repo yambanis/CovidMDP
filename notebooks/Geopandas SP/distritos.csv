@@ -1,0 +1,518 @@
+zona;nome;cod_municipio;municipio;cod_distrito;distrito;popu
+1;Sé;36;São Paulo;80;Sé;3262
+2;Parque Dom Pedro;36;São Paulo;80;Sé;5695 
+3;Praça João Mendes;36;São Paulo;80;Sé;17130 
+4;Ladeira da Memória;36;São Paulo;67;República;24089 
+5;República;36;São Paulo;67;República;14956 
+6;Santa Ifigênia;36;São Paulo;67;República;21989 
+7;Luz;36;São Paulo;9;Bom Retiro;18210 
+8;Bom Retiro;36;São Paulo;9;Bom Retiro;12252 
+9;Ponte Pequena;36;São Paulo;9;Bom Retiro;7456 
+10;Canindé;36;São Paulo;57;Pari;1619 
+11;Bom Jardim;36;São Paulo;57;Pari;2713 
+12;Pari;36;São Paulo;57;Pari;14381 
+13;João Teodoro;36;São Paulo;10;Brás;1435 
+14;Oriente;36;São Paulo;10;Brás;3337 
+15;Bresser;36;São Paulo;10;Brás;8427 
+16;Brás;36;São Paulo;10;Brás;12117 
+17;Gasômetro;36;São Paulo;10;Brás;6980 
+18;Independência;36;São Paulo;14;Cambuci;19240 
+19;Cambuci;36;São Paulo;14;Cambuci;20732 
+20;Glicério;36;São Paulo;49;Liberdade;23063 
+21;Aclimação;36;São Paulo;49;Liberdade;18691 
+22;Pires da Mota;36;São Paulo;49;Liberdade;13623 
+23;Centro Cultural;36;São Paulo;49;Liberdade;5332 
+24;Liberdade;36;São Paulo;49;Liberdade;11423 
+25;Treze de Maio;36;São Paulo;7;Bela Vista;18401 
+26;Bexiga;36;São Paulo;7;Bela Vista;14281 
+27;Bela Vista;36;São Paulo;7;Bela Vista;17536 
+28;São Carlos do Pinhal;36;São Paulo;7;Bela Vista;9068 
+29;Masp;36;São Paulo;7;Bela Vista;13251 
+30;Higienópolis;36;São Paulo;26;Consolação;19455 
+31;Vila Buarque;36;São Paulo;26;Consolação;20034 
+32;Consolação;36;São Paulo;26;Consolação;8556 
+33;Pacaembu;36;São Paulo;26;Consolação;1839 
+34;FAAP;36;São Paulo;26;Consolação;7556 
+35;Santa Cecília;36;São Paulo;70;Santa Cecília;40032 
+36;Marechal Deodoro;36;São Paulo;70;Santa Cecília;43094 
+37;Rudge;36;São Paulo;70;Santa Cecília;4607 
+38;Catumbi;36;São Paulo;8;Belém;3786 
+39;Belém;36;São Paulo;8;Belém;9357 
+40;Quarta Parada;36;São Paulo;8;Belém;7878 
+41;Belenzinho;36;São Paulo;8;Belém;22051 
+42;Celso Garcia;36;São Paulo;8;Belém;5328 
+43;Mooca;36;São Paulo;54;Mooca;27958 
+44;Alto da Mooca;36;São Paulo;54;Mooca;18350 
+45;Parque da Mooca;36;São Paulo;54;Mooca;33271 
+46;Água Rasa;36;São Paulo;1;Água Rasa;36270 
+47;Vila Bertioga;36;São Paulo;1;Água Rasa;23003 
+48;Regente Feijó;36;São Paulo;1;Água Rasa;23924 
+49;Ana Rosa;36;São Paulo;92;Vila Mariana;13386 
+50;Jardim da Glória;36;São Paulo;92;Vila Mariana;8896 
+51;Chácara Klabin;36;São Paulo;92;Vila Mariana;16085 
+52;Vila Mariana;36;São Paulo;92;Vila Mariana;10145 
+53;Santa Cruz;36;São Paulo;92;Vila Mariana;13293 
+54;Vila Clementino;36;São Paulo;92;Vila Mariana;8715 
+55;França Pinto;36;São Paulo;92;Vila Mariana;15518 
+56;Rodrigues Alves;36;São Paulo;92;Vila Mariana;21617 
+57;Paraíso;36;São Paulo;92;Vila Mariana;24334 
+58;Bosque da Saúde;36;São Paulo;79;Saúde;30779 
+59;Saúde;36;São Paulo;79;Saúde;52745 
+60;Planalto Paulista;36;São Paulo;79;Saúde;22059 
+61;Mirandópolis;36;São Paulo;79;Saúde;28100 
+62;Parque Ibirapuera;36;São Paulo;53;Moema;4565 
+63;Jardim Luzitânia;36;São Paulo;53;Moema;2099 
+64;Moema;36;São Paulo;53;Moema;33386 
+65;Vila Helena;36;São Paulo;53;Moema;26860 
+66;Bandeirantes;36;São Paulo;53;Moema;10923 
+67;Vila Nova Conceição;36;São Paulo;53;Moema;10574 
+68;Chácara Itaim;36;São Paulo;34;Itaim Bibi;27460 
+69;Vila Olímpia;36;São Paulo;34;Itaim Bibi;10021 
+70;Hélio Pelegrino;36;São Paulo;34;Itaim Bibi;11703 
+71;Brooklin;36;São Paulo;34;Itaim Bibi;28443 
+72;Vila Cordeiro;36;São Paulo;34;Itaim Bibi;10092 
+73;Berrini;36;São Paulo;34;Itaim Bibi;8758 
+74;Campinas;36;São Paulo;44;Jardim Paulista;12765 
+75;Pamplona;36;São Paulo;44;Jardim Paulista;14277 
+76;Jardins;36;São Paulo;44;Jardim Paulista;10908 
+77;Clínicas;36;São Paulo;44;Jardim Paulista;21006 
+78;Oscar Freire;36;São Paulo;44;Jardim Paulista;20776 
+79;Trianon;36;São Paulo;44;Jardim Paulista;10690 
+80;Jardim Paulistano;36;São Paulo;63;Pinheiros;19691 
+81;Jardim Europa;36;São Paulo;63;Pinheiros;12650 
+82;Pinheiros;36;São Paulo;63;Pinheiros;11262 
+83;Vila Madalena;36;São Paulo;63;Pinheiros;22275 
+84;PUC;36;São Paulo;61;Perdizes;16557 
+85;Cardoso de Almeida;36;São Paulo;61;Perdizes;5033 
+86;Zequinha de Abreu;36;São Paulo;61;Perdizes;3729 
+87;Sumaré;36;São Paulo;61;Perdizes;16354 
+88;Perdizes;36;São Paulo;61;Perdizes;45356 
+89;Vila Anglo Brasileira;36;São Paulo;61;Perdizes;13993 
+90;Pompéia;36;São Paulo;61;Perdizes;13232 
+91;Santa Marina;36;São Paulo;6;Barra Funda;2350 
+92;Barra Funda;36;São Paulo;6;Barra Funda;324 
+93;Francisco Matarazzo;36;São Paulo;6;Barra Funda;9032 
+94;Água Branca;36;São Paulo;6;Barra Funda;3993 
+95;Vila Beatriz;36;São Paulo;2;Alto de Pinheiros;17657 
+96;Alto de Pinheiros;36;São Paulo;2;Alto de Pinheiros;7211 
+97;Boaçava;36;São Paulo;2;Alto de Pinheiros;16610 
+98;Vila Anastácio;36;São Paulo;48;Lapa;2452 
+99;Lapa de Baixo;36;São Paulo;48;Lapa;8120 
+100;Lapa;36;São Paulo;48;Lapa;19354 
+101;Vila Ipojuca;36;São Paulo;48;Lapa;21858 
+102;Alto da Lapa;36;São Paulo;48;Lapa;12643 
+103;Gavião Peixoto;36;São Paulo;48;Lapa;2622 
+104;Bela Aliança;36;São Paulo;90;Vila Leopoldina;7064 
+105;Vila Hamburguesa;36;São Paulo;90;Vila Leopoldina;14439 
+106;CEASA;36;São Paulo;90;Vila Leopoldina;3921 
+107;Vila Leopoldina;36;São Paulo;90;Vila Leopoldina;15213 
+108;Emissário;36;São Paulo;90;Vila Leopoldina;3451 
+109;Vila Zatt;36;São Paulo;64;Pirituba;120118 
+110;Pirituba;36;São Paulo;64;Pirituba;50451 
+111;São Domingos;36;São Paulo;73;São Domingos;50923 
+112;Jardim Mutinga;36;São Paulo;73;São Domingos;35152 
+113;Vila Jaguara;36;São Paulo;39;Jaguara;24154 
+114;Parque do Jaraguá;36;São Paulo;41;Jaraguá; 
+115;Nova Jaraguá;36;São Paulo;41;Jaraguá;49094 
+116;Parada de Taipas;36;São Paulo;41;Jaraguá;157907 
+117;Parque Morro Doce;36;São Paulo;3;Anhanguera;64095 
+118;Anhanguera;36;São Paulo;3;Anhanguera;16752 
+119;Perus;36;São Paulo;62;Perus;87246 
+120;Vista Alegre;36;São Paulo;11;Brasilândia; 
+121;Jardim Damasceno;36;São Paulo;11;Brasilândia;90273 
+122;Vila Souza;36;São Paulo;11;Brasilândia;49953 
+123;Vila Terezinha;36;São Paulo;11;Brasilândia;73066 
+124;Brasilândia;36;São Paulo;11;Brasilândia;64866 
+125;Vila Morro Grande;36;São Paulo;29;Freguesia do Ó;52600 
+126;Itaberaba;36;São Paulo;29;Freguesia do Ó;34079 
+127;Freguesia do Ó;36;São Paulo;29;Freguesia do Ó;53941 
+128;Carandiru;36;São Paulo;71;Santana;1794 
+129;Santana;36;São Paulo;71;Santana;4596 
+130;Zaki Narchi;36;São Paulo;71;Santana;3274 
+131;Tietê;36;São Paulo;71;Santana;1227 
+132;Parque Anhembi;36;São Paulo;71;Santana; 
+133;Alfredo Pujol;36;São Paulo;71;Santana;36442 
+134;Santa Terezinha;36;São Paulo;71;Santana;28827 
+135;Jardim São Paulo;36;São Paulo;71;Santana;38163 
+136;Casa Verde;36;São Paulo;21;Casa Verde;32570 
+137;Parque Peruche;36;São Paulo;21;Casa Verde;53439 
+138;Limão;36;São Paulo;50;Limão;7855 
+139;Jardim Primavera;36;São Paulo;50;Limão;24309 
+140;Vila Santa Maria;36;São Paulo;50;Limão;47391 
+141;Cachoeirinha;36;São Paulo;13;Cachoeirinha;79276 
+142;Jardim Peri;36;São Paulo;13;Cachoeirinha;66324 
+143;Reserva da Cantareira;36;São Paulo;13;Cachoeirinha; 
+144;Mandaqui;36;São Paulo;51;Mandaqui;104526 
+145;Horto Florestal;36;São Paulo;51;Mandaqui;4480 
+146;ETA Guaraú;36;São Paulo;51;Mandaqui; 
+147;Parque Palmas do Tremembé;36;São Paulo;83;Tremembé;33902 
+148;Tremembé;36;São Paulo;83;Tremembé;22869 
+149;Cantareira;36;São Paulo;83;Tremembé; 
+150;Jardim das Pedras;36;São Paulo;83;Tremembé;51558 
+151;Jardim Guapira;36;São Paulo;83;Tremembé;109629 
+152;Parada Inglesa;36;São Paulo;84;Tucuruvi;35169 
+153;Tucuruvi;36;São Paulo;84;Tucuruvi;16284 
+154;Vila Gustavo;36;São Paulo;84;Tucuruvi;45465 
+155;Cohab Jova Real;36;São Paulo;38;Jaçanã;32242 
+156;Jaçanã;36;São Paulo;38;Jaçanã;43910 
+157;Parque Edu Chaves;36;São Paulo;38;Jaçanã;19629 
+158;Vila Medeiros;36;São Paulo;94;Vila Medeiros;60459 
+159;Jardim Brasil;36;São Paulo;94;Vila Medeiros;64171 
+160;Jardim Japão;36;São Paulo;91;Vila Maria;50672 
+161;Parque Novo Mundo;36;São Paulo;91;Vila Maria;47297 
+162;Vila Maria;36;São Paulo;91;Vila Maria;15842 
+163;Vila Isolina Mazzei;36;São Paulo;88;Vila Guilherme;47519 
+164;Vila Guilherme;36;São Paulo;88;Vila Guilherme;5849 
+165;Coroa;36;São Paulo;88;Vila Guilherme;3184 
+166;Gomes Cardim;36;São Paulo;82;Tatuapé;32876 
+167;Tatuapé;36;São Paulo;82;Tatuapé;17440 
+168;Chácara do Piqueri;36;São Paulo;82;Tatuapé;22502 
+169;Parque São Jorge;36;São Paulo;82;Tatuapé;22460 
+170;Penha;36;São Paulo;60;Penha;34693 
+171;Tiquatira;36;São Paulo;60;Penha;40666 
+172;Vila Esperança;36;São Paulo;60;Penha;26788 
+173;Vila Ré;36;São Paulo;60;Penha;26818 
+174;Rui Barbosa;36;São Paulo;18;Cangaíba;48886 
+175;Estação Eng Goulart;36;São Paulo;18;Cangaíba;31792 
+176;Cangaíba;36;São Paulo;18;Cangaíba;46828 
+177;Parque Ecológico do Tietê;36;São Paulo;18;Cangaíba;10184 
+178;USP Leste I;36;São Paulo;18;Cangaíba; 
+179;USP Leste II;36;São Paulo;28;Ermelino Matarazzo; 
+180;Ermelino Matarazzo;36;São Paulo;28;Ermelino Matarazzo;71109 
+181;Parque Buturussu;36;São Paulo;28;Ermelino Matarazzo;46600 
+182;Ponte Rasa;36;São Paulo;65;Ponte Rasa;46946 
+183;Burgo Paulista;36;São Paulo;65;Ponte Rasa;43659 
+184;Limoeiro;36;São Paulo;89;Vila Jacuí;24724 
+185;Laranja da China;36;São Paulo;89;Vila Jacuí;29129 
+186;Pedro José Nunes;36;São Paulo;89;Vila Jacuí;11747 
+187;Parque Cruzeiro do Sul;36;São Paulo;89;Vila Jacuí;48263 
+188;Vila Jacuí;36;São Paulo;89;Vila Jacuí;31082 
+189;Parada XV;36;São Paulo;36;Itaquera;48725 
+190;Itaquera;36;São Paulo;36;Itaquera;33748 
+191;Arena Corinthians;36;São Paulo;36;Itaquera; 
+192;Vila Campanela;36;São Paulo;36;Itaquera;38953 
+193;Araucárias;36;São Paulo;36;Itaquera;25665 
+194;Parque Guarani;36;São Paulo;36;Itaquera;25845 
+195;Rio Verde;36;São Paulo;36;Itaquera;37047 
+196;Saudade;36;São Paulo;76;São Miguel;35990 
+197;São Miguel Paulista;36;São Paulo;76;São Miguel;24124 
+198;Cidade NitroOperária;36;São Paulo;76;São Miguel;29485 
+199;Jardim Helena;36;São Paulo;43;Jardim Helena;101750 
+200;Jardim Romano;36;São Paulo;43;Jardim Helena;33296 
+201;Vila Curuçá;36;São Paulo;86;Vila Curuçá;74667 
+202;Jardim Robru;36;São Paulo;86;Vila Curuçá;77630 
+203;Lageado;36;São Paulo;47;Lajeado;57057 
+204;Fábrica Bandeirantes;36;São Paulo;47;Lajeado;115079 
+205;Fazenda Itaim;36;São Paulo;35;Itaim Paulista;107393 
+206;Itaim Paulista;36;São Paulo;35;Itaim Paulista;45915 
+207;Jardim das Oliveiras;36;São Paulo;35;Itaim Paulista;79026 
+208;Vila Califórnia;36;São Paulo;20;Carrão;42519 
+209;Vila Carrão;36;São Paulo;20;Carrão;42192 
+210;Jardim Anália Franco;36;São Paulo;87;Vila Formosa;32170 
+211;Vila Formosa;36;São Paulo;87;Vila Formosa;62162 
+212;Barreira Grande;36;São Paulo;4;Aricanduva;42022 
+213;Aricanduva;36;São Paulo;4;Aricanduva;44558 
+214;Frei Mont'Alverne;36;São Paulo;93;Vila Matilde;26032 
+215;Vila Matilde;36;São Paulo;93;Vila Matilde;39195 
+216;Cidade Patriarca;36;São Paulo;93;Vila Matilde;40288 
+217;Cidade AECarvalho;36;São Paulo;5;Artur Alvim;33081 
+218;Artur Alvim;36;São Paulo;5;Artur Alvim;68334 
+219;Cidade Líder;36;São Paulo;24;Cidade Líder;54475 
+220;Santa Marcelina;36;São Paulo;24;Cidade Líder;34510 
+221;Parque Savoy;36;São Paulo;24;Cidade Líder;44416 
+222;Vila Carmosina;36;São Paulo;58;Parque do Carmo;44512 
+223;Fazenda Caguaçu;36;São Paulo;58;Parque do Carmo;26492 
+224;Parque do Carmo;36;São Paulo;58;Parque do Carmo; 
+225;Gleba do Pêssego;36;São Paulo;46;José Bonifácio;31818 
+226;José Bonifácio;36;São Paulo;46;José Bonifácio;102278 
+227;Guaianases;36;São Paulo;31;Guaianases;63969 
+228;Juscelino Kubitschek;36;São Paulo;31;Guaianases;44320 
+229;Cidade Tiradentes;36;São Paulo;25;Cidade Tiradentes;152866 
+230;Santa Etelvina;36;São Paulo;25;Cidade Tiradentes;77122 
+231;Terceira Divisão;36;São Paulo;32;Iguatemi;35298 
+232;Iguatemi;36;São Paulo;32;Iguatemi;42214 
+233;Sítio Carrãozinho;36;São Paulo;32;Iguatemi;67261 
+234;Parque São Rafael;36;São Paulo;77;São Rafael;70826 
+235;Rodolfo Pirani;36;São Paulo;77;São Rafael;85409 
+236;Ipiranga;36;São Paulo;33;Ipiranga;12057 
+237;Sacomã;36;São Paulo;33;Ipiranga;8175 
+238;Alto do Ipiranga;36;São Paulo;33;Ipiranga;19260 
+239;Vila São José;36;São Paulo;33;Ipiranga;15480 
+240;Vila Monumento;36;São Paulo;33;Ipiranga;19389 
+241;Vila Independência;36;São Paulo;33;Ipiranga;9672 
+242;Vila Carioca;36;São Paulo;33;Ipiranga;27112 
+243;Moinho Velho;36;São Paulo;69;Sacomã;44779 
+244;Vila Heliópolis;36;São Paulo;69;Sacomã;62304 
+245;São João Clímaco;36;São Paulo;69;Sacomã;24591 
+246;Anchieta;36;São Paulo;69;Sacomã;29973 
+247;Vila das Mercês;36;São Paulo;69;Sacomã;98763 
+248;Parque do Estado;36;São Paulo;27;Cursino; 
+249;Água Funda;36;São Paulo;27;Cursino;46815 
+250;Jardim da Saúde;36;São Paulo;27;Cursino;19179 
+251;Vila Gumercindo;36;São Paulo;27;Cursino;24384 
+252;Jardim Previdência;36;São Paulo;27;Cursino;22489 
+253;Tamanduateí;36;São Paulo;95;Vila Prudente;5068 
+254;Orfanato;36;São Paulo;95;Vila Prudente;34074 
+255;Vila Zelina;36;São Paulo;95;Vila Prudente;65501 
+256;Linhas Corrente;36;São Paulo;74;São Lucas;29469 
+257;Vila Ema;36;São Paulo;74;São Lucas;44120 
+258;Parque São Lucas;36;São Paulo;74;São Lucas;69365 
+259;Vila Cardoso Franco;36;São Paulo;78;Sapopemba;37944 
+260;Parque Santa Madalena;36;São Paulo;78;Sapopemba;46025 
+261;Jardim Colorado;36;São Paulo;78;Sapopemba;56316 
+262;Teotônio Vilela;36;São Paulo;78;Sapopemba;85182 
+263;Fazenda da Juta;36;São Paulo;78;Sapopemba;63212 
+264;São Mateus;36;São Paulo;75;São Mateus;66948 
+265;Cidade IV Centenário;36;São Paulo;75;São Mateus;44247 
+266;Rio Claro;36;São Paulo;75;São Mateus;18759 
+267;Cidade Satélite;36;São Paulo;75;São Mateus;25209 
+268;Joaquim Nabuco;36;São Paulo;15;Campo Belo;13975 
+269;Vieira de Moraes;36;São Paulo;15;Campo Belo;21459 
+270;Campo Belo;36;São Paulo;15;Campo Belo;9294 
+271;Congonhas;36;São Paulo;15;Campo Belo; 
+272;Jardim Aeroporto;36;São Paulo;15;Campo Belo;19506 
+273;Vila Santa Catarina;36;São Paulo;37;Jabaquara;61476 
+274;Jabaquara;36;São Paulo;37;Jabaquara;35826 
+275;Cidade Vargas;36;São Paulo;37;Jabaquara;38239 
+276;Jardim Bom Clima;36;São Paulo;37;Jabaquara;92605 
+277;Cupecê;36;São Paulo;22;Cidade Ademar;59452 
+278;Jardim Miriam;36;São Paulo;22;Cidade Ademar;138839 
+279;Vila Missionária;36;São Paulo;22;Cidade Ademar;83502 
+280;Jurubatuba;36;São Paulo;16;Campo Grande;20114 
+281;Vila São Pedro;36;São Paulo;16;Campo Grande;41022 
+282;Campo Grande;36;São Paulo;16;Campo Grande;33790 
+283;Vila Sabará;36;São Paulo;16;Campo Grande;10684 
+284;Mar Paulista;36;São Paulo;59;Pedreira;51001 
+285;Pedreira;36;São Paulo;59;Pedreira;106280 
+286;Vila Socorro;36;São Paulo;81;Socorro;9119 
+287;Parque Interlagos;36;São Paulo;81;Socorro;27277 
+288;Jardim Represa;36;São Paulo;23;Cidade Dutra;21830 
+289;Rio Bonito;36;São Paulo;23;Cidade Dutra;47549 
+290;SESC Interlagos;36;São Paulo;23;Cidade Dutra;56065 
+291;Jardim Presidente;36;São Paulo;23;Cidade Dutra;75809 
+292;Vila Natal;36;São Paulo;30;Grajaú;65633 
+293;Grajaú;36;São Paulo;30;Grajaú;86031 
+294;Cocaia;36;São Paulo;30;Grajaú;113477 
+295;Belmira Marin;36;São Paulo;30;Grajaú;114180 
+296;Bororé;36;São Paulo;30;Grajaú;4148 
+297;Jaceguava;36;São Paulo;56;Parelheiros;2907 
+298;Parelheiros;36;São Paulo;56;Parelheiros;145648 
+299;Marsilac;36;São Paulo;52;Marsilac;8363 
+300;Granja Julieta;36;São Paulo;72;Santo Amaro;34905 
+301;Chácara Flora;36;São Paulo;72;Santo Amaro;12483 
+302;Santo Amaro;36;São Paulo;72;Santo Amaro;16387 
+303;Vila Miranda;36;São Paulo;72;Santo Amaro;10325 
+304;Jardim São Luís;36;São Paulo;45;Jardim São Luís;78638 
+305;Centro Empresarial;36;São Paulo;45;Jardim São Luís;127291 
+306;Guarapiranga;36;São Paulo;45;Jardim São Luís;82209 
+307;Jardim Capela;36;São Paulo;42;Jardim Ângela;104416 
+308;Riviera;36;São Paulo;42;Jardim Ângela;41879 
+309;Jardim Turquesa;36;São Paulo;42;Jardim Ângela;65732 
+310;Morro do Índio;36;São Paulo;42;Jardim Ângela;28295 
+311;Jardim Ângela;36;São Paulo;42;Jardim Ângela;88536 
+312;Capão Redondo;36;São Paulo;19;Capão Redondo;38307 
+313;Jardim Sônia Ingá;36;São Paulo;19;Capão Redondo;24266 
+314;Adventista;36;São Paulo;19;Capão Redondo;105255 
+315;Parque Fernanda;36;São Paulo;19;Capão Redondo;122442 
+316;Morumbi;36;São Paulo;55;Morumbi;15560 
+317;Jóquei Clube;36;São Paulo;55;Morumbi;4306 
+318;Fazenda Morumbi;36;São Paulo;55;Morumbi;22908 
+319;Real Parque;36;São Paulo;55;Morumbi;9015 
+320;Paraisópolis;36;São Paulo;85;Vila Andrade;73861 
+321;Jardim Vitória Régia;36;São Paulo;85;Vila Andrade;42795 
+322;Vila Suzana;36;São Paulo;85;Vila Andrade;39440 
+323;Parque Arariba;36;São Paulo;17;Campo Limpo;62710 
+324;Jardim Mitsutani;36;São Paulo;17;Campo Limpo;71351 
+325;Pirajussara;36;São Paulo;17;Campo Limpo;40057 
+326;Jardim Umarizal;36;São Paulo;17;Campo Limpo;51055 
+327;Portal do Morumbi;36;São Paulo;96;Vila Sônia;19723 
+328;Jardim Jussara;36;São Paulo;96;Vila Sônia;22657 
+329;Vila Sônia;36;São Paulo;96;Vila Sônia;34406 
+330;Jardim Maria do Carmo;36;São Paulo;96;Vila Sônia;42282 
+331;Jardim Cambará;36;São Paulo;66;Raposo Tavares;42177 
+332;Jardim João XXIII;36;São Paulo;66;Raposo Tavares;43732 
+333;Raposo Tavares;36;São Paulo;66;Raposo Tavares;19965 
+334;Rio Pequeno;36;São Paulo;68;Rio Pequeno;36683 
+335;Jardim Ester Yolanda;36;São Paulo;68;Rio Pequeno;40378 
+336;Jardim Adalgiza;36;São Paulo;68;Rio Pequeno;45585 
+337;Parque Continental;36;São Paulo;40;Jaguaré;22537 
+338;Jaguaré;36;São Paulo;40;Jaguaré;31544 
+339;Cidade Universitária;36;São Paulo;12;Butantã; 
+340;Butantã;36;São Paulo;12;Butantã;7738 
+341;Jardim Caxingui;36;São Paulo;12;Butantã;10541 
+342;Jardim Bonfiglioli;36;São Paulo;12;Butantã;35707 
+343;Melhoramentos;4;Caieiras;100;Caieiras;3577 
+344;Caieiras;4;Caieiras;100;Caieiras;52690 
+345;Serpa;4;Caieiras;100;Caieiras;41146 
+346;Santa Inês;4;Caieiras;100;Caieiras; 
+347;Cajamar;5;Cajamar;101;Cajamar;69567 
+348;Jordanésia;5;Cajamar;101;Cajamar;5011 
+349;Cristais;13;Franco da Rocha;109;Franco da Rocha; 
+350;Baltazar Fidélis;13;Franco da Rocha;109;Franco da Rocha;71944 
+351;Franco da Rocha;13;Franco da Rocha;109;Franco da Rocha;75681 
+352;Parque do Juqueri;13;Franco da Rocha;109;Franco da Rocha; 
+353;Palmares;13;Franco da Rocha;109;Franco da Rocha; 
+354;Sete Voltas;12;Francisco Morato;108;Francisco Morato; 
+355;Afonso Moreno;12;Francisco Morato;108;Francisco Morato;58624 
+356;Francisco Morato;12;Francisco Morato;108;Francisco Morato;105824 
+357;Cascatas;12;Francisco Morato;108;Francisco Morato;5222 
+358;Mairiporã;21;Mairiporã;117;Mairiporã;43904 
+359;Paiva Castro;21;Mairiporã;117;Mairiporã;17805 
+360;Colinas;21;Mairiporã;117;Mairiporã;18078 
+361;Pirucaia;21;Mairiporã;117;Mairiporã;14906 
+362;Guarulhos;15;Guarulhos;111;Guarulhos;13285 
+363;Macedo;15;Guarulhos;111;Guarulhos;41525 
+364;Cumbica;15;Guarulhos;111;Guarulhos;13419 
+365;Várzea do Palácio;15;Guarulhos;111;Guarulhos;4709 
+366;Ponte Grande;15;Guarulhos;111;Guarulhos;31525 
+367;Gopouva;15;Guarulhos;111;Guarulhos;27784 
+368;Vila São Rafael;15;Guarulhos;111;Guarulhos;52057 
+369;Vila Rosália;15;Guarulhos;111;Guarulhos;55983 
+370;André Luiz;15;Guarulhos;111;Guarulhos;85786 
+371;Jardim Santa Clara;15;Guarulhos;111;Guarulhos;75496 
+372;Parque CECAP;15;Guarulhos;111;Guarulhos;66738 
+373;Taboão;15;Guarulhos;111;Guarulhos;70679 
+374;Aeroporto;15;Guarulhos;111;Guarulhos; 
+375;Jardim Presidente Dutra;15;Guarulhos;111;Guarulhos;87689 
+376;Baquirivu;15;Guarulhos;111;Guarulhos;40452 
+377;Água Chata;15;Guarulhos;111;Guarulhos;187611 
+378;Pimentas;15;Guarulhos;111;Guarulhos;98639 
+379;Cabuçu;15;Guarulhos;111;Guarulhos;60116 
+380;Invernada;15;Guarulhos;111;Guarulhos;104648 
+381;Morro dos Macacos;15;Guarulhos;111;Guarulhos; 
+382;Chácaras Bananal;15;Guarulhos;111;Guarulhos;98771 
+383;Estrada de Nazaré Paulista;15;Guarulhos;111;Guarulhos;76801 
+384;Água Azul;15;Guarulhos;111;Guarulhos;28884 
+385;Vasconcelândia;15;Guarulhos;111;Guarulhos; 
+386;Arujazinho;1;Arujá;97;Arujá;3894 
+387;Arujá;1;Arujá;97;Arujá;76091 
+388;Fazenda Velha;1;Arujá;97;Arujá;6394 
+389;Santa Isabel;30;Santa Isabel;126;Santa Isabel;40477 
+390;Jaguari;30;Santa Isabel;126;Santa Isabel;13603 
+391;Ferraz de Vasconcelos;11;Ferraz de Vasconcelos;107;Ferraz de Vasconcelos;82616 
+392;Paiol Velho;11;Ferraz de Vasconcelos;107;Ferraz de Vasconcelos; 
+393;Santos Dumont;11;Ferraz de Vasconcelos;107;Ferraz de Vasconcelos;104804
+394;Jardim São José;26;Poá;122;Poá;20039
+395;Poá;26;Poá;122;Poá;93455
+396;Itaquaquecetuba;18;Itaquaquecetuba;114;Itaquaquecetuba;106623
+397;Quinta da Boa Vista;18;Itaquaquecetuba;114;Itaquaquecetuba;71598
+398;Bonsucesso;18;Itaquaquecetuba;114;Itaquaquecetuba;110433
+399;Pinheirinho;18;Itaquaquecetuba;114;Itaquaquecetuba;70563
+400;Miguel Badra;37;Suzano;132;Suzano;111948
+401;Suzano;37;Suzano;132;Suzano;136108
+402;Guaió;37;Suzano;132;Suzano;20755
+403;Ouro Fino;37;Suzano;132;Suzano;15737
+404;Mogi das Cruzes;23;Mogi das Cruzes;119;Mogi das Cruzes;87648
+405;Estudantes;23;Mogi das Cruzes;119;Mogi das Cruzes;33892
+406;Vila Oliveira;23;Mogi das Cruzes;119;Mogi das Cruzes;35118 
+407;Brás Cubas;23;Mogi das Cruzes;119;Mogi das Cruzes;113997
+408;Jundiapeba;23;Mogi das Cruzes;119;Mogi das Cruzes;47561
+409;Jardim Graziella;23;Mogi das Cruzes;119;Mogi das Cruzes;16794
+410;Itapeti;23;Mogi das Cruzes;119;Mogi das Cruzes;9392
+411;Sabaúna;23;Mogi das Cruzes;119;Mogi das Cruzes;15365
+412;César de Souza;23;Mogi das Cruzes;119;Mogi das Cruzes;36330
+413;Taiaçupeba;23;Mogi das Cruzes;119;Mogi das Cruzes;26705
+414;BiritibaMirim;3;Biritiba-Mirim;99;Biritiba-Mirim;31477
+415;Salesópolis;29;Salesópolis;125;Salesópolis;16559
+416;Guararema;14;Guararema;110;Guararema;28601
+417;Santa Paula;34;São Caetano do Sul;130;São Caetano do Sul;43769 
+418;Vila Gerti;34;São Caetano do Sul;130;São Caetano do Sul;50488 
+419;Estrada das Lágrimas;34;São Caetano do Sul;130;São Caetano do Sul;37411
+420;Santo Antônio;34;São Caetano do Sul;130;São Caetano do Sul;4460
+421;São Caetano do Sul;34;São Caetano do Sul;130;São Caetano do Sul;14828
+422;Santo André;32;Santo André;128;Santo André;55759 
+423;Vila Gilda;32;Santo André;128;Santo André;31451
+424;Valparaíso;32;Santo André;128;Santo André;23802
+425;Sacadura Cabral;32;Santo André;128;Santo André;26843
+426;Campestre;32;Santo André;128;Santo André;19642 
+427;Utinga;32;Santo André;128;Santo André;41926 
+428;Vila Lucinda;32;Santo André;128;Santo André;51991
+429;Parque Oratório;32;Santo André;128;Santo André;59712
+430;Parque das Nações;32;Santo André;128;Santo André;40870
+431;Jardim do Estádio;32;Santo André;128;Santo André;105758 
+432;Carijós;32;Santo André;128;Santo André;111442
+433;Parque do Pedroso;32;Santo André;128;Santo André;117905
+434;Paranapiacaba;32;Santo André;128;Santo André;3039
+435;Capuava;22;Mauá;118;Mauá;34164
+436;Mauá;22;Mauá;118;Mauá;127883
+437;Jardim Zaíra;22;Mauá;118;Mauá;167856
+438;Barão de Mauá;22;Mauá;118;Mauá;95761
+439;Estrada do Carneiro;22;Mauá;118;Mauá;25272
+440;Ribeirão Pires;27;Ribeirão Pires;123;Ribeirão Pires;81235
+441;Jardim Santa Luzia;27;Ribeirão Pires;123;Ribeirão Pires;22824
+442;Ouro Fino Paulista;27;Ribeirão Pires;123;Ribeirão Pires;13728
+443;Parque Sete Pontes;28;Rio Grande da Serra;124;Rio Grande da Serra;12913
+444;Rio Grande da Serra;28;Rio Grande da Serra;124;Rio Grande da Serra;35592
+445;Planalto;33;São Bernardo do Campo;129;São Bernardo do Campo;95482
+446;Paulicéia;33;São Bernardo do Campo;129;São Bernardo do Campo;54988
+447;Rudge Ramos;33;São Bernardo do Campo;129;São Bernardo do Campo;44474
+448;Baeta Neves;33;São Bernardo do Campo;129;São Bernardo do Campo;45474
+449;São Bernardo do Campo;33;São Bernardo do Campo;129;São Bernardo do Campo;67205
+450;Montanhão;33;São Bernardo do Campo;129;São Bernardo do Campo;172260
+451;Demarchi;33;São Bernardo do Campo;129;São Bernardo do Campo;102171
+452;Riacho Grande;33;São Bernardo do Campo;129;São Bernardo do Campo;47137
+453;Caminho do Mar;33;São Bernardo do Campo;129;São Bernardo do Campo;30620 
+454;Reservatório Billings;33;São Bernardo do Campo;129;São Bernardo do Campo;142929 
+455;Diadema;8;Diadema;104;Diadema;57426
+456;Jardim das Nações;8;Diadema;104;Diadema;99606
+457;Piraporinha;8;Diadema;104;Diadema;107955
+458;Vila Conceição;8;Diadema;104;Diadema;61243
+459;Eldorado;8;Diadema;104;Diadema;74517
+460;Taboão da Serra;38;Taboão da Serra;133;Taboão da Serra;59135
+461;Jardim Irapuã;38;Taboão da Serra;133;Taboão da Serra;48079
+462;Parque Pinheiros;38;Taboão da Serra;133;Taboão da Serra;100971
+463;Parque Industrial;38;Taboão da Serra;133;Taboão da Serra;66834
+464;Santo Eduardo;9;Embu das Artes;105;Embu das Artes;72698
+465;São Marcos;9;Embu das Artes;105;Embu das Artes;116026
+466;Embu das Artes;9;Embu das Artes;105;Embu das Artes;55726
+467;Ressaca;9;Embu das Artes;105;Embu das Artes;19597
+468;Itapecerica da Serra;16;Itapecerica da Serra;112;Itapecerica da Serra;152618
+469;Jardim Petrópolis;16;Itapecerica da Serra;112;Itapecerica da Serra;5258
+470;EmbuMirim;16;Itapecerica da Serra;112;Itapecerica da Serra;7934
+471;São Lourenço da Serra;35;São Lourenço da Serra;131;São Lourenço da Serra;15205
+472;EmbuGuaçu;10;Embu-Guaçu;106;Embu-Guaçu;39958
+473;Cipó;10;EmbuGuaçu;106;Embu-Guaçu;20953
+474;Santa Rita;10;EmbuGuaçu;106;Embu-Guaçu;5951
+475;Juquitiba;20;Juquitiba;116;Juquitiba;29995
+476;Barueri;2;Barueri;98;Barueri;82967
+477;Aphaville;2;Barueri;98;Barueri;46305
+478;Tamboré;2;Barueri;98;Barueri; 
+479;Antônio João;2;Barueri;98;Barueri; 
+480;Vutopoca;2;Barueri;98;Barueri;42050
+481;Jardim Silveira;2;Barueri;98;Barueri;64790
+482;Jardim Belval;2;Barueri;98;Barueri;19794
+483;Morada dos Lagos;2;Barueri;98;Barueri;3319
+484;Cidade Ariston;6;Carapicuíba;102;Carapicuíba;131693
+485;Carapicuíba;6;Carapicuíba;102;Carapicuíba;110673
+486;Jardim Planalto;6;Carapicuíba;102;Carapicuíba;69644
+487;Aldeia de Carapicuíba;6;Carapicuíba;102;Carapicuíba;33783
+488;Estrada do Jacarandá;6;Carapicuíba;102;Carapicuíba;43648
+489;Osasco;24;Osasco;120;Osasco;4455
+490;Vila Yara;24;Osasco;120;Osasco;11522
+491;Bussocaba City;24;Osasco;120;Osasco;36900
+492;Nova Granada;24;Osasco;120;Osasco;60262
+493;Recanto das Rosas;24;Osasco;120;Osasco;31031
+494;Jardim Novo Osasco;24;Osasco;120;Osasco;63563
+495;Jardim Veloso;24;Osasco;120;Osasco;121969
+496;Quitaúna;24;Osasco;120;Osasco;72059
+497;Jardim Piratininga;24;Osasco;120;Osasco;12790
+498;Presidente Altino;24;Osasco;120;Osasco;11600
+499;Munhoz Junior;24;Osasco;120;Osasco;129340
+500;Rochdale;24;Osasco;120;Osasco;49817
+501;Mutinga;24;Osasco;120;Osasco;51302
+502;Três Montanhas;24;Osasco;120;Osasco;20742
+503;Ribeirão Itaqui;19;Jandira;115;Jandira;5903
+504;Jandira;19;Jandira;115;Jandira;106308
+505;Ribeirão das Pombas;19;Jandira;115;Jandira;7933
+506;Granja Viana;7;Cotia;103;Cotia;33261
+507;Fernando Nobre;7;Cotia;103;Cotia;23325
+508;Cotia;7;Cotia;103;Cotia;138853
+509;Capueira;7;Cotia;103;Cotia;5505
+510;Caucaia;7;Cotia;103;Cotia; 
+511;Caucaia do Alto;7;Cotia;103;Cotia;36116
+512;Vargem Grande Paulista;39;Vargem Grande Paulista;134;Vargem Grande Paulista;50557
+513;Quatro Encruzilhadas;17;Itapevi;113;Itapevi;3587
+514;Itapevi;17;Itapevi;113;Itapevi;104626
+515;Amador Bueno;17;Itapevi;113;Itapevi;120821
+516;Santana de Parnaíba;31;Santana de Parnaíba;127;Santana de Parnaíba;131608
+517;Pirapora do Bom Jesus;25;Pirapora do Bom Jesus;121;Pirapora do Bom Jesus;18107
