@@ -14,9 +14,9 @@ print('Done!')
 prhome = 0.06
 p_r = {
     'home'    :  prhome,
-    'neighbor':  .05*prhome,
-    'work'    :  .05*prhome,
-    'school'  :  .2*prhome,
+    'neighbor':  .1*prhome,
+    'work'    :  .1*prhome,
+    'school'  :  .15*prhome,
 }
 
 def init_infection(pct=.0001):
