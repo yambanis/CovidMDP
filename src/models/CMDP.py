@@ -43,7 +43,7 @@ class CovidState():
             for i in range(step_size):
                 # Simulate one day
                 day += 1
-                local_pop_matrix, _= simp.spread_infection(local_pop_matrix,
+                local_pop_matrix= simp.spread_infection(local_pop_matrix,
                                                             policies[action],
                                                             day)
                 local_pop_matrix = simp.lambda_leak_expose(local_pop_matrix,
