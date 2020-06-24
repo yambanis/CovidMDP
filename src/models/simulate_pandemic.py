@@ -19,7 +19,7 @@ p_r = {
     'school'  :  .15*prhome,
 }
 
-def init_infection(pct=.0001):
+def init_infection(pct=.0001, return_contacts_infected = False):
     """
     Given a Graph G, infects pct% of population and set the
     remainder as susceptible. This is considered day 0.
@@ -54,8 +54,11 @@ def init_infection(pct=.0001):
     new_matrix = np.concatenate((matrix_keep, matrix_change))
     assert new_matrix.shape == pop_matrix.shape
 
-    return new_matrix, contacts_infected
+    if return_contacts_infected:
+        return new_matrix, contacts_infected
 
+    else:
+        return new_matrix
 
 def expose_population(pop_matrix, exposed, day):
     """
@@ -220,7 +223,10 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
     currently_infected = pop_matrix[mask][:, 0]
 
     if currently_infected.shape[0] == 0:
-        return pop_matrix, contacts_infected
+        if contacts_infected is not None:
+            return pop_matrix, contacts_infected
+        else:
+            return pop_matrix
         
     exposed = []
     for spreader in currently_infected:
@@ -238,7 +244,11 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
     exposed = pop_matrix[np.array(mask)][:, 0][susceptible]
 
     if len(exposed) == 0:
-        return pop_matrix, contacts_infected
+        if contacts_infected is not None:
+            return pop_matrix, contacts_infected
+        else:
+            return pop_matrix
+        
 
     new_matrix = expose_population(pop_matrix, exposed, day)
 
@@ -246,7 +256,11 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
         raise ValueError("Input and output matrix shapes are different")
 
 
-    return new_matrix, contacts_infected
+    if contacts_infected is not None:
+        return new_matrix, contacts_infected
+    else:
+        return new_matrix
+        
 
 
 def main(policy='Unrestricted', days=500):
@@ -271,7 +285,7 @@ def main(policy='Unrestricted', days=500):
     
     """
 
-    pop_matrix, contacts_infected = init_infection(.0001)
+    pop_matrix = init_infection(.0001)
 
     data = []
 
@@ -284,13 +298,13 @@ def main(policy='Unrestricted', days=500):
         if (pop_matrix[np.where(pop_matrix[:, 1] == -1)].shape[0] > pop_matrix.shape[0]*.9):
             break
 
-        pop_matrix, contacts_infected = spread_infection(pop_matrix, restrictions, day, contacts_infected)
+        pop_matrix = spread_infection(pop_matrix, restrictions, day)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
 
         data.append(np.array(sorted(pop_matrix, key=lambda x: x[0]))[:, 1])
 
-    return data, contacts_infected, pop_matrix
+    return data, pop_matrix
 
 if __name__ == '__main__':
     import argparse
