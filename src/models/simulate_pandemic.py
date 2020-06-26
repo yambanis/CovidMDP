@@ -6,6 +6,7 @@ from patient_evolution import susceptible_to_exposed, change_state
 from functools import partial
 from policies import policies
 from collections import defaultdict
+from zone_references import initial_zones
 
 print('Loading Graph...',  end='')
 G = nx.read_gpickle('../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle')
@@ -19,7 +20,7 @@ p_r = {
     'school'  :  .15*prhome,
 }
 
-def init_infection(pct=.0001, return_contacts_infected = False):
+def init_infection(pct=.01, return_contacts_infected = False):
     """
     Given a Graph G, infects pct% of population and set the
     remainder as susceptible. This is considered day 0.
@@ -34,10 +35,11 @@ def init_infection(pct=.0001, return_contacts_infected = False):
 
     global G
 
-    size = int(len(G.nodes) * pct)
-    infected = list(np.random.choice(G.nodes(), size=size, replace=False))
-    infected = [x for x in infected]
-
+    init_nodes = [x for x, v in G.nodes(data=True) if v['home'] in initial_zones]
+    size = max(int(len(init_nodes) * pct), 1)
+    
+    infected = list(np.random.choice(init_nodes, size=size, replace=False))
+    
     pop_matrix = np.array([[node, states_dict['susceptible'],
                             -1, -1, data['age']]
                           for node, data in G.nodes(data=True)])
@@ -90,7 +92,7 @@ def expose_population(pop_matrix, exposed, day):
     return new_matrix
 
 
-def lambda_leak_expose(pop_matrix, day, lambda_leak=.0001):
+def lambda_leak_expose(pop_matrix, day, lambda_leak=0.00005):
     """
     Receives the population matrix, the current day and the leak factor.
     Chooses at random a lambda_leak percentage of the population to expose
@@ -111,8 +113,7 @@ def lambda_leak_expose(pop_matrix, day, lambda_leak=.0001):
     """
     size = int(pop_matrix.shape[0]*lambda_leak)
 
-    susceptible = pop_matrix[np.where(pop_matrix[:, 1]
-                                      == states_dict['susceptible'])][:, 0]
+    susceptible = pop_matrix[pop_matrix[:, 1] == states_dict['susceptible']][:, 0]
 
     exposed = np.random.choice(susceptible, size=size, replace=False)
 
@@ -219,7 +220,7 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
         ValueError: If shape of starting matrix is different from final matrix
     """
     global G
-    mask = np.where(pop_matrix[:, 1] == states_dict['infected'])
+    mask = pop_matrix[:, 1] == states_dict['infected']
     currently_infected = pop_matrix[mask][:, 0]
 
     if currently_infected.shape[0] == 0:
@@ -295,14 +296,14 @@ def main(policy='Unrestricted', days=500):
 
     for day in tqdm(range(1, days)):
         # if less than 90% already recovered, break simulation
-        if (pop_matrix[np.where(pop_matrix[:, 1] == -1)].shape[0] > pop_matrix.shape[0]*.9):
+        if (pop_matrix[pop_matrix[:, 1] == -1].shape[0] > pop_matrix.shape[0]*.9):
             break
 
         pop_matrix = spread_infection(pop_matrix, restrictions, day)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
 
-        data.append(np.array(sorted(pop_matrix, key=lambda x: x[0]))[:, 1])
+        data.append(pop_matrix[:, 0:2])
 
     return data, pop_matrix
 

@@ -4,6 +4,7 @@ import simulate_pandemic as simp
 import numpy as np
 import pandas as pd
 from scipy.special import expit
+import random
 
 def normallize_to_range(x,  x_min, x_max, scale=1,a=-4, b=4):
     x = (x - x_min)/(x_max - x_min)
@@ -20,9 +21,10 @@ class CovidState():
         self.day = day
         self.actions = actions
         self.cost = None
-        
+
     def getPossibleActions(self):
         possible_actions = [k for k in policies.keys()]
+        random.shuffle(possible_actions)
         return possible_actions
 
     def getPossibleRangeActions(self):
@@ -54,8 +56,8 @@ class CovidState():
                 cost_exposed += exposed_cost(e)        
             
             sims_costs.append(max(cost_action, cost_exposed))
-
-        self.cost = -1*np.sum([c*0.8**i for i,c in enumerate(sims_costs)]) / np.sum([0.8**i for i in range(len(sims_costs))])
+        
+        self.cost = -1*np.sum([c*0.8**i for i,c in enumerate(sims_costs)])
         
         return self.cost
 

@@ -3,7 +3,6 @@ import random
 from joblib import Parallel, delayed
 import numpy as np
 from CMDP import CovidState
-
 def rolloutPolicy(state, pop_matrix, step_size):
     reward = state.takeAction(pop_matrix, step_size)
     return reward
