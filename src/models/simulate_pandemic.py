@@ -3,10 +3,9 @@ import networkx as nx
 from tqdm import tqdm
 from disease_states import states_dict
 from patient_evolution import susceptible_to_exposed, change_state
-from functools import partial
-from policies import policies
+from actions import city_restrictions
 from collections import defaultdict
-from zone_references import initial_zones
+from zone_references import initial_districts
 
 print('Loading Graph...',  end='')
 G = nx.read_gpickle('../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle')
@@ -20,7 +19,7 @@ p_r = {
     'school'  :  .15*prhome,
 }
 
-def init_infection(pct=.01, return_contacts_infected = False):
+def init_infection(pct=.0001, return_contacts_infected = False):
     """
     Given a Graph G, infects pct% of population and set the
     remainder as susceptible. This is considered day 0.
@@ -35,11 +34,16 @@ def init_infection(pct=.01, return_contacts_infected = False):
 
     global G
 
-    init_nodes = [x for x, v in G.nodes(data=True) if v['home'] in initial_zones]
-    size = max(int(len(init_nodes) * pct), 1)
-    
-    infected = list(np.random.choice(init_nodes, size=size, replace=False))
-    
+    sample_size = int(np.ceil(len(G.nodes()) * pct/len(initial_districts)))
+    size = max(sample_size, 1)
+
+    infected = []
+    for zones in initial_districts.values():
+        init_nodes = ([x for x, v in G.nodes(data=True) 
+                           if v['home'] in zones])
+
+        infected.extend(list(np.random.choice(init_nodes, size=size, replace=False)))
+
     pop_matrix = np.array([[node, states_dict['susceptible'],
                             -1, -1, data['age']]
                           for node, data in G.nodes(data=True)])
@@ -291,7 +295,7 @@ def main(policy='Unrestricted', days=500):
     data = []
 
     # restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
-    restrictions = policies[policy]
+    restrictions = city_restrictions[policy]
     print(restrictions)
 
     for day in tqdm(range(1, days)):
