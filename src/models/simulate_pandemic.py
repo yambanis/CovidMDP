@@ -19,7 +19,7 @@ p_r = {
     'school'  :  .15*prhome,
 }
 
-def init_infection(pct=.0001, return_contacts_infected = False):
+def init_infection(pct=.0005, return_contacts_infected = False):
     """
     Given a Graph G, infects pct% of population and set the
     remainder as susceptible. This is considered day 0.
@@ -116,7 +116,6 @@ def lambda_leak_expose(pop_matrix, day, lambda_leak=0.00005):
         ValueError: If shape of starting matrix is different from final matrix
     """
     size = int(pop_matrix.shape[0]*lambda_leak)
-
     susceptible = pop_matrix[pop_matrix[:, 1] == states_dict['susceptible']][:, 0]
 
     exposed = np.random.choice(susceptible, size=size, replace=False)
@@ -296,7 +295,6 @@ def main(policy='Unrestricted', days=500):
 
     # restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
     restrictions = city_restrictions[policy]
-    print(restrictions)
 
     for day in tqdm(range(1, days)):
         # if less than 90% already recovered, break simulation

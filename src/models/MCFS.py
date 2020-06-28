@@ -20,16 +20,15 @@ class treeNode():
         self.isTerminal = state.isTerminal()
         self.isFullyExpanded = self.isTerminal
         self.parent = parent
-        self.numVisits = 0
         self.totalReward = 0
-        self.bestReward = float("-inf")
         self.children = {}
 
 
 class mcts():
     def __init__(self, pop_matrix, horizon, 
                  sims_per_leaf, step_size, n_jobs=6,
-                 rolloutPolicy='rolloutPolicy'):
+                 rolloutPolicy='rolloutPolicy',
+                 bruteForce=True):
         self.rollout = getRolloutPolicy(rolloutPolicy)
         self.sims_per_leaf = sims_per_leaf
         self.step_size = step_size
@@ -37,55 +36,35 @@ class mcts():
         self.pop_matrix = pop_matrix
         self.leafs = defaultdict(list)
         self.horizon = horizon
-        self.searchLimit = np.sum([5**i for i in range(horizon)])
+        self.bruteForce = bruteForce
 
+    def completed(self):
+        all_levels_created = all([len(self.leafs[level]) > 0 for level in range(self.horizon)])
 
+        fully_expanded = all([l.isFullyExpanded for level in range(self.horizon) 
+                                            for l in self.leafs[level]])
+
+        
+        return all_levels_created and fully_expanded 
+    
     def search(self, current_state):
         self.root = current_state
-        for i in range(self.searchLimit):
-            self.executeRound()
+        self.leafs[0].append(self.root)
+        self.expand_tree()
+        assert self.completed()
         return self.getAction(self.root)
 
-    def executeRound(self):
-        nodes, level = self.selectNode(self.root)
-        self.leafs[level].extend(list(nodes.values()))
-        for node in nodes.values():
-            self.backpropogate(node)
-
-    def selectNode(self, node):
-        level = 1
-        while not node.isTerminal:
-            if node.isFullyExpanded:
-                level += 1
-                node = self.getBestChild(node)
-            else:
-                return self.expand(node, level)
-
-        raise Exception("Should never reach here")
-
-
-    def getBestChild(self, node):
-        c = node.children
-        least_seen = min(c, key=lambda key: c[key].numVisits)
-        return node.children[least_seen]
-
-
-    def expand(self, node, level):
-        actions = node.state.getPossibleActions()
-        for action in actions:
-            new_actions = node.state.actions + [action]
-            new_state = CovidState(new_actions, node.state.day)
-            newNode = treeNode(new_state, node)
-            node.children[action] = newNode
-        node.isFullyExpanded = True
-        return node.children, level
-
-        raise Exception("Should never reach here")
-
-    def backpropogate(self, node):
-        while node != self.root.parent:
-            node.numVisits += 1
-            node = node.parent
+    def expand_tree(self):
+        for level in range(self.horizon):
+            for node in  self.leafs[level]:       
+                actions = node.state.getPossibleActions(self.bruteForce)
+                for action in actions:
+                    new_actions = node.state.actions + [action]
+                    new_state = CovidState(new_actions, node.state.day)
+                    newNode = treeNode(new_state, node)
+                    node.children[action] = newNode
+                node.isFullyExpanded = True
+                self.leafs[level+1].extend(list(node.children.values()))
 
 
     def getAction(self, root):

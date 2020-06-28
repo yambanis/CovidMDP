@@ -5,17 +5,17 @@ def normallize_to_range(x,  x_min, x_max, scale=1, a=-4, b=4):
     x = (x*(b-a)) + a
     return x
 
-def exposed_cost(h, limit=0.025, scale=1):
+def exposed_cost(h, limit=0.0025, scale=1):
     y = expit(normallize_to_range(h, 0, limit, scale))
     return y*scale
  
 costs = {
-  'Lockdown': 0.46009,
-  'Hard Quarantine': 0.24601,
-  'Light Quarantine': 0.11106,
-  'Social Distancing': 0.03357,
-  'Unrestricted': 0.0
-}
+	'Unrestricted': 0.0,
+	'Social Distancing': 0.03356922328148252,
+ 	'Light Quarantine': 0.11105596671140756,
+ 	'Hard Quarantine': 0.2460112835510519,
+ 	'Lockdown': 0.6899744811276125
+ }
 
 city_restrictions = {
     'Lockdown':  {
@@ -33,4 +33,12 @@ city_restrictions = {
     'Unrestricted': {
         'work': 0,  'school': 0,   'home': 0, 'neighbor': 0
     }
+}
+
+action_children = {
+	'Lockdown':     	 ['Lockdown',                              'Hard Quarantine'],
+    'Hard Quarantine':   ['Hard Quarantine',   'Lockdown',         'Light Quarantine'],
+    'Light Quarantine':  ['Light Quarantine',  'Hard Quarantine',  'Social Distancing'],
+    'Social Distancing': ['Social Distancing', 'Light Quarantine', 'Unrestricted'],
+    'Unrestricted': 	 ['Unrestricted',      'Social Distancing']	
 }
