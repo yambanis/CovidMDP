@@ -1,21 +1,21 @@
 from scipy.special import expit
 
-def normallize_to_range(x,  x_min, x_max, scale=1, a=-4, b=4):
+def normallize_to_range(x,  x_min, x_max, scale=1, a=-6, b=6):
     x = (x - x_min)/(x_max - x_min)
     x = (x*(b-a)) + a
     return x
 
-def exposed_cost(h, limit=0.0025, scale=1):
+def exposed_cost(h, limit=0.00275, scale=1):
     y = expit(normallize_to_range(h, 0, limit, scale))
     return y*scale
  
 costs = {
-	'Unrestricted': 0.0,
-	'Social Distancing': 0.03356922328148252,
- 	'Light Quarantine': 0.11105596671140756,
- 	'Hard Quarantine': 0.2460112835510519,
- 	'Lockdown': 0.6899744811276125
- }
+	'Unrestricted': 0.0024726231566347743,
+ 	'Social Distancing': 0.021495499087533926,
+ 	'Light Quarantine': 0.16296047070232164,
+ 	'Hard Quarantine': 0.3669196307451676,
+ 	'Lockdown': 0.6330803692548328
+ 	}
 
 city_restrictions = {
     'Lockdown':  {
