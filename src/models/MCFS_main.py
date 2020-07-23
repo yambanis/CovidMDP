@@ -46,22 +46,24 @@ def run_full_mcst(rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,
 
 
 def main():
-	horizon = 1
-	sims = 6
-	days = 210
-	bf = False
+    horizon = 3
+    sims = 48
+    days = 364
+    bf = False
 
-	data, actions, tree = run_full_mcst(horizon=horizon, sims_per_leaf=sims, days=days, step_size=7, n_jobs=6, bruteForce=bf)
+    for _ in range(1):
+        data, actions, tree = run_full_mcst(horizon=horizon, sims_per_leaf=sims, days=days, step_size=7, n_jobs=-1, bruteForce=bf)
 
-	date = datetime.datetime.now()
-	date_str = f'{date.month}_{date.day}_{date.hour}_{date.minute}'
+        date = datetime.datetime.now()
+        date_str = f'{date.month}_{date.day}_{date.hour}_{date.minute}'
 
+        data = pd.DataFrame([pd.Series(d).value_counts() for d in data])
+        data.fillna(0, inplace=True)
 
-	data = pd.DataFrame([pd.Series(d).value_counts() for d in data])
-	data.fillna(0, inplace=True)
+        with open(f'../../data/MCTS_Results/pickles/looser_cost_H{horizon}_N{sims}_D{days}_bf{bf}_{date_str}', 'wb') as f:
+            pkl.dump((data, actions, tree), f)
 
-	with open(f'../../data/MCTS_Results/pickles/looser_cost_H{horizon}_N{sims}_D{days}_bf{bf}_{date_str}', 'wb') as f:
-	    pkl.dump((data, actions, tree), f)
+        del data, actions, tree
 
 if __name__ == '__main__':
-	main()
+    main()
