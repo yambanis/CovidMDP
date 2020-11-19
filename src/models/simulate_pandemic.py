@@ -23,10 +23,8 @@ def init_infection(pct=.0005, return_contacts_infected = False):
     """
     Given a Graph G, infects pct% of population and set the
     remainder as susceptible. This is considered day 0.
-
     Args:
         pct (float): percentage of people initially infected.
-
     Returns:
         new_matrix (np.array): 2D Array  arrays of id, state, day of infection
             and current state duration of population.
@@ -70,14 +68,11 @@ def expose_population(pop_matrix, exposed, day):
     """
     Receives the population matrix, an array containing ids of newly
     exposed individuals and the current simulation day
-
     Args:
         pop_matrix (np.array): 2D Array  arrays of id, state, day of infection
             and current state duration of population.
-
         exposed (list): list of newly exposed people id
         day (int): current simulation day
-
     Returns:
         new_matrix (np.array): The population matrix with the
         newly exposed people exposed.
@@ -100,15 +95,11 @@ def lambda_leak_expose(pop_matrix, day, lambda_leak=0.00005):
     """
     Receives the population matrix, the current day and the leak factor.
     Chooses at random a lambda_leak percentage of the population to expose
-
     Args:
         pop_matrix (np.array): 2D Array  arrays of id, state, day of infection
             and current state duration of population.
-
         lambda_leak (float): the percentage of the population to expose
-
         day: the current day of simulation
-
     Returns:
         new_matrix (np.array): The population matrix with the
                                newly exposed people.
@@ -137,19 +128,15 @@ def spread_through_contacts(spreader, restrictions):
     its contacts with chance equal to
     np.random.random() < p_r[r] * (1 - restrictions[r]).
     Returns an array of all the people successfully infected by the spreader.
-
     Args:
         spreader (int): id of the infected person that is
                         spreading the disease.
-
         restrictions (dictionary): a dictionary with a value between
                                    zero and one for each type of relation
-
     Returns:
         infected (list): List of all the people infected by spreader.
     """
     global G, p_r
-    spreader = spreader
     contacts = [[y, v['edge_type']] for x, y, v
                 in G.edges(spreader, data=True)]
 
@@ -165,11 +152,9 @@ def update_population(pop_matrix):
     Receives the population matrix and progress the infections
     for all people. The state duration is decremented
     and for those whom it reaches zero, they transition to the next state
-
     Args:
         pop_matrix (np.array): 2D Array  arrays of id, state, day of infection
             and current state duration of population.
-
     Returns:
         new_matrix (np.array): The population matrix with the updated status.
     Raises:
@@ -206,16 +191,12 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
     each infected person has a chance to infect a susceptible contact with
     it has an edge in the graph, conditioned to the current restrictions,
     the p_r of each relation.
-
     Args:
         pop_matrix (np.array): 2D Array  arrays of id, state, day of infection
             and current state duration of population.
-
         restrictions (dictionary): a dictionary with a value between
         zero and one for each type of relation
-
         day: the current day of simulation
-
     Returns:
         new_matrix (np.array): The population matrix with the newly
                                 exposed people.
@@ -272,18 +253,13 @@ def main(policy='Unrestricted', days=500):
     Receives the policy to be used during the simulation and for how many days
     the simulation should run for. The policy should be a Key in the policies
     dict inside policies.py.
-
     One full step consists of:
         Spreading the infection
         Exposing through leakage
         Updating the disease evolution of the population
-
     Args:
         pop_matrix (string): The name of a policy that exists is policies.policies.
-
         days (int): For how long should the policy run.
-
-
     Returns: data (np.array): An array of arrays containing the status of 
     the population at each time step.
     

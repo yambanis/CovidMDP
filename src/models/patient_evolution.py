@@ -17,7 +17,6 @@ def change_state(person):
         person (np.array): The same person in the next state of the disease.
     Raises:
         ValueError: If persons time in state (person[3]) is different from zero
-
     """
     if person[3] != 0:
         raise ValueError("Time in state not zero but passed to change_state")
@@ -98,7 +97,7 @@ def infected_to_new_state(person):
 
     Args:
         person (np.array): Array containing id, state, day of infection
-        and current state duration of a person.
+        and current state duration of a person, age.
 
     Returns:
         person (np.array): The same person, hospitalized, with hospitalization
