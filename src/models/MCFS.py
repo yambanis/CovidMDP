@@ -3,8 +3,9 @@ import numpy as np
 from CMDP import CovidState
 from collections import defaultdict
 
-def rolloutPolicy(state, pop_matrix, step_size):
-    reward = state.takeAction(pop_matrix, step_size)
+def rolloutPolicy(state, pop_matrix, adj_list, rng, p_r, step_size):
+    print("getting rewards")
+    reward = state.takeAction(pop_matrix, adj_list, rng, p_r, step_size)
     return reward
 
 
@@ -25,8 +26,15 @@ class treeNode():
 
 
 class mcts():
-    def __init__(self, pop_matrix, horizon, 
-                 sims_per_leaf, step_size, n_jobs=6,
+    def __init__(self,
+                 pop_matrix,
+                 adj_list,
+                 horizon, 
+                 sims_per_leaf,
+                 step_size,
+                 rng, 
+                 p_r,
+                 n_jobs=6,
                  rolloutPolicy='rolloutPolicy',
                  bruteForce=True):
         self.rollout = getRolloutPolicy(rolloutPolicy)
@@ -34,9 +42,12 @@ class mcts():
         self.step_size = step_size
         self.n_jobs = n_jobs
         self.pop_matrix = pop_matrix
+        self.adj_list = adj_list
         self.leafs = defaultdict(list)
         self.horizon = horizon
         self.bruteForce = bruteForce
+        self.rng = rng
+        self.p_r = p_r
 
     def completed(self):
         all_levels_created = all([len(self.leafs[level]) > 0 for level in range(self.horizon)])
@@ -70,8 +81,10 @@ class mcts():
     def getAction(self, root):
         leafs = self.leafs[self.horizon]
         for leaf in leafs:
+            print("Entering parallelized rewards")
+            print(self.n_jobs)
             rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)
-                              (leaf.state, self.pop_matrix, self.step_size)
+                              (leaf.state, self.pop_matrix, self.adj_list, self.rng, self.p_r, self.step_size)
                               for i in range(self.sims_per_leaf))
             reward = np.sum(rewards)
             leaf.totalReward = reward

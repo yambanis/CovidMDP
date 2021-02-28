@@ -1,25 +1,36 @@
+### Standard Libs ###
+from collections import defaultdict
+from numpy.random import default_rng
 import numpy as np
 import networkx as nx
+from itertools import chain
 from tqdm import tqdm
+
+### External Definitions ###
+from zone_references import initial_districts
 from disease_states import states_dict
 from patient_evolution import susceptible_to_exposed, change_state
 from actions import city_restrictions
-from collections import defaultdict
-from zone_references import initial_districts
 
-print('Loading Graph...',  end='')
-G = nx.read_gpickle('../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle')
-print('Done!')
+def make_adjacency_list(G):
+    adj_list = {}
 
-prhome = 0.06
-p_r = {
-    'home'    :  prhome,
-    'neighbor':  .1*prhome,
-    'work'    :  .1*prhome,
-    'school'  :  .15*prhome,
-}
+    for node, neighbors in G.adjacency():
+        adj_list[node] = defaultdict(list)
+        for neighbor, relations in neighbors.items():
+            for i, relation_dict in relations.items():
+                relation = relation_dict['edge_type']
+                adj_list[node][relation].append(neighbor)
+    return adj_list
 
-def init_infection(pct=.0005, return_contacts_infected = False):
+
+def make_graph_structures(gpickle_path):
+    G = nx.read_gpickle(gpickle_path)
+    adj_list = make_adjacency_list(G)
+    
+    return G, adj_list
+
+def init_infection(gpickle_path, pct=.0005, return_contacts_infected=False):
     """
     Given a Graph G, infects pct% of population and set the
     remainder as susceptible. This is considered day 0.
@@ -30,7 +41,7 @@ def init_infection(pct=.0005, return_contacts_infected = False):
             and current state duration of population.
     """
 
-    global G
+    G, adj_list = make_graph_structures(gpickle_path)
 
     sample_size = int(np.ceil(len(G.nodes()) * pct/len(initial_districts)))
     size = max(sample_size, 1)
@@ -44,7 +55,7 @@ def init_infection(pct=.0005, return_contacts_infected = False):
 
     pop_matrix = np.array([[node, states_dict['susceptible'],
                             -1, -1, data['age']]
-                          for node, data in G.nodes(data=True)])
+                          for node, data in G.nodes(data=True)]).astype(int)
     
     contacts_infected = defaultdict(int)
 
@@ -59,11 +70,12 @@ def init_infection(pct=.0005, return_contacts_infected = False):
     assert new_matrix.shape == pop_matrix.shape
 
     if return_contacts_infected:
-        return new_matrix, contacts_infected
+        return new_matrix, adj_list, contacts_infected
 
     else:
-        return new_matrix
-
+        return new_matrix, adj_list
+    
+    
 def expose_population(pop_matrix, exposed, day):
     """
     Receives the population matrix, an array containing ids of newly
@@ -89,7 +101,6 @@ def expose_population(pop_matrix, exposed, day):
     if new_matrix.shape != pop_matrix.shape:
         raise ValueError("Input and output matrix shapes are different")
     return new_matrix
-
 
 def lambda_leak_expose(pop_matrix, day, lambda_leak=0.00005):
     """
@@ -120,32 +131,6 @@ def lambda_leak_expose(pop_matrix, day, lambda_leak=0.00005):
         raise ValueError("Input and output matrix shapes are different")
 
     return new_matrix
-
-
-def spread_through_contacts(spreader, restrictions):
-    """
-    An infected person, or a spredear, infects each of
-    its contacts with chance equal to
-    np.random.random() < p_r[r] * (1 - restrictions[r]).
-    Returns an array of all the people successfully infected by the spreader.
-    Args:
-        spreader (int): id of the infected person that is
-                        spreading the disease.
-        restrictions (dictionary): a dictionary with a value between
-                                   zero and one for each type of relation
-    Returns:
-        infected (list): List of all the people infected by spreader.
-    """
-    global G, p_r
-    contacts = [[y, v['edge_type']] for x, y, v
-                in G.edges(spreader, data=True)]
-
-    infected = [y for r in restrictions.keys() for y, v in contacts
-                if v == r
-                and np.random.random() < p_r[r] * (1 - restrictions[r])]
-
-    return infected
-
 
 def update_population(pop_matrix):
     """
@@ -182,9 +167,7 @@ def update_population(pop_matrix):
         raise ValueError("Input and output matrix shapes are different")
     return new_matrix
 
-
-
-def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
+def spread_infection(pop_matrix, adj_list, restrictions, day, rng, p_r, contacts_infected=None):
     """
     Receives the population matrix, the restrictions dictionary and the
     current day. The disease spreads throught the relations in the graph:
@@ -203,7 +186,22 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
     Raises:
         ValueError: If shape of starting matrix is different from final matrix
     """
-    global G
+    
+    def infect_neighbors(neighbors, p_r, restrictions):
+        infected = []
+        for rel_type, contacts in neighbors.items():
+            for c in contacts:
+                if rng.random() < p_r[rel_type] * (1-restrictions[rel_type]):
+                    infected.append(c)
+        
+        return infected
+    
+        exposed = [[item for item, chance in zip(v, rng.random(size=len(v)))
+                                     if chance < p_r[k] * (1 - restrictions[k])]
+                                     for k,v in neighbors.items()]
+        
+        return list(chain(*exposed))
+
     mask = pop_matrix[:, 1] == states_dict['infected']
     currently_infected = pop_matrix[mask][:, 0]
 
@@ -212,17 +210,16 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
             return pop_matrix, contacts_infected
         else:
             return pop_matrix
-        
-    exposed = []
-    for spreader in currently_infected:
-        exp = spread_through_contacts(spreader, restrictions)
-        exp = [e for e in exp if e not in exposed]
-        if contacts_infected is not None:
-            contacts_infected[spreader] += len(exp)
-        exposed.extend(exp)
-        
-    exposed = np.unique(exposed)
+       
+    exposed = list(map(lambda x: infect_neighbors(adj_list[x], p_r, restrictions),
+                                        currently_infected))
+    
+    exposed = list(chain(*exposed))
 
+    exposed = np.unique(exposed)
+    exposed = exposed.astype(int)
+    
+        
     mask = np.isin(pop_matrix[:, 0], exposed)
     susceptible = np.isin(pop_matrix[np.array(mask)][:, 1],
                           states_dict['susceptible'])
@@ -245,10 +242,10 @@ def spread_infection(pop_matrix, restrictions, day, contacts_infected=None):
         return new_matrix, contacts_infected
     else:
         return new_matrix
-        
-
-
-def main(policy='Unrestricted', days=500):
+    
+def main(gpickle_path, p_r, policy='Unrestricted',
+         days=350, step_size=7,
+         disable_tqdm=False, seed=None):
     """
     Receives the policy to be used during the simulation and for how many days
     the simulation should run for. The policy should be a Key in the policies
@@ -264,33 +261,31 @@ def main(policy='Unrestricted', days=500):
     the population at each time step.
     
     """
-
-    pop_matrix = init_infection(.0001)
-
+    
+    rng = default_rng(seed)
+    pop_matrix, adj_list = init_infection(gpickle_path)
     data = []
-
-    # restrictions={'work':0, 'school': 0, 'home':0, 'neighbor':0}
-    restrictions = city_restrictions[policy]
-
-    for day in tqdm(range(1, days)):
+    total_steps = int(np.ceil(days/step_size))
+    
+    if isinstance(policy, str):
+        policy = total_steps * [policy]
+        
+    if len(policy) < total_steps:
+        raise valueError(f'len of policy should be at least {total_steps}')
+    
+    for day in tqdm(range(1, days), disable=disable_tqdm):
         # if less than 90% already recovered, break simulation
         if (pop_matrix[pop_matrix[:, 1] == -1].shape[0] > pop_matrix.shape[0]*.9):
             break
+            
+        if day % step_size == 1:          
+            current_step = int(day/step_size)
+            restrictions = city_restrictions[policy[current_step]]
 
-        pop_matrix = spread_infection(pop_matrix, restrictions, day)
+        pop_matrix = spread_infection(pop_matrix, adj_list, restrictions, day, rng, p_r)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
 
         data.append(pop_matrix[:, 0:2])
 
     return data, pop_matrix
-
-if __name__ == '__main__':
-    import argparse
-    parser = argparse.ArgumentParser(
-        description='Run pandemic simulation for a given policy')
-    parser.add_argument('policy', metavar='P',
-                        type=str, help='the policy to be used')
-
-    args = parser.parse_args()
-    main(args.policy)

@@ -18,12 +18,14 @@ class CovidState():
             possible_actions = action_children[self.actions[-1]]
         return possible_actions
 
-    def takeAction(self, pop_matrix, step_size):
+    def takeAction(self, pop_matrix, adj_list, rng, p_r, step_size):
         local_pop_matrix = deepcopy(pop_matrix)
         pop = local_pop_matrix.shape[0]
 
         day = self.day
         sims_costs = []
+        
+        print("taking actions")
 
         for action in self.actions:
             cost_action = costs[action]*step_size
@@ -34,8 +36,9 @@ class CovidState():
                 # Simulate one day
                 day += 1
                 local_pop_matrix= simp.spread_infection(local_pop_matrix,
-                                                            city_restrictions[action],
-                                                            day)
+                                                        adj_list,
+                                                        city_restrictions[action],
+                                                        day,  rng, p_r)
                 local_pop_matrix = simp.lambda_leak_expose(local_pop_matrix,
                                                             day)
                 local_pop_matrix = simp.update_population(local_pop_matrix)

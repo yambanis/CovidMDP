@@ -3,22 +3,22 @@ from actions import costs, city_restrictions
 from MCFS import mcts, treeNode
 from CMDP import CovidState
 
-
 from tqdm import tqdm
 import numpy as np
 import pickle as pkl
 import datetime
+from numpy.random import default_rng
 
 
 import plotly.graph_objects as go
 import pandas as pd
 
-def run_full_mcst(rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,
-                  sims_per_leaf=10, n_jobs = 6, step_size = 7, days = 210):
+def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,
+                  sims_per_leaf=10, n_jobs = 6, step_size = 7, days = 210, seed=None):
 
-    pop_matrix = simp.init_infection()
+    rng = default_rng(seed)
+    pop_matrix, adj_list = simp.init_infection(gpickle_path)
     data = []
-    actions = []
 
     for day in tqdm(range(1, days+1)):
         #if less than 20% still susceptible, break simulation
@@ -27,8 +27,16 @@ def run_full_mcst(rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,
         
         # Choose a new policy at each week
         if day % step_size == 1:                    
-            tree = mcts(sims_per_leaf=sims_per_leaf, step_size=step_size, horizon=horizon,
-                        n_jobs=n_jobs, rolloutPolicy=rolloutPolicy, pop_matrix=pop_matrix, bruteForce=bruteForce)
+            tree = mcts(sims_per_leaf=sims_per_leaf,
+                        step_size=step_size,
+                        horizon=horizon,
+                        n_jobs=n_jobs,
+                        rolloutPolicy=rolloutPolicy,
+                        pop_matrix=pop_matrix,
+                        rng=rng, 
+                        p_r = p_r,
+                        adj_list=adj_list,
+                        bruteForce=bruteForce)
 
             root = treeNode(CovidState(actions=[], day=day), parent=None)
             action, best_node = tree.search(root)
@@ -40,7 +48,7 @@ def run_full_mcst(rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,
         pop_matrix = simp.lambda_leak_expose(pop_matrix, day)
         pop_matrix = simp.update_population(pop_matrix)
 
-        data.append(np.array(sorted(pop_matrix,key=lambda x: x[0]))[:,1]) 
+        data.append(pop_matrix[:, 0:2])
     
     return data, actions, tree
 
@@ -50,9 +58,28 @@ def main():
     sims = 48
     days = 364
     bf = False
+    
+    prhome = 0.06
+    p_r = {
+        'home'    :  prhome,
+        'neighbor':  .1*prhome,
+        'work'    :  .1*prhome,
+        'school'  :  .15*prhome,
+    }
+
+    g_pickle = '../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle'
 
     for _ in range(1):
-        data, actions, tree = run_full_mcst(horizon=horizon, sims_per_leaf=sims, days=days, step_size=7, n_jobs=-1, bruteForce=bf)
+        data, actions, tree = run_full_mcts(
+                                            gpickle_path=g_pickle,
+                                            p_r=p_r, 
+                                            horizon=horizon,
+                                            sims_per_leaf=sims,
+                                            days=days,
+                                            step_size=7,
+                                            n_jobs=-1,
+                                            bruteForce=bf
+                                            )
 
         date = datetime.datetime.now()
         date_str = f'{date.month}_{date.day}_{date.hour}_{date.minute}'
