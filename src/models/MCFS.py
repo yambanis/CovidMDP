@@ -3,8 +3,8 @@ import numpy as np
 from CMDP import CovidState
 from collections import defaultdict
 
-def rolloutPolicy(state, pop_matrix, adj_list, rng, p_r, step_size):
-    print("getting rewards")
+def rolloutPolicy(state, pop_matrix, adj_list, rng, p_r, step_size, i):
+    print(f"getting rewards {i}")
     reward = state.takeAction(pop_matrix, adj_list, rng, p_r, step_size)
     return reward
 
@@ -84,7 +84,7 @@ class mcts():
             print("Entering parallelized rewards")
             print(self.n_jobs)
             rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)
-                              (leaf.state, self.pop_matrix, self.adj_list, self.rng, self.p_r, self.step_size)
+                              (leaf.state, self.pop_matrix, self.adj_list, self.rng, self.p_r, self.step_size, i)
                               for i in range(self.sims_per_leaf))
             reward = np.sum(rewards)
             leaf.totalReward = reward

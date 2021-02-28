@@ -69,6 +69,11 @@ def main():
 
     g_pickle = '../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle'
 
+    horizon = 3
+    sims = 48
+    days = 364
+    bf = False
+
     for _ in range(1):
         data, actions, tree = run_full_mcts(
                                             gpickle_path=g_pickle,
