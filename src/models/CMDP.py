@@ -18,7 +18,7 @@ class CovidState():
             possible_actions = action_children[self.actions[-1]]
         return possible_actions
 
-    def takeAction(self, pop_matrix, adj_list, rng, p_r, step_size):
+    def takeAction(self, pop_matrix, edge_list, rng, p_r, step_size):
         local_pop_matrix = deepcopy(pop_matrix)
         pop = local_pop_matrix.shape[0]
 
@@ -34,7 +34,7 @@ class CovidState():
                 # Simulate one day
                 day += 1
                 local_pop_matrix= simp.spread_infection(local_pop_matrix,
-                                                        adj_list,
+                                                        edge_list,
                                                         city_restrictions[action],
                                                         day,  rng, p_r)
                 local_pop_matrix = simp.lambda_leak_expose(local_pop_matrix,

@@ -17,7 +17,7 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
                   sims_per_leaf=10, n_jobs=-1, step_size=7, days=210, seed=None):
 
     rng = default_rng(seed)
-    pop_matrix, adj_list = simp.init_infection(gpickle_path)
+    pop_matrix, edge_list = simp.init_infection(gpickle_path)
     data = []
     actions = []
 
@@ -37,7 +37,7 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
                         pop_matrix=pop_matrix,
                         rng=rng, 
                         p_r = p_r,
-                        adj_list=adj_list,
+                        edge_list=edge_list,
                         bruteForce=bruteForce)
 
             root = treeNode(CovidState(actions=[], day=day), parent=None)
@@ -46,7 +46,7 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
             actions.append(action)
             restrictions = city_restrictions[action]
 
-        pop_matrix = simp.spread_infection(pop_matrix, adj_list, 
+        pop_matrix = simp.spread_infection(pop_matrix, edge_list, 
                                            restrictions, day, rng, p_r)
         pop_matrix = simp.lambda_leak_expose(pop_matrix, day)
         pop_matrix = simp.update_population(pop_matrix)
