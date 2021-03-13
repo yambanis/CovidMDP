@@ -24,6 +24,8 @@ class CovidState():
 
         day = self.day
         sims_costs = []
+        
+        print("taking actions")
 
         for action in self.actions:
             cost_action = costs[action]*step_size

@@ -14,13 +14,11 @@ import plotly.graph_objects as go
 import pandas as pd
 
 def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,
-                  sims_per_leaf=10, n_jobs=-1, step_size=7, days=210, seed=None):
+                  sims_per_leaf=10, n_jobs = 6, step_size = 7, days = 210, seed=None):
 
     rng = default_rng(seed)
     pop_matrix, adj_list = simp.init_infection(gpickle_path)
     data = []
-    actions = []
-
 
     for day in tqdm(range(1, days+1)):
         #if less than 20% still susceptible, break simulation
@@ -46,8 +44,7 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
             actions.append(action)
             restrictions = city_restrictions[action]
 
-        pop_matrix = simp.spread_infection(pop_matrix, adj_list, 
-                                           restrictions, day, rng, p_r)
+        pop_matrix = simp.spread_infection(pop_matrix, restrictions, day)
         pop_matrix = simp.lambda_leak_expose(pop_matrix, day)
         pop_matrix = simp.update_population(pop_matrix)
 
@@ -56,7 +53,12 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
     return data, actions, tree
 
 
-def main():  
+def main():
+    horizon = 3
+    sims = 48
+    days = 364
+    bf = False
+    
     prhome = 0.06
     p_r = {
         'home'    :  prhome,
@@ -67,7 +69,7 @@ def main():
 
     g_pickle = '../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle'
 
-    horizon = 4
+    horizon = 3
     sims = 48
     days = 364
     bf = False
@@ -87,19 +89,13 @@ def main():
         date = datetime.datetime.now()
         date_str = f'{date.month}_{date.day}_{date.hour}_{date.minute}'
 
-        dfs = [pd.DataFrame(d, columns=['node_id', 'state']) for d in data]
-        states_counts = [df['state'].value_counts() for df in dfs]
-        ts = pd.DataFrame(states_counts).reset_index(drop=True).fillna(0)
-        ts = ts.rename(columns={-1: 'removed', 
-                                0: 'susceptible',
-                                1: 'exposed',
-                                2: 'infected',
-                                3: 'hospitalized'})
+        data = pd.DataFrame([pd.Series(d).value_counts() for d in data])
+        data.fillna(0, inplace=True)
 
         with open(f'../../data/MCTS_Results/pickles/looser_cost_H{horizon}_N{sims}_D{days}_bf{bf}_{date_str}', 'wb') as f:
-            pkl.dump((data, ts, actions, tree), f)
+            pkl.dump((data, actions, tree), f)
 
-        del data, actions, tree, ts, dfs, states_counts
+        del data, actions, tree
 
 if __name__ == '__main__':
     main()
