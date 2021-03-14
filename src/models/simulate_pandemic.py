@@ -13,21 +13,22 @@ from patient_evolution import susceptible_to_exposed, change_state
 from actions import city_restrictions
 
 def make_adjacency_list(G):
-    unique_types = np.unique([data['edge_type'] for x,y, data in G.edges(data=True)])
+    adj_list = {}
 
-    edge_list = {
-        edge_type: np.array([(u,v) for u,v,e in G.edges(data=True) 
-                                if e['edge_type'] == edge_type])
-                                for edge_type in unique_types
-    }
-    return edge_list
+    for node, neighbors in G.adjacency():
+        adj_list[node] = defaultdict(list)
+        for neighbor, relations in neighbors.items():
+            for i, relation_dict in relations.items():
+                relation = relation_dict['edge_type']
+                adj_list[node][relation].append(neighbor)
+    return adj_list
 
 
 def make_graph_structures(gpickle_path):
     G = nx.read_gpickle(gpickle_path)
-    edge_list = make_adjacency_list(G)
+    adj_list = make_adjacency_list(G)
     
-    return G, edge_list
+    return G, adj_list
 
 def init_infection(gpickle_path, pct=.0005, return_contacts_infected=False):
     """
@@ -40,7 +41,7 @@ def init_infection(gpickle_path, pct=.0005, return_contacts_infected=False):
             and current state duration of population.
     """
 
-    G, edge_list = make_graph_structures(gpickle_path)
+    G, adj_list = make_graph_structures(gpickle_path)
 
     sample_size = int(np.ceil(len(G.nodes()) * pct/len(initial_districts)))
     size = max(sample_size, 1)
@@ -69,10 +70,10 @@ def init_infection(gpickle_path, pct=.0005, return_contacts_infected=False):
     assert new_matrix.shape == pop_matrix.shape
 
     if return_contacts_infected:
-        return new_matrix, edge_list, contacts_infected
+        return new_matrix, adj_list, contacts_infected
 
     else:
-        return new_matrix, edge_list
+        return new_matrix, adj_list
     
     
 def expose_population(pop_matrix, exposed, day):
@@ -166,7 +167,7 @@ def update_population(pop_matrix):
         raise ValueError("Input and output matrix shapes are different")
     return new_matrix
 
-def spread_infection(pop_matrix, edge_list, restrictions, day, rng, p_r, contacts_infected=None):
+def spread_infection(pop_matrix, adj_list, restrictions, day, rng, p_r, contacts_infected=None):
     """
     Receives the population matrix, the restrictions dictionary and the
     current day. The disease spreads throught the relations in the graph:
@@ -185,6 +186,21 @@ def spread_infection(pop_matrix, edge_list, restrictions, day, rng, p_r, contact
     Raises:
         ValueError: If shape of starting matrix is different from final matrix
     """
+    
+    def infect_neighbors(neighbors, p_r, restrictions):
+        infected = []
+        for rel_type, contacts in neighbors.items():
+            for c in contacts:
+                if rng.random() < p_r[rel_type] * (1-restrictions[rel_type]):
+                    infected.append(c)
+        
+        return infected
+    
+        exposed = [[item for item, chance in zip(v, rng.random(size=len(v)))
+                                     if chance < p_r[k] * (1 - restrictions[k])]
+                                     for k,v in neighbors.items()]
+        
+        return list(chain(*exposed))
 
     mask = pop_matrix[:, 1] == states_dict['infected']
     currently_infected = pop_matrix[mask][:, 0]
@@ -194,21 +210,16 @@ def spread_infection(pop_matrix, edge_list, restrictions, day, rng, p_r, contact
             return pop_matrix, contacts_infected
         else:
             return pop_matrix
+       
+    exposed = list(map(lambda x: infect_neighbors(adj_list[x], p_r, restrictions),
+                                        currently_infected))
     
-    exposed = []
+    exposed = list(chain(*exposed))
 
-    def filter_contacts(rel, prob, restrictions, currently_infected, edge_list):
-        ed = edge_list[rel]
-        contacts = ed[np.isin(ed[:,0], currently_infected)][:, 1]
-        mask = rng.random(size=len(contacts)) < prob * (1-restrictions[rel])
-
-        return contacts[mask]
-
-    args = [restrictions, currently_infected, edge_list]
-    exposed = list(map(lambda x: filter_contacts(x[0], x[1], *args),
-                       [x for x in p_r.items()]))
-    exposed = np.unique(np.concatenate(exposed)) 
+    exposed = np.unique(exposed)
+    exposed = exposed.astype(int)
     
+        
     mask = np.isin(pop_matrix[:, 0], exposed)
     susceptible = np.isin(pop_matrix[np.array(mask)][:, 1],
                           states_dict['susceptible'])
@@ -252,7 +263,7 @@ def main(gpickle_path, p_r, policy='Unrestricted',
     """
     
     rng = default_rng(seed)
-    pop_matrix, edge_list = init_infection(gpickle_path)
+    pop_matrix, adj_list = init_infection(gpickle_path)
     data = []
     total_steps = int(np.ceil(days/step_size))
     
@@ -260,9 +271,9 @@ def main(gpickle_path, p_r, policy='Unrestricted',
         policy = total_steps * [policy]
         
     if len(policy) < total_steps:
-        raise ValueError(f'len of policy should be at least {total_steps}')
+        raise valueError(f'len of policy should be at least {total_steps}')
     
-    for day in tqdm(range(1, days+1), disable=disable_tqdm):
+    for day in tqdm(range(1, days), disable=disable_tqdm):
         # if less than 90% already recovered, break simulation
         if (pop_matrix[pop_matrix[:, 1] == -1].shape[0] > pop_matrix.shape[0]*.9):
             break
@@ -271,7 +282,7 @@ def main(gpickle_path, p_r, policy='Unrestricted',
             current_step = int(day/step_size)
             restrictions = city_restrictions[policy[current_step]]
 
-        pop_matrix = spread_infection(pop_matrix, edge_list, restrictions, day, rng, p_r)
+        pop_matrix = spread_infection(pop_matrix, adj_list, restrictions, day, rng, p_r)
         pop_matrix = lambda_leak_expose(pop_matrix, day)
         pop_matrix = update_population(pop_matrix)
 
