@@ -53,7 +53,7 @@ def susceptible_to_exposed(person, day):
 
     person[1] = states_dict['exposed']
     person[2] = day
-    person[3] = incubation()
+    person[3] = incubation(1)
 
     return person
 

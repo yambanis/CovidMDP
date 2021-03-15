@@ -1,5 +1,5 @@
 import simulate_pandemic as simp
-from actions import costs, city_restrictions
+from actions import city_restrictions
 from MCFS import mcts, treeNode
 from CMDP import CovidState
 
@@ -9,8 +9,6 @@ import pickle as pkl
 import datetime
 from numpy.random import default_rng
 
-
-import plotly.graph_objects as go
 import pandas as pd
 
 def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,

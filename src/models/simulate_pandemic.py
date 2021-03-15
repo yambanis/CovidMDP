@@ -3,24 +3,27 @@ from collections import defaultdict
 from numpy.random import default_rng
 import numpy as np
 import networkx as nx
-from itertools import chain
 from tqdm import tqdm
+from datetime import datetime
+from disease_evolution import incubation, hospitalization_to_removed
+from disease_evolution import onset_to_hosp_or_asymp, needs_hospitalization
 
 ### External Definitions ###
 from zone_references import initial_districts
 from disease_states import states_dict
-from patient_evolution import susceptible_to_exposed, change_state
+from patient_evolution import change_state
 from actions import city_restrictions
 
 def make_adjacency_list(G):
-    adj_list = {}
-
+    edge_types = np.unique([d['edge_type'] for u,v,d in G.edges(data=True)])
+    adj_list = {k: defaultdict(list) for k in edge_types}
+    
     for node, neighbors in G.adjacency():
-        adj_list[node] = defaultdict(list)
         for neighbor, relations in neighbors.items():
-            for i, relation_dict in relations.items():
+            for _, relation_dict in relations.items():
                 relation = relation_dict['edge_type']
-                adj_list[node][relation].append(neighbor)
+                adj_list[relation][node].append(neighbor)
+       
     return adj_list
 
 
@@ -63,8 +66,9 @@ def init_infection(gpickle_path, pct=.0005, return_contacts_infected=False):
 
     matrix_keep = pop_matrix[~np.isin(pop_matrix[:, 0], infected)]
 
-    matrix_change = np.apply_along_axis(susceptible_to_exposed,
-                                        1, matrix_change, day=0)
+    matrix_change[:, 1] = states_dict['exposed']
+    matrix_change[:, 2] = 0
+    matrix_change[:, 3] = incubation(size=matrix_change.shape[0])
 
     new_matrix = np.concatenate((matrix_keep, matrix_change))
     assert new_matrix.shape == pop_matrix.shape
@@ -91,13 +95,17 @@ def expose_population(pop_matrix, exposed, day):
     Raises:
         ValueError: If shape of starting matrix is different from final matrix
     """
+    st = datetime.now()
     matrix_change = pop_matrix[np.isin(pop_matrix[:, 0], exposed)]
     matrix_keep = pop_matrix[~np.isin(pop_matrix[:, 0], exposed)]
-    matrix_change = np.apply_along_axis(susceptible_to_exposed,
-                                        1, matrix_change, day=day)
 
-    new_matrix = np.concatenate((matrix_keep, matrix_change))
+    if (matrix_change[:, 1] != states_dict['susceptible']).sum() != 0:
+        raise ValueError("Node status different from susceptible")
 
+    matrix_change[:, 1] = states_dict['exposed']
+    matrix_change[:, 2] = day
+    matrix_change[:, 3] = incubation(size=matrix_change.shape[0])
+    new_matrix = np.concatenate((matrix_keep, matrix_change))    
     if new_matrix.shape != pop_matrix.shape:
         raise ValueError("Input and output matrix shapes are different")
     return new_matrix
@@ -117,19 +125,20 @@ def lambda_leak_expose(pop_matrix, day, lambda_leak=0.00005):
     Raises:
         ValueError: If shape of starting matrix is different from final matrix
     """
+    st = datetime.now()
+
     size = int(pop_matrix.shape[0]*lambda_leak)
     susceptible = pop_matrix[pop_matrix[:, 1] == states_dict['susceptible']][:, 0]
 
     exposed = np.random.choice(susceptible, size=size, replace=False)
 
-    if len(exposed) == 0:
+    if len(exposed) == 0:    
         return pop_matrix
 
     new_matrix = expose_population(pop_matrix, exposed, day)
 
     if new_matrix.shape != pop_matrix.shape:
-        raise ValueError("Input and output matrix shapes are different")
-
+        raise ValueError("Input and output matrix shapes are different")    
     return new_matrix
 
 def update_population(pop_matrix):
@@ -145,6 +154,8 @@ def update_population(pop_matrix):
     Raises:
         ValueError: If shape of starting matrix is different from final matrix
     """
+    st = datetime.now()
+
     matrix_keep = pop_matrix[np.isin(pop_matrix[:, 1],
                                      [states_dict['susceptible'],
                                      states_dict['removed']]
@@ -158,10 +169,30 @@ def update_population(pop_matrix):
     matrix_no_change = matrix_change[matrix_change[:, 3].astype(int) > 0]
     matrix_change = matrix_change[matrix_change[:, 3].astype(int) == 0]
 
-    if matrix_change.shape[0] > 0:
-        matrix_change = np.apply_along_axis(change_state, 1, matrix_change)
+    from_exposed = matrix_change[matrix_change[:, 1] == states_dict['exposed']]
+    from_exposed[:, 1] = states_dict['infected']
+    from_exposed[:, 3] = onset_to_hosp_or_asymp(size=from_exposed.shape[0])
 
-    new_matrix = np.concatenate((matrix_keep, matrix_change, matrix_no_change))
+    from_infected = matrix_change[matrix_change[:, 1] == states_dict['infected']]
+    
+    if len(from_infected) > 0:
+        becomes_hospitalized = np.array([needs_hospitalization(age) for age in from_infected[:,4]])
+        to_hospitalized = from_infected[becomes_hospitalized]
+        to_hospitalized[:,1] = states_dict['hospitalized']
+        to_hospitalized[:, 3] = hospitalization_to_removed(size=to_hospitalized.shape[0])
+        to_removed = from_infected[~becomes_hospitalized]
+        to_removed[:, 1] = states_dict['removed']
+        from_infected = np.concatenate([to_removed, to_hospitalized])
+
+    from_hospitalized = matrix_change[matrix_change[:, 1] == states_dict['hospitalized']]
+    from_hospitalized[:, 1] = states_dict['removed']
+
+    new_matrix = np.concatenate([matrix_keep,
+                                 matrix_no_change,
+                                 from_exposed,
+                                 from_infected,
+                                 from_hospitalized  
+                                ])    
 
     if new_matrix.shape != pop_matrix.shape:
         raise ValueError("Input and output matrix shapes are different")
@@ -186,46 +217,37 @@ def spread_infection(pop_matrix, adj_list, restrictions, day, rng, p_r, contacts
     Raises:
         ValueError: If shape of starting matrix is different from final matrix
     """
-    
-    def infect_neighbors(neighbors, p_r, restrictions):
-        infected = []
-        for rel_type, contacts in neighbors.items():
-            for c in contacts:
-                if rng.random() < p_r[rel_type] * (1-restrictions[rel_type]):
-                    infected.append(c)
-        
-        return infected
-    
-        exposed = [[item for item, chance in zip(v, rng.random(size=len(v)))
-                                     if chance < p_r[k] * (1 - restrictions[k])]
-                                     for k,v in neighbors.items()]
-        
-        return list(chain(*exposed))
+    st = datetime.now()
 
     mask = pop_matrix[:, 1] == states_dict['infected']
     currently_infected = pop_matrix[mask][:, 0]
 
-    if currently_infected.shape[0] == 0:
+    if currently_infected.shape[0] == 0:    
         if contacts_infected is not None:
             return pop_matrix, contacts_infected
         else:
             return pop_matrix
-       
-    exposed = list(map(lambda x: infect_neighbors(adj_list[x], p_r, restrictions),
-                                        currently_infected))
-    
-    exposed = list(chain(*exposed))
 
-    exposed = np.unique(exposed)
-    exposed = exposed.astype(int)
+    exposed = []
+
+    for relation, prob in p_r.items():
+        pairs = [contact 
+                 for i in currently_infected
+                 for contact in adj_list[relation][i]     
+                ]
+        pairs = np.array(pairs)
+        chances = rng.random(size=len(pairs)) < prob * (1-restrictions[relation])
+
+        exposed.extend(pairs[chances])
     
+    exposed = np.unique(exposed).astype(int)    
         
     mask = np.isin(pop_matrix[:, 0], exposed)
     susceptible = np.isin(pop_matrix[np.array(mask)][:, 1],
                           states_dict['susceptible'])
     exposed = pop_matrix[np.array(mask)][:, 0][susceptible]
 
-    if len(exposed) == 0:
+    if len(exposed) == 0:    
         if contacts_infected is not None:
             return pop_matrix, contacts_infected
         else:
@@ -235,8 +257,7 @@ def spread_infection(pop_matrix, adj_list, restrictions, day, rng, p_r, contacts
     new_matrix = expose_population(pop_matrix, exposed, day)
 
     if new_matrix.shape != pop_matrix.shape:
-        raise ValueError("Input and output matrix shapes are different")
-
+        raise ValueError("Input and output matrix shapes are different")    
 
     if contacts_infected is not None:
         return new_matrix, contacts_infected
@@ -271,7 +292,7 @@ def main(gpickle_path, p_r, policy='Unrestricted',
         policy = total_steps * [policy]
         
     if len(policy) < total_steps:
-        raise valueError(f'len of policy should be at least {total_steps}')
+        raise ValueError(f'len of policy should be at least {total_steps}')
     
     for day in tqdm(range(1, days), disable=disable_tqdm):
         # if less than 90% already recovered, break simulation

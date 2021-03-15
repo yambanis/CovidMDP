@@ -1,14 +1,8 @@
 from joblib import Parallel, delayed
-from joblib import dump, load
-import os
 import numpy as np
 from CMDP import CovidState
 from collections import defaultdict
 from tqdm import tqdm
-import time
-import shutil
-
-from datetime import datetime
 
 def rolloutPolicy(state, pop_matrix, edge_list, rng, p_r, step_size):
     reward = state.takeAction(pop_matrix, edge_list, rng, p_r, step_size)
@@ -86,61 +80,21 @@ class mcts():
 
     def getAction(self, root):
         leafs = self.leafs[self.horizon]
-        
-        """        folder = './joblib_memmap'
-                try:
-                    os.mkdir(folder)
-                except FileExistsError:
-                    pass
-
-                edgelist_filename_memmap = os.path.join(folder, 'edgelist')
-                dump(self.edge_list, edgelist_filename_memmap)
-                ed_memmap = load(edgelist_filename_memmap, mmap_mode='r')
-
-                pop_filename_memmap = os.path.join(folder, 'pop_matrix')
-                dump(self.pop_matrix, pop_filename_memmap)
-                pop_memmap = load(pop_filename_memmap, mmap_mode='r')
-        """
 
         def get_total_leaf_reward(leaf_state):
             default_args = [self.pop_matrix, self.edge_list, self.rng, self.p_r, self.step_size]
             args = [leaf_state] + default_args
             rewards = list(map(lambda x: self.rollout(*args), range(self.sims_per_leaf)))
-            #rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)(*args)
-            #                                       for i in range(self.sims_per_leaf))
             reward = np.sum(rewards)
             return reward
 
         rewards = Parallel(n_jobs=self.n_jobs)(delayed(get_total_leaf_reward)
                                                (leaf.state) for leaf in tqdm(leafs))
-
-        #rewards = [get_total_leaf_reward(leaf.state) for leaf in tqdm(leafs)]
-        
         
         for r,l in zip(rewards, leafs):
             l.totalReward = r
         
-        """
-        for leaf in leafs:
-            now = datetime.now()
-            args = [leaf.state,
-            #rewards = list(map(lambda x: self.rollout(*args), range(self.sims_per_leaf)))
-            rewards = Parallel(n_jobs=self.n_jobs)(delayed(self.rollout)
-                              (*args)
-                              for i in range(self.sims_per_leaf))
-            later = datetime.now()
-            print((later - now).total_seconds())
-            reward = np.sum(rewards)
-            leaf.totalReward = reward
-        """
-
         best_node = max(leafs, key=lambda x: x.totalReward)
         best_action = best_node.state.actions[0]
-
-
-        try:
-            shutil.rmtree(folder)
-        except:  # noqa
-            print('Could not clean-up automatically.')
 
         return best_action, best_node

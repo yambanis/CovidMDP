@@ -1,7 +1,6 @@
 from copy import deepcopy
 import simulate_pandemic as simp
 import numpy as np
-import random
 from actions import exposed_cost, costs, city_restrictions, action_children
 
 
