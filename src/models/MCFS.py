@@ -89,11 +89,26 @@ class mcts():
             return reward
 
         rewards = Parallel(n_jobs=self.n_jobs)(delayed(get_total_leaf_reward)
-                                               (leaf.state) for leaf in tqdm(leafs))
-        
+                                               (leaf.state) for leaf in tqdm(leafs))       
+
         for r,l in zip(rewards, leafs):
             l.totalReward = r
-        
+
+
+        #def get_leaf_reward(leaf_state):
+        #    default_args = [self.pop_matrix, self.edge_list, self.rng, self.p_r, self.step_size]
+        #    args = [leaf_state] + default_args
+        #    reward = self.rollout(*args)
+        #    return reward
+
+        #rewards = Parallel(n_jobs=self.n_jobs)(delayed(get_leaf_reward)
+        #                                       (leaf.state) for leaf in tqdm(leafs)
+        #                                       for _ in range(self.sims_per_leaf))
+        #for i, leaf in zip(range(0, len(rewards), self.sims_per_leaf), leafs):
+        #    leaf.totalReward = np.sum(rewards[i:i + self.sims_per_leaf])
+        #assert len(rewards) == self.sims_per_leaf * len(leafs)
+
+               
         best_node = max(leafs, key=lambda x: x.totalReward)
         best_action = best_node.state.actions[0]
 

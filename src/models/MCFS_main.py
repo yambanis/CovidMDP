@@ -10,6 +10,7 @@ import datetime
 from numpy.random import default_rng
 
 import pandas as pd
+import argparse
 
 def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, bruteForce=False,
                   sims_per_leaf=10, n_jobs=-1, step_size=7, days=210, seed=None):
@@ -18,7 +19,7 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
     pop_matrix, edge_list = simp.init_infection(gpickle_path)
     data = []
     actions = []
-
+    #current_action = actions
 
     for day in tqdm(range(1, days+1)):
         #if less than 20% still susceptible, break simulation
@@ -37,11 +38,11 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
                         p_r = p_r,
                         edge_list=edge_list,
                         bruteForce=bruteForce)
-
             root = treeNode(CovidState(actions=[], day=day), parent=None)
             action, best_node = tree.search(root)
 
             actions.append(action)
+            #current_action = [action]
             restrictions = city_restrictions[action]
 
         pop_matrix = simp.spread_infection(pop_matrix, edge_list, 
@@ -54,7 +55,7 @@ def run_full_mcts(gpickle_path, p_r, rolloutPolicy='rolloutPolicy', horizon=1, b
     return data, actions, tree
 
 
-def main():  
+def main(horizon, sims, days, epochs, bf = False):  
     prhome = 0.06
     p_r = {
         'home'    :  prhome,
@@ -64,13 +65,7 @@ def main():
     }
 
     g_pickle = '../../data/processed/SP_multiGraph_Job_Edu_Level.gpickle'
-
-    horizon = 4
-    sims = 48
-    days = 364
-    bf = False
-
-    for _ in range(1):
+    for _ in range(epochs):
         data, actions, tree = run_full_mcts(
                                             gpickle_path=g_pickle,
                                             p_r=p_r, 
@@ -89,15 +84,39 @@ def main():
         states_counts = [df['state'].value_counts() for df in dfs]
         ts = pd.DataFrame(states_counts).reset_index(drop=True).fillna(0)
         ts = ts.rename(columns={-1: 'removed', 
-                                0: 'susceptible',
-                                1: 'exposed',
-                                2: 'infected',
-                                3: 'hospitalized'})
+                                 0: 'susceptible',
+                                 1: 'exposed',
+                                 2: 'infected',
+                                 3: 'hospitalized'})
 
-        with open(f'../../data/MCTS_Results/pickles/looser_cost_H{horizon}_N{sims}_D{days}_bf{bf}_{date_str}', 'wb') as f:
+        with open(f'../../data/MCTS_Results/pickles/optimized_H{horizon}_N{sims}_D{days}_bf{bf}_{date_str}', 'wb') as f:
             pkl.dump((data, ts, actions, tree), f)
 
         del data, actions, tree, ts, dfs, states_counts
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--horizon', type=int,
+                         help='Horizon to simulate, in weeks',
+                         default=2)
+
+    parser.add_argument('--sims', type=int,
+                         help='Simulations per leaf',
+                         default=1)
+
+    parser.add_argument('--days', type=int,
+                         help='Total number of days to simulate',
+                         default=364)
+
+    parser.add_argument('--epochs', type=int,
+                         help='Total number of complete simulatiosn to run',
+                         default=1)
+
+
+
+    args = parser.parse_args()
+    days = args.days
+    epochs = args.epochs
+    horizon = args.horizon
+    sims = args.sims
+    main(horizon, sims, days, epochs)
