@@ -107,7 +107,7 @@ def make_beds_graph(data, actions, step_size, title, max_range=None, color_map=N
     #\definecolor{firebrick}{rgb}{0.7, 0.13, 0.13}
     fig.add_trace(go.Scatter(x=x, y=data[1]/pop, name='exposed', line_color = 'rgb(0.7, 0.13, 0.13)',
                             line=dict(width=4)))
-    fig.add_trace(go.Scatter(x=x, y=len(data)*[0.0015], name='capacity', line_color = 'black',
+    fig.add_trace(go.Scatter(x=x, y=(len(data)+1)*[0.0015], name='capacity', line_color = 'black',
                             line=dict(dash='dash', width = 2), yaxis="y2"))
     fig.update_layout(
         shapes=[
@@ -163,7 +163,7 @@ def make_beds_graph(data, actions, step_size, title, max_range=None, color_map=N
             tickfont=dict(
                 color="rgb(0.7, 0.13, 0.13)"
             ),
-            range=[0, max_range*10]
+            #range=[0, max_range*10]
 
         ),
         yaxis2=dict(
@@ -178,7 +178,7 @@ def make_beds_graph(data, actions, step_size, title, max_range=None, color_map=N
             anchor="x",
             overlaying="y",
             side="right",
-            range=[0, max_range]
+            #range=[0, max_range]
 
         ),)
 
@@ -203,3 +203,83 @@ def make_SIR_graph(data):
     fig.show()
     
     return d_counts
+
+def plot_hospitalized(data, actions, step_size, title, max_range=None, color_map=None, make_df=True):
+    fig = go.Figure()
+    
+    if make_df:
+        data = pd.DataFrame([pd.Series(d).value_counts() for d in data] + [pd.Series(data[-1]).value_counts()])
+        data.fillna(0, inplace=True)
+        data
+
+    color_map = {
+        'Lockdown':          'rgb(0.83, 0.13, 0.15)',
+        'Hard Quarantine':    'rgb(0.85, 0.35, 0.13)',
+        'Light Quarantine':   'rgb(0.97, 0.91, 0.56)',
+        'Social Distancing':  'rgb(0.67, 0.88, 0.69)',
+        'Unrestricted':        'rgb(0.86, 0.86, 0.86)'    
+    }
+
+    pop = 55492
+    
+    actions = list(map(color_map.get,  actions))
+    
+    
+    x = list(range(len(data) + 1))
+    
+    #\definecolor{royalblue(web)}{rgb}{0.25, 0.41, 0.88}
+    fig.add_trace(go.Scatter(x=x, y=data[3]/pop, name='hospitalized', line_color = 'rgb(0.25, 0.41, 0.88)',
+                            line=dict(width=3.5),  
+                            ))
+    
+    fig.add_trace(go.Scatter(x=x, y=(len(data))*[0.0015], name='capacity', line_color = 'black',
+                            line=dict(dash='dash', width = 2),
+                            ))
+    # ACTIONS BACKGROUND################################################################################
+    fig.update_layout(
+        shapes=[
+            dict(
+                type="rect",
+                # x-reference is assigned to the x-values
+                xref="x",
+                # y-reference is assigned to the plot paper [0,1]
+                yref="paper",
+                x0=(step_size*i),
+                y0=0,
+                x1=step_size*(i+1),
+                y1=1,
+                fillcolor=a,
+                opacity=0.45,
+                layer="below",
+                line_width=0,
+            ) for i,a in enumerate(actions)]
+    )
+
+    fig.update_layout(xaxis={'showgrid': False,},
+                      yaxis = {'showgrid': False, 'zeroline': False,},
+                      showlegend=True, hovermode="x")
+    
+    fig.update_layout(
+        xaxis = dict(
+            tickmode = 'array',
+            tickvals = list(range(0, len(data)+1, 14)),
+            ticktext = list(range(0, int(len(data)/7) + 1, 2)),
+            title = 'Weeks',
+            )
+        )
+    fig.update_layout(showlegend=False,
+        plot_bgcolor='rgb(255,255,255)',
+        margin=dict(
+        l=50,
+        r=50,
+        b=50,
+        t=50,
+        pad=0
+    ))
+    
+    fig.update_yaxes(automargin=True)
+    fig.write_image(f"{title}.pdf")
+
+    fig.show()
+    
+    return data
